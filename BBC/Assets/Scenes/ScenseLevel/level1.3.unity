@@ -123,6 +123,38 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &2259304 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1100711805531420, guid: c3226049e641c411f808a1dfec68e381, type: 3}
+  m_PrefabInstance: {fileID: 650780281}
+  m_PrefabAsset: {fileID: 0}
+--- !u!68 &2259305
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2259304}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -1.007874, y: 0}
+  - {x: 0.06780565, y: -0.64725804}
+  - {x: 7.8862777, y: 4.8544364}
+  - {x: -0.22499752, y: 10.859554}
+  - {x: -8.022913, y: 5.2859426}
+  - {x: -7.632503, y: 4.8749847}
+  - {x: -0.69244933, y: -0.24143684}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &24942111
 PrefabInstance:
   m_ObjectHideFlags: 0

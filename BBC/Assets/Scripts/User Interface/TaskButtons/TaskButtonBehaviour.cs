@@ -8,7 +8,7 @@ public class TaskButtonBehaviour : MonoBehaviour
     GameObject player;
     GameObject panel;
     InputField taskField;
-    InputField field;
+    InputField codeField;
     int taskNumber = 1;
     string taskDescription = "Даны два числа. Меньшее из этих чисел заменить суммой данных чисел, большее - произведением.";
     string taskSignature = @"
@@ -30,16 +30,20 @@ namespace YourSolution
 
     public void ShowTask()
     {
-        taskField = GameObject.Find("TaskField").GetComponent<InputField>();
-        player = GameObject.Find("Snowman");
-        panel = GameObject.Find("Panel");
-        field = GameObject.Find("InputField").GetComponent<InputField>();
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
         taskField.transform.position = taskField.GetComponent<TaskFieldBehaviour>().TurnOnPosition;
         panel.transform.position = panel.GetComponent<PanelBehaviour>().TurnOnPosition;
         taskField.text = taskDescription;
-        field.text = taskSignature;
-        field.gameObject.GetComponent<InputFieldBehaviour>().taskNumber = taskNumber;
-        field.gameObject.GetComponent<InputFieldBehaviour>().taskSignature = taskSignature;
+        codeField.text = taskSignature;
+        codeField.gameObject.GetComponent<InputFieldBehaviour>().taskNumber = taskNumber;
+        codeField.gameObject.GetComponent<InputFieldBehaviour>().taskSignature = taskSignature;
+    }
+
+    private void Start()
+    {
+        taskField = GameObject.Find("TaskField").GetComponent<InputField>();
+        player = GameObject.Find("Snowman");
+        panel = GameObject.Find("Panel");
+        codeField = GameObject.Find("InputField").GetComponent<InputField>();
     }
 }

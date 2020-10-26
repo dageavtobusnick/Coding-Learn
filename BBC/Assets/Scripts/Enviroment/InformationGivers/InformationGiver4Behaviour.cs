@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestGiver1Behaviour : MonoBehaviour
+public class InformationGiver4Behaviour : MonoBehaviour
 {
     GameObject button;
 
     void Start()
     {
-        button = GameObject.Find("TaskButton_1");
+        button = GameObject.Find("InformationButton_4");
         button.SetActive(false);
     }
 

@@ -10,7 +10,7 @@ public class PanelBehaviour : MonoBehaviour
     void Start()
     {
         TurnOnPosition = gameObject.transform.position;
-        TurnOffPosition = new Vector3(780, 1700, 0);
+        TurnOffPosition = new Vector3(780, 1750, 0);
         gameObject.transform.position = TurnOffPosition;
     }
 }

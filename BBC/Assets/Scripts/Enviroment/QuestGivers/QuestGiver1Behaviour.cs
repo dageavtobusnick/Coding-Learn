@@ -8,7 +8,7 @@ public class QuestGiver1Behaviour : MonoBehaviour
 
     void Start()
     {
-        button = GameObject.Find("TaskButton_1");
+        button = GameObject.Find("TaskButton");
         button.SetActive(false);
     }
 

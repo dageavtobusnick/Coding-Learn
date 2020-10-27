@@ -8,21 +8,14 @@ using Microsoft.CSharp;
 
 public class RunButtonBehavior : MonoBehaviour
 {
-    private string wrongAnswerMessage = "Wrong answer! Try again!";
-    private string correctAnswerMessage = "Task completed! You're breathtaking!";
-    private int taskNumber;
-    private List<int> completedTasks = new List<int>();
-    private Color completedTaskColor = new Color(0.341f, 0.859f, 0.329f, 1f);
-
     public void ExecuteCode()
     {
         InputField field = GameObject.Find("InputField").GetComponent<InputField>();
         Text resultField = GameObject.Find("ResultField").GetComponent<Text>();
-        taskNumber = field.gameObject.GetComponent<InputFieldBehaviour>().taskNumber;
         var results = GetCompiledAssembly(field);
         if (results.Errors.Count == 0)
         {
-            var taskParams = GetTaskParams(taskNumber);
+            var taskParams = GetTaskParams(field);
             var isTaskCompleted = true;
             var instance = results.CompiledAssembly.CreateInstance("YourSolution.YourClass");
             for (var i = 0; i < taskParams.Item1.Count; i++)
@@ -35,16 +28,8 @@ public class RunButtonBehavior : MonoBehaviour
                 }
             }
             if (isTaskCompleted)
-            {
-                resultField.text = correctAnswerMessage;
-                GameObject.Find("TaskButton_" + taskNumber).GetComponent<Image>().color = completedTaskColor;
-                if (!completedTasks.Contains(taskNumber))
-                {
-                    GameObject.Find("KeyCounter").GetComponent<KeyCounterBehaviour>().keyCount++;
-                    completedTasks.Add(taskNumber);
-                }
-            }
-            else resultField.text = wrongAnswerMessage;
+                resultField.text = "Task completed! You're breathtaking!";
+            else resultField.text = "Wrong answer! Try again!";
         }
         else
         {
@@ -96,10 +81,11 @@ public class RunButtonBehavior : MonoBehaviour
         return Tuple.Create(methodParams, expectedResults);
     }
 
-    private Tuple<List<object[]>, List<object>> GetTaskParams(int taskNumber)
+    private Tuple<List<object[]>, List<object>> GetTaskParams(InputField field)
     {
         var methodParams = new List<object[]>();
         var expectedResults = new List<object>();
+        var taskNumber = field.gameObject.GetComponent<InputFieldBehaviour>().taskNumber;
         switch(taskNumber)
         {
             case 1:

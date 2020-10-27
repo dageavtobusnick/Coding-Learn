@@ -27,6 +27,10 @@ namespace YourSolution
 
     public void ShowTask()
     {
+        player = GameObject.Find("Snowman");
+        panel = GameObject.Find("Panel");
+        taskField = GameObject.Find("TaskField").GetComponent<InputField>();
+        field = GameObject.Find("InputField").GetComponent<InputField>();
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
         taskField.transform.position = taskField.GetComponent<TaskFieldBehaviour>().TurnOnPosition;
         panel.transform.position = panel.GetComponent<PanelBehaviour>().TurnOnPosition;
@@ -34,13 +38,5 @@ namespace YourSolution
         field.text = taskSignature;
         field.gameObject.GetComponent<InputFieldBehaviour>().taskNumber = taskNumber;
         field.gameObject.GetComponent<InputFieldBehaviour>().taskSignature = taskSignature;
-    }
-
-    private void Start()
-    {
-        player = GameObject.Find("Snowman");
-        panel = GameObject.Find("Panel");
-        taskField = GameObject.Find("TaskField").GetComponent<InputField>();
-        field = GameObject.Find("InputField").GetComponent<InputField>();
     }
 }

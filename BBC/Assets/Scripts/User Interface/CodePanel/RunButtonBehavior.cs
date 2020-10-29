@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.CodeDom.Compiler;
-using Microsoft.CSharp;
+//using Microsoft.CSharp;
 
 public class RunButtonBehavior : MonoBehaviour
 {
@@ -117,8 +117,10 @@ public class RunButtonBehavior : MonoBehaviour
 
     private CompilerResults GetCompiledAssembly(InputField field)
     {
-        var provider = new CSharpCodeProvider();
+        //var provider = new CSharpCodeProvider();
+        var provider = CodeDomProvider.CreateProvider("CSharp");
         var parameters = new CompilerParameters();
+        parameters.ReferencedAssemblies.Add("Microsoft.CSharp.dll");
         parameters.GenerateExecutable = false;
         parameters.GenerateInMemory = true;
         return provider.CompileAssemblyFromSource(parameters, field.text);

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4141591295386344}
   - component: {fileID: 212258912091118028}
+  - component: {fileID: 1190083566055486705}
   m_Layer: 0
   m_Name: Road Sign
   m_TagString: Untagged
@@ -82,3 +83,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &1190083566055486705
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1862985993734706}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.059084043}
+  serializedVersion: 2
+  m_Radius: 0.017382784

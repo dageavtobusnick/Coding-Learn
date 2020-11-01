@@ -30,14 +30,6 @@ public class MenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(4);
     }
-    public void Level_1Pressed()
-    {
-        SceneManager.LoadScene(5);
-    }
-    public void Level_2Pressed()
-    {
-        SceneManager.LoadScene(6);
-    }
     public void ExitPressed()
     {
         Application.Quit();

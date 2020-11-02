@@ -46,10 +46,10 @@ public class CheckButtonTask1Behaviour : MonoBehaviour
     {
         expectedAnswers = new List<List<string>>();
         expectedAnswers.Add(new List<string>() { "a + b", "b + a", "a+b", "b+a" });
-        expectedAnswers.Add(new List<string>() { "a * b", "b * a", "a*b", "b*a" });
+        expectedAnswers.Add(new List<string>() { "tempA * b", "b * tempA", "tempA*b", "b*tempA" });
         expectedAnswers.Add(new List<string>() { "a > b", "b < a", "a>b", "b<a" });
         expectedAnswers.Add(new List<string>() { "a * b", "b * a", "a*b", "b*a" });
-        expectedAnswers.Add(new List<string>() { "a + b", "b + a", "a+b", "b+a" });
+        expectedAnswers.Add(new List<string>() { "tempA + b", "b + tempA", "tempA+b", "b+tempA" });
         return expectedAnswers;
     }
 }

@@ -2849,9 +2849,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2.1526382}
+  m_Offset: {x: 0, y: -4.5892267}
   serializedVersion: 2
-  m_Radius: 2.782966
+  m_Radius: 3.212937
 --- !u!212 &618104186
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2892,7 +2892,7 @@ SpriteRenderer:
   m_SortingLayerID: 1775589461
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e9b9e22049ed42d4599247ab068f3db9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e862f0aba13d39d4d863a25305cf3655, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -8438,6 +8438,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCount: 0
+  CloseDoor: {fileID: 0}
+  OpenDoor: {fileID: 0}
+  positionOpenDoor: {x: 0, y: 0, z: 0}
 --- !u!114 &1588950614
 MonoBehaviour:
   m_ObjectHideFlags: 0

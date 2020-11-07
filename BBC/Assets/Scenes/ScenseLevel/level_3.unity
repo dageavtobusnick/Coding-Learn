@@ -13720,7 +13720,6 @@ GameObject:
   - component: {fileID: 1117068013}
   - component: {fileID: 1117068010}
   - component: {fileID: 1117068006}
-  - component: {fileID: 1117068017}
   - component: {fileID: 1117068007}
   - component: {fileID: 1117068020}
   - component: {fileID: 1117068019}
@@ -13927,18 +13926,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a5c5b18e1a14c3b41918f5aae08af00b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1117068017
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1117068002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d035a913810f341984b1e92cadaf2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1117068018
@@ -14346,7 +14333,6 @@ GameObject:
   - component: {fileID: 1195164597}
   - component: {fileID: 1195164596}
   - component: {fileID: 1195164595}
-  - component: {fileID: 1195164598}
   m_Layer: 5
   m_Name: AnswerTask1_3
   m_TagString: Untagged
@@ -14431,7 +14417,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117068017}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnswerTaskBehaviour, Assembly-CSharp
         m_MethodName: ChangeTextColor
         m_Mode: 1
@@ -14488,18 +14474,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195164593}
   m_CullTransparentMesh: 0
---- !u!114 &1195164598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1195164593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d035a913810f341984b1e92cadaf2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1207089810
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14574,7 +14548,6 @@ GameObject:
   - component: {fileID: 1220253259}
   - component: {fileID: 1220253258}
   - component: {fileID: 1220253257}
-  - component: {fileID: 1220253260}
   m_Layer: 5
   m_Name: AnswerTask1_4
   m_TagString: Untagged
@@ -14659,7 +14632,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117068017}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnswerTaskBehaviour, Assembly-CSharp
         m_MethodName: ChangeTextColor
         m_Mode: 1
@@ -14716,18 +14689,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1220253255}
   m_CullTransparentMesh: 0
---- !u!114 &1220253260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1220253255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d035a913810f341984b1e92cadaf2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1221906559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17370,7 +17331,6 @@ GameObject:
   - component: {fileID: 1358789255}
   - component: {fileID: 1358789254}
   - component: {fileID: 1358789253}
-  - component: {fileID: 1358789256}
   m_Layer: 5
   m_Name: AnswerTask1_1
   m_TagString: Untagged
@@ -17455,7 +17415,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117068017}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnswerTaskBehaviour, Assembly-CSharp
         m_MethodName: ChangeTextColor
         m_Mode: 1
@@ -17512,18 +17472,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1358789251}
   m_CullTransparentMesh: 0
---- !u!114 &1358789256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1358789251}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d035a913810f341984b1e92cadaf2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1361163784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19881,7 +19829,6 @@ GameObject:
   - component: {fileID: 1524199006}
   - component: {fileID: 1524199005}
   - component: {fileID: 1524199004}
-  - component: {fileID: 1524199007}
   m_Layer: 5
   m_Name: AnswerTask1_2
   m_TagString: Untagged
@@ -19966,7 +19913,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117068017}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnswerTaskBehaviour, Assembly-CSharp
         m_MethodName: ChangeTextColor
         m_Mode: 1
@@ -20023,18 +19970,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524199002}
   m_CullTransparentMesh: 0
---- !u!114 &1524199007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1524199002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d035a913810f341984b1e92cadaf2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1532103422
 GameObject:
   m_ObjectHideFlags: 0
@@ -27986,7 +27921,6 @@ GameObject:
   - component: {fileID: 1801340964}
   - component: {fileID: 1801340963}
   - component: {fileID: 1801340962}
-  - component: {fileID: 1801340965}
   m_Layer: 5
   m_Name: AnswerTask1_5
   m_TagString: Untagged
@@ -28071,7 +28005,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1117068017}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: AnswerTaskBehaviour, Assembly-CSharp
         m_MethodName: ChangeTextColor
         m_Mode: 1
@@ -28128,18 +28062,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1801340960}
   m_CullTransparentMesh: 0
---- !u!114 &1801340965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1801340960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3d035a913810f341984b1e92cadaf2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1802701824 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4317963719170430, guid: c3226049e641c411f808a1dfec68e381, type: 3}

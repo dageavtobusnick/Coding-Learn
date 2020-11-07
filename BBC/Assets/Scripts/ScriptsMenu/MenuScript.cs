@@ -24,9 +24,17 @@ public class MenuScript : MonoBehaviour
     }
     public void Level1Pressed()
     {
-        SceneManager.LoadScene(3);
+        //     SceneManager.LoadScene();
     }
     public void Level2Pressed()
+    {
+       // SceneManager.LoadScene();
+    }
+    public void Level3Pressed()
+    {
+        SceneManager.LoadScene(3);
+    }
+    public void Level4Pressed()
     {
         SceneManager.LoadScene(4);
     }

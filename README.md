@@ -15,6 +15,7 @@
 13.	Ознакомление с рекурсией, использование рекурсивных алгоритмов
 14.	Изучение и использование алгоритмов поиска и сортировки
 15. Ознакомление с основами ООП
+
 Development of a game for teaching c # programming in the shortest possible time.
 1. Learning simple algorithms
 2. Familiarization with C # syntax

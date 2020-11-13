@@ -8,18 +8,14 @@ public class InformationButton3Level3Behaviour : MonoBehaviour
     GameObject player;
     InputField theoryField;
     string information = @"
-    Но что, если мы захотим, чтобы при несоблюдении условия также выполнялись какие-либо действия? В этом случае мы можем добавить блок else. Оператор после ключевого слова else выполняется, только если проверяемое условие имеет значение false. 
-Объединив операторы if и else с логическими условиями, вы получите все необходимые возможности для обработки условий true и false.
+    Мы можем соединить сразу несколько условий, используя логические операторы:
 int num1 = 8;
 int num2 = 6; 
-if(num1 > num2) 
+if (num1 > num2 && num1 == 8) 
 { 
     Console.WriteLine($""Число {num1} больше числа { num2 }"");
-} 
-else
-{
-    Console.WriteLine($""Число { num1 } меньше числа { num2 }"");
-}";
+}
+В данном случае блок if будет выполняться, если num1 > num2 равно true и num1==8 равно true.";
 
     public void ShowInformation()
     {

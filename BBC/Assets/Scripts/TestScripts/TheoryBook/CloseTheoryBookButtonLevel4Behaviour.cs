@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloseTheoryBookButtonBehaviour : MonoBehaviour
+public class CloseTheoryBookButtonLevel4Behaviour : MonoBehaviour
 {
     public void CloseTheoryBook()
     {

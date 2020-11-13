@@ -8,18 +8,18 @@ public class InformationButton4Level3Behaviour : MonoBehaviour
     GameObject player;
     InputField theoryField;
     string information = @"
-    При сравнении чисел мы можем насчитать три состояния: первое число больше второго, первое число меньше второго и числа равны. Используя конструкцию else if, мы можем обрабатывать дополнительные условия:
-int num1 = 8; 
+    Но что, если мы захотим, чтобы при несоблюдении условия также выполнялись какие-либо действия? В этом случае мы можем добавить блок else. Оператор после ключевого слова else выполняется, только если проверяемое условие имеет значение false. 
+Объединив операторы if и else с логическими условиями, вы получите все необходимые возможности для обработки условий true и false.
+int num1 = 8;
 int num2 = 6; 
 if(num1 > num2) 
 { 
-    Console.WriteLine($""Число {num1} больше числа { num2 }""); 
+    Console.WriteLine($""Число {num1} больше числа { num2 }"");
 } 
-else if (num1 < num2) 
-{ 
-    Console.WriteLine($""Число{ num1 } меньше числа { num2 }""); 
-} 
-else Console.WriteLine(""Число num1 равно числу num2"")";
+else
+{
+    Console.WriteLine($""Число { num1 } меньше числа { num2 }"");
+}";
 
     public void ShowInformation()
     {

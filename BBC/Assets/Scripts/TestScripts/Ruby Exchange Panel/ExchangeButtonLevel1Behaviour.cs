@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ExchangeButtonLevel3Behaviour : MonoBehaviour
+public class ExchangeButtonLevel1Behaviour : MonoBehaviour
 {
     private GameObject rubyCounter;
     private InputField exchangeStatus;
@@ -62,27 +62,27 @@ public class ExchangeButtonLevel3Behaviour : MonoBehaviour
         exchangeStatus = GameObject.Find("Panel_RubyToTheoryExchangeStatus").GetComponent<InputField>();
         exchangeStatus.transform.position = GameObject.Find("UI_Collector").transform.position;
 
-        themePart1Button = GameObject.Find("Theme3_Part1Button").GetComponent<Button>();
+        themePart1Button = GameObject.Find("Theme1_Part1Button").GetComponent<Button>();
         themePart1ButtonText = themePart1Button.GetComponentInChildren<Text>().text;
         themePart1Button.GetComponentInChildren<Text>().text = temporaryText;
         themePart1Button.interactable = false;
 
-        themePart2Button = GameObject.Find("Theme3_Part2Button").GetComponent<Button>();
+        themePart2Button = GameObject.Find("Theme1_Part2Button").GetComponent<Button>();
         themePart2ButtonText = themePart2Button.GetComponentInChildren<Text>().text;
         themePart2Button.GetComponentInChildren<Text>().text = temporaryText;
         themePart2Button.interactable = false;
 
-        themePart3Button = GameObject.Find("Theme3_Part3Button").GetComponent<Button>();
+        themePart3Button = GameObject.Find("Theme1_Part3Button").GetComponent<Button>();
         themePart3ButtonText = themePart3Button.GetComponentInChildren<Text>().text;
         themePart3Button.GetComponentInChildren<Text>().text = temporaryText;
         themePart3Button.interactable = false;
 
-        themePart4Button = GameObject.Find("Theme3_Part4Button").GetComponent<Button>();
+        themePart4Button = GameObject.Find("Theme1_Part4Button").GetComponent<Button>();
         themePart4ButtonText = themePart4Button.GetComponentInChildren<Text>().text;
         themePart4Button.GetComponentInChildren<Text>().text = temporaryText;
         themePart4Button.interactable = false;
 
-        themePart5Button = GameObject.Find("Theme3_Part5Button").GetComponent<Button>();
+        themePart5Button = GameObject.Find("Theme1_Part5Button").GetComponent<Button>();
         themePart5ButtonText = themePart5Button.GetComponentInChildren<Text>().text;
         themePart5Button.GetComponentInChildren<Text>().text = temporaryText;
         themePart5Button.interactable = false;

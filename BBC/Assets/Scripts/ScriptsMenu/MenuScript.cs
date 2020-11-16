@@ -24,7 +24,7 @@ public class MenuScript : MonoBehaviour
     }
     public void Level1Pressed()
     {
-        //     SceneManager.LoadScene();
+         SceneManager.LoadScene(5);
     }
     public void Level2Pressed()
     {
@@ -37,6 +37,10 @@ public class MenuScript : MonoBehaviour
     public void Level4Pressed()
     {
         SceneManager.LoadScene(4);
+    }
+    public void Level5Pressed()
+    {
+        //SceneManager.LoadScene();
     }
     public void ExitPressed()
     {

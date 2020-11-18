@@ -3,7 +3,7 @@ using System.Collections;
 public class EnemyGo : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;  // скорость движения
-    [SerializeField] private GameObject[] myWaypoints;  // список точек по которым будет двигаться енеми
+    [SerializeField] private GameObject[] myWaypoints = null;  // список точек по которым будет двигаться енеми
 
     private int myWaypointId = 0;                    // текущая точка в массиве куда двигаться
 

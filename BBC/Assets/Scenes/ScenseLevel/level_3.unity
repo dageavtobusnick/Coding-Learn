@@ -835,7 +835,7 @@ GameObject:
   - component: {fileID: 69581257}
   - component: {fileID: 69581256}
   - component: {fileID: 69581255}
-  - component: {fileID: 69581254}
+  - component: {fileID: 69581258}
   m_Layer: 5
   m_Name: TaskButton_3
   m_TagString: Untagged
@@ -863,18 +863,6 @@ RectTransform:
   m_AnchoredPosition: {x: 4101.5815, y: 1.4610138}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &69581254
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69581252}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045d265e9a9ef424ab6785978ab099f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &69581255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -918,9 +906,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474610}
-        m_TargetAssemblyTypeName: TaskButton3Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowTask
+      - m_Target: {fileID: 1350474607}
+        m_TargetAssemblyTypeName: TaskButtonLevel3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTask3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -968,6 +956,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 69581252}
   m_CullTransparentMesh: 0
+--- !u!114 &69581258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69581252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcc36d7bdeb40e4389a48cadfb665f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &74151245
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4066,7 +4066,7 @@ GameObject:
   - component: {fileID: 232551964}
   - component: {fileID: 232551963}
   - component: {fileID: 232551962}
-  - component: {fileID: 232551961}
+  - component: {fileID: 232551965}
   m_Layer: 5
   m_Name: TaskButton_2
   m_TagString: Untagged
@@ -4094,18 +4094,6 @@ RectTransform:
   m_AnchoredPosition: {x: 4275.5815, y: 94.461}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &232551961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 232551959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95235561fa47ffc4495e799d0906224c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &232551962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4149,9 +4137,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474611}
-        m_TargetAssemblyTypeName: TaskButton2Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowTask
+      - m_Target: {fileID: 1350474607}
+        m_TargetAssemblyTypeName: TaskButtonLevel3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTask2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4199,6 +4187,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 232551959}
   m_CullTransparentMesh: 0
+--- !u!114 &232551965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232551959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcc36d7bdeb40e4389a48cadfb665f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &233088056
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7502,9 +7502,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474608}
-        m_TargetAssemblyTypeName: InformationButton1Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474605}
+        m_TargetAssemblyTypeName: InformationButtonTheme3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7967,7 +7967,6 @@ GameObject:
   - component: {fileID: 450815780}
   - component: {fileID: 450815779}
   - component: {fileID: 450815778}
-  - component: {fileID: 450815777}
   m_Layer: 5
   m_Name: CheckButton_Task1
   m_TagString: Untagged
@@ -7995,18 +7994,6 @@ RectTransform:
   m_AnchoredPosition: {x: -359, y: -262}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &450815777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 450815775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7d951902e6fbb04da8fbbe44014dcbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &450815778
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8050,9 +8037,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474602}
-        m_TargetAssemblyTypeName: CheckButtonTask1Level3Behaviour, Assembly-CSharp
-        m_MethodName: CheckAnswers
+      - m_Target: {fileID: 1350474608}
+        m_TargetAssemblyTypeName: CheckButtonTaskLevel3Behaviour, Assembly-CSharp
+        m_MethodName: CheckAnswers_Task1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8515,7 +8502,6 @@ GameObject:
   - component: {fileID: 475148312}
   - component: {fileID: 475148311}
   - component: {fileID: 475148310}
-  - component: {fileID: 475148309}
   m_Layer: 5
   m_Name: CheckButton_Task2
   m_TagString: Untagged
@@ -8543,18 +8529,6 @@ RectTransform:
   m_AnchoredPosition: {x: -364, y: -196.60004}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &475148309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475148307}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03b8616e7f41a348b4b5ace05182d6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &475148310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8598,9 +8572,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474601}
-        m_TargetAssemblyTypeName: CheckButtonTask2Level3Behaviour, Assembly-CSharp
-        m_MethodName: CheckAnswers
+      - m_Target: {fileID: 1350474608}
+        m_TargetAssemblyTypeName: CheckButtonTaskLevel3Behaviour, Assembly-CSharp
+        m_MethodName: CheckAnswers_Task2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10798,9 +10772,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474620}
-        m_TargetAssemblyTypeName: Theme1ButtonBehaviour, Assembly-CSharp
-        m_MethodName: ShowSubThemes
+      - m_Target: {fileID: 1350474618}
+        m_TargetAssemblyTypeName: ThemeButtonBehaviour, Assembly-CSharp
+        m_MethodName: ShowSubThemes_Theme1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11472,9 +11446,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474625}
-        m_TargetAssemblyTypeName: InformationButton5Level1Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474606}
+        m_TargetAssemblyTypeName: InformationButtonTheme1Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part5
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13465,9 +13439,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474607}
-        m_TargetAssemblyTypeName: InformationButton2Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474605}
+        m_TargetAssemblyTypeName: InformationButtonTheme3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14340,7 +14314,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 840086323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e61657da7ead8dc4a80d8502c7baf35a, type: 3}
+  m_Script: {fileID: 11500000, guid: f9528fb8e3850c24f8512cf8ac054331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TurnOnPosition: {x: 0, y: 0, z: 0}
@@ -14433,7 +14407,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 858206075}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deb969ffab480c546b925d0e2a0b03f2, type: 3}
+  m_Script: {fileID: 11500000, guid: f9528fb8e3850c24f8512cf8ac054331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TurnOnPosition: {x: 0, y: 0, z: 0}
@@ -15452,9 +15426,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474606}
-        m_TargetAssemblyTypeName: InformationButton3Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474605}
+        m_TargetAssemblyTypeName: InformationButtonTheme3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16170,9 +16144,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474627}
-        m_TargetAssemblyTypeName: InformationButton3Level1Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474606}
+        m_TargetAssemblyTypeName: InformationButtonTheme1Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17003,9 +16977,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474628}
-        m_TargetAssemblyTypeName: InformationButton2Level1Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474606}
+        m_TargetAssemblyTypeName: InformationButtonTheme1Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -18299,7 +18273,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1158970009}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b4d4f2cc63200b489645281045b1abc, type: 3}
+  m_Script: {fileID: 11500000, guid: f9528fb8e3850c24f8512cf8ac054331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TurnOnPosition: {x: 0, y: 0, z: 0}
@@ -20610,8 +20584,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1350474605}
-        m_TargetAssemblyTypeName: InformationButton4Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+        m_TargetAssemblyTypeName: InformationButtonTheme3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -26161,40 +26135,20 @@ GameObject:
   - component: {fileID: 1350474614}
   - component: {fileID: 1350474613}
   - component: {fileID: 1350474598}
-  - component: {fileID: 1350474612}
-  - component: {fileID: 1350474611}
-  - component: {fileID: 1350474610}
-  - component: {fileID: 1350474609}
-  - component: {fileID: 1350474608}
-  - component: {fileID: 1350474607}
-  - component: {fileID: 1350474606}
-  - component: {fileID: 1350474605}
-  - component: {fileID: 1350474634}
   - component: {fileID: 1350474604}
   - component: {fileID: 1350474603}
-  - component: {fileID: 1350474602}
-  - component: {fileID: 1350474601}
-  - component: {fileID: 1350474600}
-  - component: {fileID: 1350474599}
   - component: {fileID: 1350474615}
   - component: {fileID: 1350474616}
   - component: {fileID: 1350474617}
-  - component: {fileID: 1350474620}
-  - component: {fileID: 1350474619}
-  - component: {fileID: 1350474618}
-  - component: {fileID: 1350474629}
-  - component: {fileID: 1350474628}
-  - component: {fileID: 1350474627}
-  - component: {fileID: 1350474626}
-  - component: {fileID: 1350474625}
-  - component: {fileID: 1350474624}
-  - component: {fileID: 1350474623}
-  - component: {fileID: 1350474622}
-  - component: {fileID: 1350474621}
   - component: {fileID: 1350474630}
   - component: {fileID: 1350474631}
   - component: {fileID: 1350474633}
   - component: {fileID: 1350474632}
+  - component: {fileID: 1350474618}
+  - component: {fileID: 1350474606}
+  - component: {fileID: 1350474605}
+  - component: {fileID: 1350474607}
+  - component: {fileID: 1350474608}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -26210,54 +26164,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350474597}
   m_Enabled: 1
---- !u!114 &1350474599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985712, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d7a154fd9866541bc7251f989e34ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985727, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc0a7535da93a9e4a8b72a5925fb0190, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985726, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d03b8616e7f41a348b4b5ace05182d6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985725, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7d951902e6fbb04da8fbbe44014dcbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1350474603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26285,97 +26191,49 @@ MonoBehaviour:
 --- !u!114 &1350474605
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985722, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350474597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 927f7d89724957c4ba2427abb0e7b8ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 039e12545d6e76b469f27e0253f716a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1350474606
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985721, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350474597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd6c226c59eeab6439bb17c9c7822bef, type: 3}
+  m_Script: {fileID: 11500000, guid: 49c8e88b74d687345acf331817ae361c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1350474607
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985720, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350474597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eb3ef33c9041b5409e1b22cb087022f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5bcc36d7bdeb40e4389a48cadfb665f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1350474608
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985703, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350474597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5c5b18e1a14c3b41918f5aae08af00b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985702, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a57e874dd62505e4c8b0e85675710e21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985701, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 045d265e9a9ef424ab6785978ab099f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985700, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95235561fa47ffc4495e799d0906224c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985699, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1abbea8657c14854f88f6e25b77f6ae0, type: 3}
+  m_Script: {fileID: 11500000, guid: cd8215a3aa16a3e45b356fe90cb5570f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!20 &1350474613
@@ -26474,145 +26332,13 @@ MonoBehaviour:
 --- !u!114 &1350474618
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985709, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1350474597}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06c65b073cf760f4280d4def4c0707db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985708, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60799e8670e1aaa438aa6823b7ae094e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474620
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985707, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b7e7f654516be4298a3e49afc5fcea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985706, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bce1307b1665d464582bb613ef52cb64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985705, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053278e099c391745a50ac9c4ed3c187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985704, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd28a667e15b1814b99eabb54a10fafb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985751, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1d672b099dd9046881619be2236615, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474625
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985750, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efa78484ca40bc54fb6a06db6c9776b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985749, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc8fb18bb90f6054f80b7cee6045c582, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985748, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c7f6ece44bb7e7449339ff984ddbd18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985747, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aab82917c3df984fa7cce4fffc159a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474629
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 7066647183128985746, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9b292c62d2df946b4b3091a2d83b5d, type: 3}
+  m_Script: {fileID: 11500000, guid: e042e0a5d1a64224d9743c8827e26d59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1350474630
@@ -26661,18 +26387,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf5f34a8ebbce524f815bca8c8118b2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1350474634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 1010523718312793911, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}
-  m_PrefabInstance: {fileID: 7066647183928695575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350474597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be0881b85856a9c4cbffb6669bc62e7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1355442598
@@ -27014,7 +26728,7 @@ GameObject:
   - component: {fileID: 1386414474}
   - component: {fileID: 1386414473}
   - component: {fileID: 1386414472}
-  - component: {fileID: 1386414471}
+  - component: {fileID: 1386414475}
   m_Layer: 5
   m_Name: TaskButton_4
   m_TagString: Untagged
@@ -27042,18 +26756,6 @@ RectTransform:
   m_AnchoredPosition: {x: 4189.5815, y: -168.53899}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1386414471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386414469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a57e874dd62505e4c8b0e85675710e21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1386414472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27097,9 +26799,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474609}
-        m_TargetAssemblyTypeName: TaskButton4Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowTask
+      - m_Target: {fileID: 1350474607}
+        m_TargetAssemblyTypeName: TaskButtonLevel3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTask4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27147,6 +26849,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1386414469}
   m_CullTransparentMesh: 0
+--- !u!114 &1386414475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386414469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcc36d7bdeb40e4389a48cadfb665f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1387908273
 GameObject:
   m_ObjectHideFlags: 0
@@ -28845,7 +28559,6 @@ GameObject:
   - component: {fileID: 1517722038}
   - component: {fileID: 1517722037}
   - component: {fileID: 1517722036}
-  - component: {fileID: 1517722035}
   m_Layer: 5
   m_Name: CheckButton_Task4
   m_TagString: Untagged
@@ -28873,18 +28586,6 @@ RectTransform:
   m_AnchoredPosition: {x: -367, y: -196.60004}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1517722035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1517722033}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4d7a154fd9866541bc7251f989e34ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1517722036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28928,9 +28629,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474599}
-        m_TargetAssemblyTypeName: CheckButtonTask4Level3Behaviour, Assembly-CSharp
-        m_MethodName: CheckAnswers
+      - m_Target: {fileID: 1350474608}
+        m_TargetAssemblyTypeName: CheckButtonTaskLevel3Behaviour, Assembly-CSharp
+        m_MethodName: CheckAnswers_Task4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29748,9 +29449,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474634}
-        m_TargetAssemblyTypeName: InformationButton5Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474605}
+        m_TargetAssemblyTypeName: InformationButtonTheme3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part5
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30081,7 +29782,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1566238390}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b57e593088ef01e4484d5a64f13b978a, type: 3}
+  m_Script: {fileID: 11500000, guid: f9528fb8e3850c24f8512cf8ac054331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   TurnOnPosition: {x: 0, y: 0, z: 0}
@@ -30795,6 +30496,112 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1608790425}
+  m_CullTransparentMesh: 0
+--- !u!1 &1613546926
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1613546927}
+  - component: {fileID: 1613546930}
+  - component: {fileID: 1613546929}
+  - component: {fileID: 1613546928}
+  m_Layer: 5
+  m_Name: TheoryImage
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1613546927
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613546926}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2057928573}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3, y: 3}
+  m_SizeDelta: {x: 1200, y: 800}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1613546928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613546926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a13ad9bed2e07224a98dad0992f04d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  imagesTheme1:
+  - {fileID: 21300000, guid: 129ca5433fbdb0b4c84a8ff27e5fea44, type: 3}
+  - {fileID: 21300000, guid: f2bed2d8e6d0f384db518d2e5f88af35, type: 3}
+  - {fileID: 21300000, guid: 3d42e69ea99ef714298cf9dcf18f63e2, type: 3}
+  - {fileID: 21300000, guid: ec15571223ab0e4458b6ac9e5e1d4b4d, type: 3}
+  - {fileID: 21300000, guid: a7e3f7631981a6546a0597d8738b6935, type: 3}
+  - {fileID: 21300000, guid: 9cf95179abd63714084b2141fa887686, type: 3}
+  imagesTheme2: []
+  imagesTheme3:
+  - {fileID: 21300000, guid: 5d8a780f380707149be9c836e8c474aa, type: 3}
+  - {fileID: 21300000, guid: 5a79fdbf5517c284c9b47248c8976612, type: 3}
+  - {fileID: 21300000, guid: 70af017bda88b6847ba2ae846623dd71, type: 3}
+  - {fileID: 21300000, guid: dd5ab79c0cb4a0e42a721e38b33bcde2, type: 3}
+  - {fileID: 21300000, guid: 2c985ad1b9aab124b89ba6bd278b7ed3, type: 3}
+  imagesTheme4: []
+  imagesTheme5: []
+  themeNumber: 1
+  imageNumber: 0
+--- !u!114 &1613546929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613546926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1613546930
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613546926}
   m_CullTransparentMesh: 0
 --- !u!1 &1617346088
 GameObject:
@@ -33360,9 +33167,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474626}
-        m_TargetAssemblyTypeName: InformationButton4Level1Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474606}
+        m_TargetAssemblyTypeName: InformationButtonTheme1Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part4
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -33654,7 +33461,6 @@ GameObject:
   - component: {fileID: 1763226650}
   - component: {fileID: 1763226649}
   - component: {fileID: 1763226648}
-  - component: {fileID: 1763226647}
   m_Layer: 5
   m_Name: CheckButton_Task3
   m_TagString: Untagged
@@ -33682,18 +33488,6 @@ RectTransform:
   m_AnchoredPosition: {x: -395, y: -254}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1763226647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1763226645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc0a7535da93a9e4a8b72a5925fb0190, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1763226648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33737,9 +33531,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474600}
-        m_TargetAssemblyTypeName: CheckButtonTask3Level3Behaviour, Assembly-CSharp
-        m_MethodName: CheckAnswers
+      - m_Target: {fileID: 1350474608}
+        m_TargetAssemblyTypeName: CheckButtonTaskLevel3Behaviour, Assembly-CSharp
+        m_MethodName: CheckAnswers_Task3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -34002,9 +33796,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474629}
-        m_TargetAssemblyTypeName: InformationButton1Level1Behaviour, Assembly-CSharp
-        m_MethodName: ShowInformation
+      - m_Target: {fileID: 1350474606}
+        m_TargetAssemblyTypeName: InformationButtonTheme1Behaviour, Assembly-CSharp
+        m_MethodName: ShowTheory_Part1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -37268,9 +37062,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474619}
-        m_TargetAssemblyTypeName: Theme3ButtonBehaviour, Assembly-CSharp
-        m_MethodName: ShowSubThemes
+      - m_Target: {fileID: 1350474618}
+        m_TargetAssemblyTypeName: ThemeButtonBehaviour, Assembly-CSharp
+        m_MethodName: ShowSubThemes_Theme3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -37471,7 +37265,7 @@ GameObject:
   - component: {fileID: 1984951579}
   - component: {fileID: 1984951578}
   - component: {fileID: 1984951577}
-  - component: {fileID: 1984951576}
+  - component: {fileID: 1984951580}
   m_Layer: 5
   m_Name: TaskButton_1
   m_TagString: Untagged
@@ -37499,18 +37293,6 @@ RectTransform:
   m_AnchoredPosition: {x: 4001.5815, y: 236.461}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1984951576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984951574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1abbea8657c14854f88f6e25b77f6ae0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1984951577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37554,9 +37336,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1350474612}
-        m_TargetAssemblyTypeName: TaskButton1Level3Behaviour, Assembly-CSharp
-        m_MethodName: ShowTask
+      - m_Target: {fileID: 1350474607}
+        m_TargetAssemblyTypeName: TaskButtonLevel3Behaviour, Assembly-CSharp
+        m_MethodName: ShowTask1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -37604,6 +37386,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1984951574}
   m_CullTransparentMesh: 0
+--- !u!114 &1984951580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1984951574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcc36d7bdeb40e4389a48cadfb665f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1996985825
 GameObject:
   m_ObjectHideFlags: 0
@@ -38521,6 +38315,7 @@ RectTransform:
   m_Children:
   - {fileID: 252897299}
   - {fileID: 189716044}
+  - {fileID: 1613546927}
   - {fileID: 2104895504}
   m_Father: {fileID: 579802657}
   m_RootOrder: 7
@@ -39168,7 +38963,7 @@ RectTransform:
   m_Children:
   - {fileID: 111262886}
   m_Father: {fileID: 2057928573}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -39844,5 +39639,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: ec7f6f0e9f25c9142b02c7906382ebe7, type: 3}

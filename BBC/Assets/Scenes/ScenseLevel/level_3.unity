@@ -1218,7 +1218,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 103
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 71890e5c26a70bd45b71b16913a8c51e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -8885,8 +8885,8 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -1.1295116, y: 0.23388246}
-  - {x: 0.9273887, y: -0.9343811}
+  - {x: -1.6853466, y: 0.10789178}
+  - {x: 0.3804527, y: -1.3641214}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -8930,7 +8930,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 103
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0a2d64ba79b34834d94fdbbc1b68760c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9634,8 +9634,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyCount: 0
-  CloseDoor: {fileID: 0}
-  OpenDoor: {fileID: 0}
+  CloseDoor: {fileID: 487753219}
+  OpenDoor: {fileID: 87601487}
   positionOpenDoor: {x: 5071.9, y: 37.4, z: 0}
 --- !u!114 &545269457
 MonoBehaviour:
@@ -28295,7 +28295,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 101
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cabc177ddc66e5b45bf4492f96bdb865, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -28465,7 +28465,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492810572}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 2688.1, y: -278.5, z: 152.14159}
+  m_LocalPosition: {x: 2689.6, y: -284, z: 152.14159}
   m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 1924556205}
@@ -28535,7 +28535,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 101
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cabc177ddc66e5b45bf4492f96bdb865, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -29870,7 +29870,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a731ac9ea21bf944b93f4417d9c6f5a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneIndex: 6
+  SceneIndex: 4
 --- !u!58 &1572920703
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -39198,10 +39198,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 212467425880139480, guid: a56756e19eb654526b7e540befd9ce24, type: 3}
       propertyPath: m_SortingLayerID
-      value: 1775589461
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 212467425880139480, guid: a56756e19eb654526b7e540befd9ce24, type: 3}
       propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212467425880139480, guid: a56756e19eb654526b7e540befd9ce24, type: 3}
+      propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

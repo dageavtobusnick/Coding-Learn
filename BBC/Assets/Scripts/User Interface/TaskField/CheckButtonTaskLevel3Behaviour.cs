@@ -10,7 +10,7 @@ public class CheckButtonTaskLevel3Behaviour : MonoBehaviour
     private Text resultText;
     private Color wrongAnswerColor = new Color(1f, 0f, 0f, 1f);
     private Color correctAnswerColor = new Color(0f, 1f, 0f, 1f);
-    private bool isKeyEarned = false;
+    private bool[] isKeysEarned = new bool[4];
 
     public void CheckAnswers_Task1()
     {
@@ -85,10 +85,10 @@ public class CheckButtonTaskLevel3Behaviour : MonoBehaviour
         if (isCorrect)
         {
             resultText.text = "Задание выполнено!";
-            if (!isKeyEarned)
+            if (!isKeysEarned[taskNumber - 1])
             {
                 GameObject.Find("KeyCounter").GetComponent<KeyCounterBehaviour>().keyCount++;
-                isKeyEarned = true;
+                isKeysEarned[taskNumber - 1] = true;
             }
         }
         else resultText.text = "Где-то есть ошибки. Исправь их и попробуй ещё раз!";

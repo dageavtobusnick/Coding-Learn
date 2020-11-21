@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CheckButtonTaskLevel4Behaviour : MonoBehaviour
+public class CheckButtonTaskLevel5Behaviour : MonoBehaviour
 {
     private int taskNumber;
     private List<List<string>> expectedAnswers;
@@ -16,11 +16,9 @@ public class CheckButtonTaskLevel4Behaviour : MonoBehaviour
     {
         taskNumber = 1;
         expectedAnswers = new List<List<string>>();
-        expectedAnswers.Add(new List<string>() { "n>0", "n > 0", "0<n", "0 < n" });
-        expectedAnswers.Add(new List<string>() { "0" });
-        expectedAnswers.Add(new List<string>() { "%" });
-        expectedAnswers.Add(new List<string>() { "//" });
-        expectedAnswers.Add(new List<string>() { "sum" });
+        expectedAnswers.Add(new List<string>() { "2" });
+        expectedAnswers.Add(new List<string>() { "var", "int[]" });
+        expectedAnswers.Add(new List<string>() { "new int[7]" });
         CheckAnswers(expectedAnswers);
     }
 
@@ -28,12 +26,9 @@ public class CheckButtonTaskLevel4Behaviour : MonoBehaviour
     {
         taskNumber = 2;
         expectedAnswers = new List<List<string>>();
-        expectedAnswers.Add(new List<string>() { "hile" });
-        expectedAnswers.Add(new List<string>() { ">0", "> 0", ">=1", ">= 1" });
-        expectedAnswers.Add(new List<string>() { "%" });
-        expectedAnswers.Add(new List<string>() { "mult" });
-        expectedAnswers.Add(new List<string>() { "%" });
-        expectedAnswers.Add(new List<string>() { "//" });
+        expectedAnswers.Add(new List<string>() { "var", "int[]" });
+        expectedAnswers.Add(new List<string>() { "", "new[]", "new int[]", "new int[6]" });
+        expectedAnswers.Add(new List<string>() { "1, 2, 3, 4, 5, 6" });
         CheckAnswers(expectedAnswers);
     }
 
@@ -41,14 +36,12 @@ public class CheckButtonTaskLevel4Behaviour : MonoBehaviour
     {
         taskNumber = 3;
         expectedAnswers = new List<List<string>>();
-        expectedAnswers.Add(new List<string>() { "var", "int" });
-        expectedAnswers.Add(new List<string>() { "i < 20", "i<20", "i <= 19", "i<=19" });
-        expectedAnswers.Add(new List<string>() { "2" });
-        expectedAnswers.Add(new List<string>() { "i" });
-        expectedAnswers.Add(new List<string>() { "var", "int" });
-        expectedAnswers.Add(new List<string>() { "i < 20", "i<20", "i <= 19", "i<=19" });
-        expectedAnswers.Add(new List<string>() { "2" });
-        expectedAnswers.Add(new List<string>() { "i * i", "i*i" });
+        expectedAnswers.Add(new List<string>() { "array[0]" });
+        expectedAnswers.Add(new List<string>() { "10" });
+        expectedAnswers.Add(new List<string>() { "array[2]" });
+        expectedAnswers.Add(new List<string>() { "20" });
+        expectedAnswers.Add(new List<string>() { "array[3]" });
+        expectedAnswers.Add(new List<string>() { "20" });
         CheckAnswers(expectedAnswers);
     }
 
@@ -56,13 +49,10 @@ public class CheckButtonTaskLevel4Behaviour : MonoBehaviour
     {
         taskNumber = 4;
         expectedAnswers = new List<List<string>>();
-        expectedAnswers.Add(new List<string>() { "int", "var" });
-        expectedAnswers.Add(new List<string>() { "i < 10", "i<10", "i <= 9", "i<=9" });
-        expectedAnswers.Add(new List<string>() { "i++", "i+=1", "i += 1" });
-        expectedAnswers.Add(new List<string>() { "int", "var" });
-        expectedAnswers.Add(new List<string>() { "1" });
-        expectedAnswers.Add(new List<string>() { "j++", "j+=1", "j += 1" });
-        expectedAnswers.Add(new List<string>() { "i*j", "i * j", "j*i", "j * i" });
+        expectedAnswers.Add(new List<string>() { "foreach" });
+        expectedAnswers.Add(new List<string>() { "in array" });
+        expectedAnswers.Add(new List<string>() { "e + 3", "e+3" });
+        expectedAnswers.Add(new List<string>() { "e * e * e", "e*e*e" });
         CheckAnswers(expectedAnswers);
     }
 

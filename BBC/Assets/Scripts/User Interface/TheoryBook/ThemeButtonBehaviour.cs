@@ -13,6 +13,12 @@ public class ThemeButtonBehaviour : MonoBehaviour
         ShowSubThemes();
     }
 
+    public void ShowSubThemes_Theme2()
+    {
+        subThemes = GameObject.Find("Panel_Theme2");
+        ShowSubThemes();
+    }
+
     public void ShowSubThemes_Theme3()
     {
         subThemes = GameObject.Find("Panel_Theme3");
@@ -22,6 +28,12 @@ public class ThemeButtonBehaviour : MonoBehaviour
     public void ShowSubThemes_Theme4()
     {
         subThemes = GameObject.Find("Panel_Theme4");
+        ShowSubThemes();
+    }
+
+    public void ShowSubThemes_Theme5()
+    {
+        subThemes = GameObject.Find("Panel_Theme5");
         ShowSubThemes();
     }
 

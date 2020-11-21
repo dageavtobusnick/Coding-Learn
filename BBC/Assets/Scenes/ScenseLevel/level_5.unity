@@ -13826,6 +13826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 476437396}
   - component: {fileID: 476437395}
+  - component: {fileID: 476437397}
   m_Layer: 0
   m_Name: water_3 (6)
   m_TagString: Untagged
@@ -13898,6 +13899,30 @@ Transform:
   m_Father: {fileID: 387716689}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &476437397
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476437394}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -5.1394334, y: 0.018482983}
+  - {x: 2.1821387, y: 4.4174666}
+  - {x: 9.852636, y: -0.16634756}
+  - {x: 4.788252, y: -0.70235795}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1001 &480189956
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17950,6 +17975,7 @@ GameObject:
   m_Component:
   - component: {fileID: 723166699}
   - component: {fileID: 723166698}
+  - component: {fileID: 723166700}
   m_Layer: 0
   m_Name: water_3 (3)
   m_TagString: Untagged
@@ -18022,6 +18048,31 @@ Transform:
   m_Father: {fileID: 387716689}
   m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &723166700
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723166697}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -1.9265234, y: 0.5121181}
+  - {x: 3.2949805, y: 0.9495941}
+  - {x: 4.0135937, y: 0.5365954}
+  - {x: 0.9904394, y: -1.3631992}
+  - {x: -1.9335938, y: 0.50355554}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!4 &725959935 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4317963719170430, guid: c3226049e641c411f808a1dfec68e381, type: 3}

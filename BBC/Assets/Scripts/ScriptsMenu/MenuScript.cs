@@ -40,7 +40,7 @@ public class MenuScript : MonoBehaviour
     }
     public void Level5Pressed()
     {
-        //SceneManager.LoadScene();
+        SceneManager.LoadScene(6);
     }
     public void ExitPressed()
     {

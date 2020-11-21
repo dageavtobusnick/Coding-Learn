@@ -12,6 +12,9 @@ public class ExchangeButtonLevel1Behaviour : MonoBehaviour
     private Button themePart3Button;
     private Button themePart4Button;
     private Button themePart5Button;
+    private Button themePart6Button;
+    private Button themePart7Button;
+    private Button themePart8Button;
     private int spentRubyCount = 0;
     private string temporaryText = "    ???";
     private string themePart1ButtonText;
@@ -19,6 +22,9 @@ public class ExchangeButtonLevel1Behaviour : MonoBehaviour
     private string themePart3ButtonText;
     private string themePart4ButtonText;
     private string themePart5ButtonText;
+    private string themePart6ButtonText;
+    private string themePart7ButtonText;
+    private string themePart8ButtonText;
 
     public void ExchangeRubyToTheory()
     {
@@ -38,14 +44,20 @@ public class ExchangeButtonLevel1Behaviour : MonoBehaviour
                 case 2:
                     themePart3Button.GetComponentInChildren<Text>().text = themePart3ButtonText;
                     themePart3Button.interactable = true;
-                    break;
-                case 3:
                     themePart4Button.GetComponentInChildren<Text>().text = themePart4ButtonText;
                     themePart4Button.interactable = true;
                     break;
-                case 4:
+                case 3:
                     themePart5Button.GetComponentInChildren<Text>().text = themePart5ButtonText;
                     themePart5Button.interactable = true;
+                    themePart6Button.GetComponentInChildren<Text>().text = themePart6ButtonText;
+                    themePart6Button.interactable = true;
+                    themePart7Button.GetComponentInChildren<Text>().text = themePart7ButtonText;
+                    themePart7Button.interactable = true;
+                    break;
+                case 4:
+                    themePart8Button.GetComponentInChildren<Text>().text = themePart8ButtonText;
+                    themePart8Button.interactable = true;
                     break;
             }
             exchangeStatus.text = "Отлично! В твоём справочнике появилась новая информация!";
@@ -86,5 +98,20 @@ public class ExchangeButtonLevel1Behaviour : MonoBehaviour
         themePart5ButtonText = themePart5Button.GetComponentInChildren<Text>().text;
         themePart5Button.GetComponentInChildren<Text>().text = temporaryText;
         themePart5Button.interactable = false;
+
+        themePart6Button = GameObject.Find("Theme1_Part6Button").GetComponent<Button>();
+        themePart6ButtonText = themePart6Button.GetComponentInChildren<Text>().text;
+        themePart6Button.GetComponentInChildren<Text>().text = temporaryText;
+        themePart6Button.interactable = false;
+
+        themePart7Button = GameObject.Find("Theme1_Part7Button").GetComponent<Button>();
+        themePart7ButtonText = themePart7Button.GetComponentInChildren<Text>().text;
+        themePart7Button.GetComponentInChildren<Text>().text = temporaryText;
+        themePart7Button.interactable = false;
+
+        themePart8Button = GameObject.Find("Theme1_Part8Button").GetComponent<Button>();
+        themePart8ButtonText = themePart8Button.GetComponentInChildren<Text>().text;
+        themePart8Button.GetComponentInChildren<Text>().text = temporaryText;
+        themePart8Button.interactable = false;
     }
 }

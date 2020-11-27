@@ -1,15 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class RoadSignBehaviour : MonoBehaviour
+public class InformationGiver2Behaviour : MonoBehaviour
 {
     GameObject button;
 
     void Start()
     {
-        button = GameObject.Find("TaskButton");
+        button = GameObject.Find("InformationButton_2");
         button.SetActive(false);
     }
 

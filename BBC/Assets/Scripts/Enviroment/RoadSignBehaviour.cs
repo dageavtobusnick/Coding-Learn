@@ -5,21 +5,16 @@ using UnityEngine.UI;
 
 public class RoadSignBehaviour : MonoBehaviour
 {
-    GameObject button;
-
-    void Start()
-    {
-        button = GameObject.Find("TaskButton");
-        button.SetActive(false);
-    }
+    private bool wasShowed = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        button.SetActive(true);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        button.SetActive(false);
+        if (!wasShowed)
+        {
+            var training = GameObject.Find("Panel_Training_1");
+            training.transform.position = training.GetComponent<ThemePanelsBehaviour>().TurnOnPosition;
+            GameObject.Find("Snowman").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
+            wasShowed = true;
+        }
     }
 }

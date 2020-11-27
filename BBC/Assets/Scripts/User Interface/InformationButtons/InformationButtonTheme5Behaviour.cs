@@ -40,6 +40,12 @@ public class InformationButtonTheme5Behaviour : MonoBehaviour
         ShowInformation();
     }
 
+    public void ShowTheory_Part6()
+    {
+        partNumber = 6;
+        ShowInformation();
+    }
+
     private void ShowInformation()
     {
         player.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;

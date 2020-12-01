@@ -9,7 +9,6 @@ public class ThemePanelsBehaviour : MonoBehaviour
 
     private void Start()
     {
-        //TurnOnPosition = GameObject.Find("Panel_TheoryBook").GetComponent<Transform>().position;
         TurnOnPosition = gameObject.transform.position;
         TurnOffPosition = GameObject.Find("UI_Collector").GetComponent<Transform>().position;
         gameObject.transform.position = TurnOffPosition;

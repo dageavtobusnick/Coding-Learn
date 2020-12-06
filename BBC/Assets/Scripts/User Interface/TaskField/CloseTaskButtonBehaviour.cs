@@ -18,7 +18,11 @@ public class CloseTaskButtonBehaviour : MonoBehaviour
         {
             var task = GameObject.Find("Panel_Task" + i);
             if (task != null)
+            {
                 task.transform.position = task.GetComponent<PanelTaskBehaviour>().TurnOffPosition;
+                foreach (var answer in task.GetComponentsInChildren<InputField>())
+                    answer.interactable = false;
+            }
         }    
     }
 }

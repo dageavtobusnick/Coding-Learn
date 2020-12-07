@@ -50,11 +50,16 @@ public class TaskButtonLevel5Behaviour : MonoBehaviour
         taskField.transform.position = taskField.GetComponent<TaskFieldBehaviour>().TurnOnPosition;
         codeField.transform.position = codeField.GetComponent<PanelTaskBehaviour>().TurnOnPosition;
         taskField.text = taskDescription;
+        foreach (var answers in codeField.GetComponentsInChildren<InputField>())
+            answers.interactable = true;
     }
 
     private void Start()
     {
         player = GameObject.Find("Snowman");
         taskField = GameObject.Find("TaskField").GetComponent<InputField>();
+        var taskPanels = GameObject.Find("Task Panels");
+        foreach (var answers in taskPanels.GetComponentsInChildren<InputField>())
+            answers.interactable = false;
     }
 }

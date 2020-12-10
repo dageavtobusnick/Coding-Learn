@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4332803991787098}
   - component: {fileID: 212634628249080812}
-  - component: {fileID: 68068383729698746}
+  - component: {fileID: 5619867509298620321}
   m_Layer: 0
   m_Name: S-Mart Red Left
   m_TagString: Untagged
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1722720992254530}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 150, y: 150, z: 150}
+  m_LocalScale: {x: 250, y: 250, z: 150}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!68 &68068383729698746
+--- !u!68 &5619867509298620321
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,13 +97,13 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0.05
+  m_EdgeRadius: 0
   m_Points:
-  - {x: -0.0050013065, y: 0.11950445}
-  - {x: -0.27109814, y: -0.08188915}
-  - {x: 0.0014556646, y: -0.27363348}
-  - {x: 0.27249634, y: -0.079760075}
-  - {x: -0.006485462, y: 0.12316179}
+  - {x: -0.0031725578, y: -0.33933264}
+  - {x: -0.33, y: -0.102206856}
+  - {x: 0.017157912, y: 0.15187925}
+  - {x: 0.337325, y: -0.1068604}
+  - {x: -0.0033178926, y: -0.3414014}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0

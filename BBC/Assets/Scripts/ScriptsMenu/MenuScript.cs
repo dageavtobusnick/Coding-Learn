@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
     public void MainPressed()
     {
         SceneManager.LoadScene(0);
@@ -24,11 +19,11 @@ public class MenuScript : MonoBehaviour
     }
     public void Level1Pressed()
     {
-         SceneManager.LoadScene(5);
+        SceneManager.LoadScene(5);
     }
     public void Level2Pressed()
     {
-       // SceneManager.LoadScene();
+        SceneManager.LoadScene(7);
     }
     public void Level3Pressed()
     {
@@ -45,10 +40,5 @@ public class MenuScript : MonoBehaviour
     public void ExitPressed()
     {
         Application.Quit();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

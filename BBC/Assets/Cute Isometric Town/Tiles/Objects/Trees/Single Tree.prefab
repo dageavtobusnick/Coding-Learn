@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4168948021283832}
   - component: {fileID: 212147678492192618}
   - component: {fileID: 70601334036210480}
-  - component: {fileID: 110673387255977787}
   - component: {fileID: 6325346435279519956}
+  - component: {fileID: 6901359433969639729}
   m_Layer: 0
   m_Name: Single Tree
   m_TagString: Untagged
@@ -101,18 +101,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.07}
   m_Size: {x: 0.01, y: 0.15}
   m_Direction: 1
---- !u!114 &110673387255977787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610937211086126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a68c8055e80dd34aa3c16c51436bea0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!68 &6325346435279519956
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -139,3 +127,15 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &6901359433969639729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610937211086126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a68c8055e80dd34aa3c16c51436bea0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

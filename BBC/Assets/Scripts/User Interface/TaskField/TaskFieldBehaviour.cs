@@ -11,7 +11,7 @@ public class TaskFieldBehaviour : MonoBehaviour
     void Start()
     {
         TurnOnPosition = gameObject.transform.position;
-        TurnOffPosition = new Vector3(-358, -725, 0);
+        TurnOffPosition = GameObject.Find("UI_Collector").transform.position;
         gameObject.transform.position = TurnOffPosition;
     }
 }

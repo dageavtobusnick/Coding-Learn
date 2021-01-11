@@ -37,8 +37,13 @@ public class MenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(6);
     }
+    public void Partners()
+    {
+        SceneManager.LoadScene(8);
+    }
     public void ExitPressed()
     {
         Application.Quit();
     }
+
 }

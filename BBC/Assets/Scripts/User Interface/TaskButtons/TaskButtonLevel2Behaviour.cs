@@ -39,7 +39,7 @@ public class TaskButtonLevel2Behaviour : MonoBehaviour
     {
         taskNumber = 4;
         taskDescription = @"                                                               Задание
-Тут надо бы код написать, я тебе рабочий ключ отдам";
+Ученик который был здесь до тебя написал программу, но в ней что-то работает неправильно, помоги найти ошибки";
         ShowTask();
     }
 

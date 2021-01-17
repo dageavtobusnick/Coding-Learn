@@ -23,6 +23,7 @@ public class TaskButtonLevel5Behaviour : MonoBehaviour
     {
         taskNumber = 2;
         taskDescription = @"                                                               Задание
+Нам надо зафиксировать очередь тех, кто сегодня добывает рыбу в пруду
 Создайте массив, содержащий числа 1, 2, 3, 4, 5, 6.";
         ShowTask();
     }
@@ -31,6 +32,7 @@ public class TaskButtonLevel5Behaviour : MonoBehaviour
     {
         taskNumber = 3;
         taskDescription = @"                                                               Задание
+Тут некоторые пингвины попросили поменяться местами в очереди
 Дан массив array = int[5]. Присвойте первому элементу значение 10, а элементам с индексами 2 и 3 - значение 20.";
         ShowTask();
     }
@@ -39,6 +41,7 @@ public class TaskButtonLevel5Behaviour : MonoBehaviour
     {
         taskNumber = 4;
         taskDescription = @"                                                               Задание
+Это последнее задание, сделай его и медведь тебя не съест
 Дан массив array = {1, 3, 5, 7, 9}. Увеличьте значение каждого элемента на 3, а затем выведите их кубы (число в 3-ей степени).";
         ShowTask();
     }

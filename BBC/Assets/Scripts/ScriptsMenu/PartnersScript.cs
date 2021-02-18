@@ -19,4 +19,8 @@ public class PartnersScript : MonoBehaviour
     {
         Application.OpenURL("http://13.59.215.174/FiveRaccoons/");
     }
+    public void abc1()
+    {
+        Application.OpenURL("https://vk.com/iritrtf_urfu");
+    }
 }

@@ -28,7 +28,7 @@ public class TaskButtonLevel1Behaviour : MonoBehaviour
     {
         taskNumber = 2;
         taskDescription = @"                                                               Задание
-Приятель, тут такое дело, ни как не могу запустить механизм, чтобы добыть рыбу, можешь помочь?";
+Не раздумывай, медведь хочет кушать, помоги запустить программу, добывающую ему рыбу.";
         ShowTask();
     }
 
@@ -36,7 +36,7 @@ public class TaskButtonLevel1Behaviour : MonoBehaviour
     {
         taskNumber = 3;
         taskDescription = @"                                                               Задание
-Надеюсь, ты знаешь курс валют, реши задания";
+Помоги подобрать код от сейфа,решив задания, получив правильный порядок цифр";
         ShowTask();
     }
 

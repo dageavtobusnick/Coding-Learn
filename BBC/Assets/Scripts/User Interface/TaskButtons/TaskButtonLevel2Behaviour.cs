@@ -15,7 +15,7 @@ public class TaskButtonLevel2Behaviour : MonoBehaviour
     {
         taskNumber = 1;
         taskDescription = @"                                                               Задание
-Ответьте на предложенные вопросы.";
+Мой компьютер опять замерз, помоги с этой штукой, то что ты получишь в результате, будет недостающей частью моего пароля";
         ShowTask();
     }
 
@@ -23,7 +23,7 @@ public class TaskButtonLevel2Behaviour : MonoBehaviour
     {
         taskNumber = 2;
         taskDescription = @"                                                               Задание
-Ответьте на предложенные вопросы.";
+Я потерял листочек с кодом, можешь дописать?";
         ShowTask();
     }
 
@@ -31,7 +31,7 @@ public class TaskButtonLevel2Behaviour : MonoBehaviour
     {
         taskNumber = 3;
         taskDescription = @"                                                               Задание
-Исправь ошибки, заполнив пропуски.";
+Исправь ошибки, заполнив пропуски. Не забудь про медведя";
         ShowTask();
     }
 
@@ -39,7 +39,7 @@ public class TaskButtonLevel2Behaviour : MonoBehaviour
     {
         taskNumber = 4;
         taskDescription = @"                                                               Задание
-Ответьте на предложенные вопросы.";
+Ученик который был здесь до тебя написал программу, но в ней что-то работает неправильно, помоги найти ошибки";
         ShowTask();
     }
 

@@ -37,6 +37,14 @@ public class MenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(6);
     }
+    public void Level3d1Pressed()
+    {
+        SceneManager.LoadScene(9);
+    }
+    public void Level3d2Pressed()
+    {
+        SceneManager.LoadScene(10);
+    }
     public void Partners()
     {
         SceneManager.LoadScene(8);

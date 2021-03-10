@@ -37,10 +37,7 @@ public class MenuScript : MonoBehaviour
     {
         SceneManager.LoadScene(6);
     }
-    public void Level3d1Pressed()
-    {
-        SceneManager.LoadScene(9);
-    }
+
     public void Level3d2Pressed()
     {
         SceneManager.LoadScene(10);
@@ -48,6 +45,18 @@ public class MenuScript : MonoBehaviour
     public void Partners()
     {
         SceneManager.LoadScene(8);
+    }
+    public void levelTraining()
+    {
+        SceneManager.LoadScene(11);
+    }
+    public void LevelA()
+    {
+        SceneManager.LoadScene(10);
+    }
+    public void Level1()
+    {
+        SceneManager.LoadScene(9);
     }
     public void ExitPressed()
     {

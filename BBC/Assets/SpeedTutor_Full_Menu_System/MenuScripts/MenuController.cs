@@ -248,8 +248,8 @@ namespace SpeedTutorMainMenuSystem
         {
             if (ButtonType == "Yes")
             {
-                //  SceneManager.LoadScene(_newGameButtonLevel);
-                SceneManager.LoadScene(9);
+                SceneManager.LoadScene(_newGameButtonLevel);
+
             }
 
             if (ButtonType == "No")

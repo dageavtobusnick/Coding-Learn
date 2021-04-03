@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,89 +10,67 @@ public class StartButton_Level_1_Behaviour : MonoBehaviour
     public int taskNumber;
     private InputField codeField;
     private InputField resultField;
+    private InputField outputField;
     private GameObject robot;
+    private GameObject canvas;
 
     public void ExecuteCode()
     {
-        var robotManagementCode = GetRobotManagementClass();
-        ScriptDomain domain = ScriptDomain.CreateDomain("MyDomain");
         try
         {
+            var robotManagementCode = GetRobotManagementClass();
+            ScriptDomain domain = ScriptDomain.CreateDomain("MyDomain");
             ScriptType type = domain.CompileAndLoadMainSource(robotManagementCode);
             ScriptProxy proxy = type.CreateInstance(robot);
-            var result = proxy.Call("isTaskCompleted_" + taskNumber);
-            if ((bool)result)
+            Tuple<bool, string> result = (Tuple<bool, string>)proxy.Call("isTaskCompleted_" + taskNumber);
+            if (result.Item1)
             {
-                resultField.text = "Команды выполнены!";
-                taskNumber++;
+                resultField.text = "<color=green>Задание выполнено!</color>";
+                canvas.GetComponent<TaskPanel_Level_1_Behaviour>().isNextTaskButtonAvailable = true;
             }
             else resultField.text = "Есть ошибки. Попробуй ещё раз!";
+            outputField.text = result.Item2;
         }
-        catch 
+        catch
         {
             resultField.text = "Есть ошибки. Попробуй ещё раз!";
-        }     
+        }
     }
 
     private void Start()
     {
-        robot = GameObject.Find("robot1");
         codeField = GameObject.Find("CodeField").GetComponent<InputField>();
         resultField = GameObject.Find("ResultField").GetComponent<InputField>();
-        taskNumber = 1;
+        outputField = GameObject.Find("OutputField").GetComponent<InputField>();
+        robot = GameObject.Find("robot1");
+        canvas = GameObject.Find("Canvas");
     }
 
     private string GetCheckingMethods()
     {
         return @"
-public bool isTaskCompleted_1()
+public Tuple<bool, string> isTaskCompleted_1()
 {
     var result = Execute();
-    if (result == 16)
-    {
-        StartCoroutine(Run(8));
-        return true;
-    }
-    return false;
+    return Tuple.Create(result == 6, ""Выход:  "" + result);
 }
 
-public bool isTaskCompleted_2()
+public Tuple<bool, string> isTaskCompleted_2()
+{
+    var result = Execute() * 10000;
+    return Tuple.Create(Math.Abs(result - 0.16755) < 1e-4, ""Выход:  "" + result);
+}
+
+public Tuple<bool, string> isTaskCompleted_3()
 {
     var result = Execute();
-    if (result == 20.5)
-    {
-        StartCoroutine(Task_2_COR());
-        return true;
-    }
-    return false;
+    return Tuple.Create(result == 1, ""Выход:  "" + result);
 }
 
-public bool isTaskCompleted_3()
+public Tuple<bool, string> isTaskCompleted_4()
 {
     var result = Execute();
-    if (result == 4 / (1.0 / 3))
-    {
-        StartCoroutine(Task_3_COR());
-        return true;
-    }
-    return false;
-}
-
-private IEnumerator Task_2_COR()
-{
-    yield return StartCoroutine(Rotate(""Left""));
-    yield return StartCoroutine(Run(3));
-    yield return StartCoroutine(Rotate(""Right""));
-    yield return StartCoroutine(Run(5));
-    yield return StartCoroutine(Rotate(""Right""));
-}
-
-private IEnumerator Task_3_COR()
-{
-    direction = Direction.Right;
-    yield return StartCoroutine(Run(5));
-    yield return StartCoroutine(Rotate(""Left""));
-    yield return StartCoroutine(Run(7));
+    return Tuple.Create(result == 300, ""Выход:  "" + result);
 }";
     }
 
@@ -99,6 +78,7 @@ private IEnumerator Task_3_COR()
     {
         return @"
 using UnityEngine;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 
@@ -125,16 +105,16 @@ public class RobotManagementClass : MonoBehaviour
         switch (direction)
         {
             case Direction.Forward:
-                vector = new Vector3(0.0f, 0.0f, -2.0f);
+                vector = new Vector3(0.0f, 0.0f, -1.0f);
                 break;
             case Direction.Left:
-                vector = new Vector3(2.0f, 0.0f, 0.0f);
+                vector = new Vector3(1.0f, 0.0f, 0.0f);
                 break;
             case Direction.Right:
-                vector = new Vector3(-2.0f, 0.0f, 0.0f);
+                vector = new Vector3(-1.0f, 0.0f, 0.0f);
                 break;
             case Direction.Back:
-                vector = new Vector3(0.0f, 0.0f, 2.0f);
+                vector = new Vector3(0.0f, 0.0f, 1.0f);
                 break;
         }
         yield return StartCoroutine(Run_COR(vector));;

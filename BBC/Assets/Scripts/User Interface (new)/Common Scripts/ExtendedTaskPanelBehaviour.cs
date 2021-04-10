@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class ExtendedTaskPanelBehaviour : MonoBehaviour
 {
     public bool isTask = true;
+    private int sceneIndex;
     private Vector3 taskPanelPosition;
     private Vector3 extendedTaskPanelPosition;
     private GameObject player;
@@ -43,8 +44,20 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch (currentSceneIndex)
         {
-            case 11:
-                SceneManager.LoadScene(9);
+            case 1:
+                SceneManager.LoadScene(2);
+                break;
+            case 2:
+                SceneManager.LoadScene(3);
+                break;
+            case 3:
+                SceneManager.LoadScene(4);
+                break;
+            case 4:
+                SceneManager.LoadScene(5);
+                break;
+            case 6:
+                SceneManager.LoadScene(1);
                 break;
         }
     }
@@ -63,6 +76,26 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         pad.GetComponent<PadBehaviour>().padPosition = pad.transform.position;
         pad.transform.position = UICollector.transform.position;
         extendedTaskPanelPosition = extendedTaskPanel.transform.position;
-        canvas.GetComponent<TaskPanel_Level_1_Behaviour>().ShowIntroduction();
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        switch(sceneIndex)
+        {
+            case 1:
+                canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_1();
+                break;
+            case 2:
+                canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_2();
+                break;
+            case 3:
+                canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_3();
+                break;
+            case 4:
+                canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_4();
+                break;
+            case 5:
+                canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_5();
+                break;
+        }
+        canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
+        canvas.GetComponent<ExtendedTaskPanelBehaviour>().isTask = false;
     }
 }

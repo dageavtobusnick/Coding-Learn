@@ -56,6 +56,9 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             case 4:
                 SceneManager.LoadScene(5);
                 break;
+            case 6:
+                SceneManager.LoadScene(1);
+                break;
         }
     }
 

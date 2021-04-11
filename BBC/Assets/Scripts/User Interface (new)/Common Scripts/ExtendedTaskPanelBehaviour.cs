@@ -95,7 +95,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
                 canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_5();
                 break;
         }
-        canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
-        canvas.GetComponent<ExtendedTaskPanelBehaviour>().isTask = false;
+        OpenTaskExtendedDescription();
+        isTask = sceneIndex == 6 ? true : false;
     }
 }

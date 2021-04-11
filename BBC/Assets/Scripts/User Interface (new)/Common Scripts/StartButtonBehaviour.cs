@@ -15,6 +15,7 @@ public class StartButtonBehaviour : MonoBehaviour
     private InputField outputField;
     private GameObject robot;
     private GameObject canvas;
+    private Button closeTaskButton;
 
     public void ExecuteCode()
     {
@@ -47,12 +48,15 @@ public class StartButtonBehaviour : MonoBehaviour
             {
                 resultField.text = "<color=green>Задание выполнено!</color>";
                 canvas.GetComponent<TaskPanelBehaviour>().isNextTaskButtonAvailable = true;
+                canvas.GetComponent<TaskCompletingActions>().MakeActions(sceneIndex, taskNumber);
+                closeTaskButton.gameObject.SetActive(false);
             }
             else resultField.text = "Есть ошибки. Попробуй ещё раз!";
             outputField.text = result.Item2;
         }
         catch
         {
+            Debug.Log("Exception!!!");
             resultField.text = "Есть ошибки. Попробуй ещё раз!";
         }
     }
@@ -62,67 +66,82 @@ public class StartButtonBehaviour : MonoBehaviour
         codeField = GameObject.Find("CodeField").GetComponent<InputField>();
         resultField = GameObject.Find("ResultField").GetComponent<InputField>();
         outputField = GameObject.Find("OutputField").GetComponent<InputField>();
+        closeTaskButton = GameObject.Find("CloseTaskButton").GetComponent<Button>();
         robot = GameObject.Find("robot1");
         canvas = GameObject.Find("Canvas");
     }
 
     private string GetCheckingMethods_Level_1()
     {
-        return @"
+        switch(taskNumber)
+        {
+            case 1:
+                return @"
 public Tuple<bool, string> isTaskCompleted_1()
 {
     var result = Execute();
     return Tuple.Create(result == 6, ""Выход:  "" + result);
-}
-
+}";
+            case 2:
+                return @"
 public Tuple<bool, string> isTaskCompleted_2()
 {
     var result = Execute() * 10000;
     return Tuple.Create(Math.Abs(result - 0.16755) < 1e-4, ""Выход:  "" + result);
-}
-
+}";
+            case 3:
+                return @"
 public Tuple<bool, string> isTaskCompleted_3()
 {
     var result = Execute();
     return Tuple.Create(result == 1, ""Выход:  "" + result);
-}
-
+}";
+            case 4:
+                return @"
 public Tuple<bool, string> isTaskCompleted_4()
 {
     var result = Execute();
     return Tuple.Create(result == 300, ""Выход:  "" + result);
 }";
+        }
+        return null;
     }
 
     private string GetCheckingMethods_Level_2()
     {
-        return @"
+        switch (taskNumber)
+        {
+            case 1:
+                return @"
 public Tuple<bool, string> isTaskCompleted_1()
 {
     var result = Execute(true);
     var output = result ? ""корректный"" : ""неправильный"";
     return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+}";
+            case 2:
+                return @"
 public Tuple<bool, string> isTaskCompleted_2()
 {
     var result1 = Execute(8);
     var result2 = Execute(10);
     var result3 = Execute(5);
     var totalResult = result1 == 1 && result2 == 1 && result3 == 2;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
+}";
+            case 3:
+                return @"
 public Tuple<bool, string> isTaskCompleted_3()
 {
     var result1 = Execute(true);
     var result2 = Execute(false);
     var totalResult = result1 == 1 && result2 == 2;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
+}";
+            case 4:
+                return @"
 public Tuple<bool, string> isTaskCompleted_4()
 {
     var result1 = Execute(7, false, false);
@@ -135,20 +154,22 @@ public Tuple<bool, string> isTaskCompleted_4()
     var result8 = Execute(3, false, false);
     var result9 = Execute(4, true, true);
     var totalResult = !result1 && !result2 && !result3 && result4 && !result5 && result6 && result7 && result8 && result9;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
+}";
+            case 5:
+                return @"
 public Tuple<bool, string> isTaskCompleted_5()
 {
     var result1 = Execute(true, false, false);
     var result2 = Execute(false, true, false);
     var result3 = Execute(false, false, true);
     var totalResult = result1 == 1 && result2 == 2 && result3 == 3;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
+}";
+            case 6:
+                return @"
 public Tuple<bool, string> isTaskCompleted_6()
 {
     var result1 = Execute(2);
@@ -156,10 +177,11 @@ public Tuple<bool, string> isTaskCompleted_6()
     var result3 = Execute(4);
     var result4 = Execute(5);
     var totalResult = !result1 && result2 && result3 && !result4;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
+}";
+            case 7:
+                return @"
 public Tuple<bool, string> isTaskCompleted_7()
 {
     var result1 = Execute(2);
@@ -167,10 +189,11 @@ public Tuple<bool, string> isTaskCompleted_7()
     var result3 = Execute(4);
     var result4 = Execute(5);
     var totalResult = result1 == 1 && result2 == 2 && result3 == 3 && result4 == 1;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
-}
-
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
+}";
+            case 8:
+                return @"
 public Tuple<bool, string> isTaskCompleted_8()
 {
     var result1 = Execute(3);
@@ -178,9 +201,11 @@ public Tuple<bool, string> isTaskCompleted_8()
     var result3 = Execute(7);
     var result4 = Execute(9);
     var totalResult = result1 == 1 && result2 == 2 && result3 == 3 && result4 == 4;
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
 }";
+        }
+        return null;
     }
 
     private string GetCheckingMethods_Level_3()
@@ -220,7 +245,6 @@ public class RobotManagementClass : MonoBehaviour
     public int movesCount;
     public Direction direction = Direction.Forward;
     private float latency = 0.8f;
-    private Animator animator;
 
     private IEnumerator Run(int requiredMovesCount)
     {

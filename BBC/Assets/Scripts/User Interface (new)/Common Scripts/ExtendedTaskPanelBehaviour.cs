@@ -20,7 +20,6 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
 
     public void OpenTaskExtendedDescription()
     {
-        player.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
         taskPanel.transform.position = UICollector.transform.position;
         pad.transform.position = UICollector.transform.position;
         extendedTaskPanel.transform.position = extendedTaskPanelPosition;
@@ -29,7 +28,6 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
 
     public void CloseTaskExtendedDescription()
     {
-        player.GetComponent<Rigidbody>().constraints = ~RigidbodyConstraints.FreezePosition;
         extendedTaskPanel.transform.position = UICollector.transform.position;
         if (isTask)
         {
@@ -95,7 +93,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
                 canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_5();
                 break;
         }
-        canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
-        canvas.GetComponent<ExtendedTaskPanelBehaviour>().isTask = false;
+        OpenTaskExtendedDescription();
+        isTask = sceneIndex == 6 ? true : false;
     }
 }

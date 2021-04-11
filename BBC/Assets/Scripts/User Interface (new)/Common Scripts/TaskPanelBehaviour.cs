@@ -13,15 +13,17 @@ public class TaskPanelBehaviour : MonoBehaviour
     private GameObject startButton;
     private GameObject UICollector;
     private Button nextTaskButton;
+    private Button nextLevelButton;
+    private Button closeTaskButton;
     private Text currentTaskTitle;
     private Text currentTaskDescription;
     private Text currentExtendedTaskTitle;
     private Text currentExtendedTaskDescription;
     private InputField codeField;
     private InputField resultField;
-    private InputField outputField;
-    private Button nextLevelButton;
+    private InputField outputField;  
     private PadBehaviour pad;
+    private RobotBehaviour robotBehaviour;
     private List<string> taskTitles = new List<string>();
     private List<string> taskDescriptions = new List<string>();
     private List<string> taskExtendedDescriptions = new List<string>();
@@ -70,6 +72,9 @@ public class TaskPanelBehaviour : MonoBehaviour
         GameObject.Find("TaskPanel").transform.position = UICollector.transform.position;
         GameObject.Find("TaskCamera_" + taskNumber).GetComponent<Camera>().enabled = false;
         canvas.GetComponent<GameData>().currentSceneCamera.enabled = true;
+        closeTaskButton.gameObject.SetActive(true);
+        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
     }
 
     public void ShowIntroduction_Level_1()
@@ -123,15 +128,26 @@ public class TaskPanelBehaviour : MonoBehaviour
                            "\n" +
                            "}");
 
-        taskTitles.Add("Геометрия на грибах");
+        taskTitles.Add("Грибное топливо");
         taskDescriptions.Add("  - Создайте переменную volume и в неё формулу для расчёта объёма. Формула для объёма полусферы:\n" +
                              "     V = (2/3) * pi * R^3\n" +
                              "  - В конце верните значение объёма");
         taskExtendedDescriptions.Add("     Отлично! Какие же ещё операции нам доступны?\n" +
                                      "     Конечно, остальные простейшие операции: <b><color=green>вычитание</color></b> (знак -), <b><color=green>умножение</color></b> (знак *) и <b><color=green>деление</color></b> (знак /). Знак ^ для возведения в степень здесь не работает, но его можно заменить " +
-                                     "умножением числа на само себя. Используем эти знания в следующем задании!\n" +
-                                     "     Путешествие начинается, конечно, очень скучно: ни сокровищ, ни опасностей, а вокруг только деревья да камни. Займём себя чем-нибудь и посчитаем... ну, например,... объём шляпки гриба! Да, а почему бы и нет)? Вообще-то, тут геометрию вспомнить надо, целая наука, это вам не " +
-                                     "овец считать перед сном! Заодно посмотрим, как работают остальные арифметические операции.");
+                                     "умножением числа на само себя.\n" +
+                                     "     Важно: когда вы выполняете арифметику с числами разного типа, результат принимает наиболее \"общий\" тип, который включает в себя больший диапазон значений. Например,\n" +
+                                     "       2 + 3 = 5               // сложение int и int даёт int\n" +
+                                     "       3 * 1.5f = 4.5f         // умножение int на float даёт float\n" +
+                                     "       3.14 / 2 + 3.5f = 5.07  // результат действий будет double\n" +
+                                     "     Как мы видим, во втором примере результат был <i>приведён</i> к типу float, ведь он имеет дробную часть, а int - нет, однако float может содержать и целые числа, поэтому получается такой результат. Похожим образом объясняется и третий пример, только там double " +
+                                     "выбирается вместо float для того, чтобы хранить числа большей точности.\n" +
+                                     "     Всё это важно учитывать при работе с арифметикой, особенно при делении. Если вы хотите получить результат с дробной частью, то делить int на int - плохая идея, ведь этот тип не хранит знаки после запятой. Решение простое - поменять тип делимого на double. Например,\n" +
+                                     "       2 / 4 = 0\n" +
+                                     "       2.0 / 4 = 0.5\n" +
+                                     "     Используем эти знания в следующем задании!\n" +
+                                     "     Неплохо было бы перед путешествием зарядить нашего робота. Он может использовать как солнечную энергию, так и биотопливо, жидкое и твёрдое. Энергия Солнца - это прекрасно, но зарядка идёт не быстро, а в пасмурную погоду и вовсе не происходит." +
+                                     "Но мы можем использовать второй вариант: получить энергию, сжигая древесину и всякую растительность. Например, этот гриб. Если он не слишком маленький, можно попробовать его использовать. Рассчитайте объём его шляпки, тогда мы сможем прикинуть, сколько энергии он нам даст." +
+                                     "Здесь пригодится геометрия, но не переживайте, мы вам поможем!");
         taskStartCodes.Add("public double Execute()\n" +
                            "{\n" +
                            "    double pi = 3.14;\n" +
@@ -139,7 +155,7 @@ public class TaskPanelBehaviour : MonoBehaviour
                            "}");
 
         taskTitles.Add("Всё должно быть поровну");
-        taskDescriptions.Add("  - Запишите в переменную flowersCount количество растущих цветков" +
+        taskDescriptions.Add("  - Запишите в переменную flowersCount количество растущих цветков\n" +
                              "  - В конце верните остаток от их деления на 2");
         taskExtendedDescriptions.Add("     Красивые цветы! Вот бы нарвать их и подарить родителям и друзьям! Интересно, хватит ли их всем...\n" +
                                      "     Кстати, мы совсем забыли рассказать вам об ещё одном операции, которая тоже является очень важной - получение <b><color=green>остатка от деления</color></b> (обозначается знаком процента - %). Она может и не встречается в программах так часто, " +
@@ -153,7 +169,7 @@ public class TaskPanelBehaviour : MonoBehaviour
 
         taskTitles.Add("Одним больше, одним меньше");
         taskDescriptions.Add("  - Увеличьте количество камней на 1, используя инкремент\n" +
-                             "  - Ниже увеличьте их число втрое, используя сокращённую запись умножения" +
+                             "  - Ниже увеличьте их число втрое, используя сокращённую запись умножения\n" +
                              "  - В конце верните количество камней");
         taskExtendedDescriptions.Add("     Пока мы с вами считаем цветочки, робот всю дорогу считает камни, даже самые маленькие, которые нам, может, и не видны вовсе. Давайте и мы поучаствуем! Только сначала - небольшой секрет.\n" +
                                      "     В языке C#, помимо обычных арифметических операций, есть ещё и <b><color=green>сокращённые</color></b>. Они позволяют выполнять те же действия и при этом писать меньше кода. Например,\n" +
@@ -411,11 +427,13 @@ public class TaskPanelBehaviour : MonoBehaviour
         currentTaskTitle = GameObject.Find("TaskTitle").GetComponent<Text>();
         currentTaskDescription = GameObject.Find("TaskDescription").GetComponent<Text>();
         pad = GameObject.Find("Pad").GetComponent<PadBehaviour>();
+        robotBehaviour = GameObject.Find("robot1").GetComponent<RobotBehaviour>();
         codeField = GameObject.Find("CodeField").GetComponent<InputField>();
         resultField = GameObject.Find("ResultField").GetComponent<InputField>();
         outputField = GameObject.Find("OutputField").GetComponent<InputField>();
         nextTaskButton = GameObject.Find("NextTaskButton").GetComponent<Button>();
         nextLevelButton = GameObject.Find("NextLevelButton").GetComponent<Button>();
+        closeTaskButton = GameObject.Find("CloseTaskButton").GetComponent<Button>();
         nextTaskButton.gameObject.SetActive(false);
         nextLevelButton.gameObject.SetActive(false);
         isNextTaskButtonAvailable = false;

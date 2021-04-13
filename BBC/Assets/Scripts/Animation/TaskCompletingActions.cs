@@ -75,12 +75,12 @@ public class TaskCompletingActions : MonoBehaviour
 
     private void MakeActions_Level_2_Task_1()
     {
-        GameObject.Find("GreenLight_1").GetComponent<Animator>().Play("GreenLightTurnOn");
+        GameObject.Find("GreenLight_1").GetComponent<Animator>().Play("LightTurnOn");
     }
 
     private void MakeActions_Level_2_Task_3()
     {
-        GameObject.Find("GreenLight_2").GetComponent<Animator>().Play("GreenLightTurnOn");
+        GameObject.Find("GreenLight_2").GetComponent<Animator>().Play("LightTurnOn");
     }
 
     private void MakeActions_Level_2_Task_5()

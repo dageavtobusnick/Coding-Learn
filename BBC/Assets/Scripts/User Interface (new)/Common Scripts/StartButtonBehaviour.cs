@@ -115,9 +115,10 @@ public Tuple<bool, string> isTaskCompleted_4()
                 return @"
 public Tuple<bool, string> isTaskCompleted_1()
 {
-    var result = Execute(true);
-    var output = result ? ""корректный"" : ""неправильный"";
-    return Tuple.Create(result, ""Выход:  "" + output);
+    var result1 = Execute(true);
+    var totalResult = result1 == 1;
+    var output = totalResult ? ""корректный"" : ""неправильный"";
+    return Tuple.Create(totalResult, ""Выход:  "" + output);
 }";
             case 2:
                 return @"

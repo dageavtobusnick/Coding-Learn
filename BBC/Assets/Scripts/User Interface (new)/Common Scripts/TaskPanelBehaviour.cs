@@ -7,12 +7,12 @@ using UnityEngine.SceneManagement;
 public class TaskPanelBehaviour : MonoBehaviour
 {
     public int taskNumber;
-    public bool isNextTaskButtonAvailable;
+    public int tasksCount;
     private int sceneIndex;
     private GameObject canvas;
     private GameObject startButton;
-    private GameObject UICollector;
-    private Button nextTaskButton;
+    private GameObject taskPanel;
+    private Button activateTaskButton;
     private Button nextLevelButton;
     private Button closeTaskButton;
     private Text currentTaskTitle;
@@ -31,7 +31,7 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     public void ChangeTask()
     {
-        if (taskNumber <= taskTitles.Count)
+        if (taskNumber <= tasksCount)
         {
             currentTaskTitle.text = taskTitles[taskNumber - 1];
             currentExtendedTaskTitle.text = taskTitles[taskNumber - 1];
@@ -41,15 +41,14 @@ public class TaskPanelBehaviour : MonoBehaviour
             codeField.text = pad.startCode;
             resultField.text = "";
             outputField.text = "";
-            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
-            isNextTaskButtonAvailable = false;
+            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
             startButton.GetComponent<StartButtonBehaviour>().taskNumber = taskNumber;
         }
         else
         {
             GameObject.Find("CloseExtendedTaskButton").SetActive(false);
             nextLevelButton.gameObject.SetActive(true);
-            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
+            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
             switch(sceneIndex)
             {
                 case 1:
@@ -66,16 +65,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         }
     }
 
-    public void CloseTask()
-    {
-        pad.transform.position = UICollector.transform.position;
-        GameObject.Find("TaskPanel").transform.position = UICollector.transform.position;
-        GameObject.Find("TaskCamera_" + taskNumber).GetComponent<Camera>().enabled = false;
-        canvas.GetComponent<GameData>().currentSceneCamera.enabled = true;
-        closeTaskButton.gameObject.SetActive(true);
-        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
-        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
-    }
+    public void CloseTask() => StartCoroutine(CloseTask_COR());
 
     public void ShowIntroduction_Level_1()
     {
@@ -83,7 +73,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         currentExtendedTaskDescription.text = "     Итак, наше путешествие начинается!\n" +
                                               "     Пока не происходит ничего интересного. Можно спокойно полюбоваться природой... и продолжить осваивать программирование!\n" +
                                               "     Раз уж робот больше не заперт с нами в четырёх стенах, можно наконец-то поуправлять им. Нажимай клавиши <b><color=green>WASD</color></b> для передвижения и поворота. Когда появится что-нибудь интересное (например, задание), внизу появится подсказка." +
-                                              "Нажми на нёё, и сможешь узнать что-то новое.\n" +
+                                              "Нажми на неё, и сможешь узнать что-то новое.\n" +
                                               "     Ну что ж, полный вперёд!";
     }
 
@@ -203,7 +193,7 @@ public class TaskPanelBehaviour : MonoBehaviour
                                      "          /*\n" +
                                      "       }\n" +
                                      "     Её мы и используем для решения первой задачи: нам нужно сказать роботу идти вправо, если есть указатель в ту сторону. Зрительные анализаторы робота определят наличие указателя и передадут информацию как <b><color=green>аргумент</color></b> " +
-                                     "метода.");
+                                     "метода. Если указатель будет обнаружен - вернём программе робота единицу, а в противном случае - ноль.");
         taskStartCodes.Add("public int Execute(bool isRightPointerHere)\n" +
                            "{\n" +
                            "    \n" +
@@ -261,7 +251,7 @@ public class TaskPanelBehaviour : MonoBehaviour
                              "  - В остальных случаях возвращай true");
         taskExtendedDescriptions.Add("     Да что ж такое-то! Первый раз свернули налево - а тут завал. Придётся снова возвращаться. Но чтобы время не прошло даром, расскажем вам ещё кое-что об условиях.\n" +
                                      "     Взгляните на эти грибы. Вот какие, по-вашему мнению, съедобны? Мы вот, кроме мухоморов, ничего не знаем, а робот наш в этом деле и вовсе дилетант. Попробуем распознать мухомор.\n" +
-                                     "     У него два главных атрибута - красная шляпка и белые пятнышки на ней. Выходит, есть два условия. Как их проверить одновременно?\n" +
+                                     "     У него два главных атрибута - красная шляпка и белые пятнышки на ней. Выходит, есть два условия. Как их проверить <b><color=green>одновременно</color></b>?\n" +
                                      "     Можно вложить один if в другой:\n" +
                                      "       if (/* условие 1*/)\n" +
                                      "       {\n" +
@@ -407,11 +397,22 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     }
 
-    private void Update()
+    private IEnumerator CloseTask_COR()
     {
-        if (isNextTaskButtonAvailable)
-            nextTaskButton.gameObject.SetActive(true);
-        else nextTaskButton.gameObject.SetActive(false);
+        taskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
+        pad.GetComponent<Animator>().Play("MoveRight_Pad");
+        closeTaskButton.transform.localScale = new Vector3(0, 0, 0);
+        yield return new WaitForSeconds(0.7f);
+        canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
+        yield return new WaitForSeconds(2f);
+        var isTaskCompleted = canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
+        if (!isTaskCompleted)
+        {
+            activateTaskButton.GetComponent<Animator>().Play("ScaleInterfaceUp");
+            yield return new WaitForSeconds(0.75f);
+        }
+        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
     }
 
     private void Awake()
@@ -424,7 +425,7 @@ public class TaskPanelBehaviour : MonoBehaviour
     private void Start()
     {   
         startButton = GameObject.Find("StartButton");
-        UICollector = GameObject.Find("UI_Collector");
+        taskPanel = GameObject.Find("TaskPanel");
         currentTaskTitle = GameObject.Find("TaskTitle").GetComponent<Text>();
         currentTaskDescription = GameObject.Find("TaskDescription").GetComponent<Text>();
         pad = GameObject.Find("Pad").GetComponent<PadBehaviour>();
@@ -432,12 +433,10 @@ public class TaskPanelBehaviour : MonoBehaviour
         codeField = GameObject.Find("CodeField").GetComponent<InputField>();
         resultField = GameObject.Find("ResultField").GetComponent<InputField>();
         outputField = GameObject.Find("OutputField").GetComponent<InputField>();
-        nextTaskButton = GameObject.Find("NextTaskButton").GetComponent<Button>();
+        activateTaskButton = GameObject.Find("ActivateTaskButton").GetComponent<Button>();
         nextLevelButton = GameObject.Find("NextLevelButton").GetComponent<Button>();
         closeTaskButton = GameObject.Find("CloseTaskButton").GetComponent<Button>();
-        nextTaskButton.gameObject.SetActive(false);
         nextLevelButton.gameObject.SetActive(false);
-        isNextTaskButtonAvailable = false;
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch(sceneIndex)
         {
@@ -456,6 +455,7 @@ public class TaskPanelBehaviour : MonoBehaviour
             case 5:
                 FormTasks_Level_5();
                 break;
-        }      
+        }
+        tasksCount = taskTitles.Count;
     }
 }

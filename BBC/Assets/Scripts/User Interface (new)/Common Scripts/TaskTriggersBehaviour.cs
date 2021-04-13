@@ -12,13 +12,23 @@ public class TaskTriggersBehaviour : MonoBehaviour
         var triggerName = other.gameObject.name;
         if (triggerName.StartsWith("TaskTrigger"))
         {
-            activateTaskButton.SetActive(true);
-            canvas.GetComponent<GameData>().currentTaskNumber = int.Parse(triggerName[triggerName.Length - 1].ToString());
+            var taskNumber = int.Parse(triggerName[triggerName.Length - 1].ToString());
+            var isTaskCompleted = canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
+            if (!isTaskCompleted)
+            {
+                activateTaskButton.SetActive(true);
+                activateTaskButton.GetComponent<Animator>().Play("ScaleInterfaceUp");
+                canvas.GetComponent<GameData>().currentTaskNumber = taskNumber;
+            }
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) => StartCoroutine(DeleteButton_COR());
+
+    private IEnumerator DeleteButton_COR()
     {
+        activateTaskButton.GetComponent<Animator>().Play("CollapseInterface");
+        yield return new WaitForSeconds(0.7f);
         activateTaskButton.SetActive(false);
     }
 

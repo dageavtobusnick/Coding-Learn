@@ -47,9 +47,8 @@ public class StartButtonBehaviour : MonoBehaviour
             if (result.Item1)
             {
                 resultField.text = "<color=green>Задание выполнено!</color>";
-                canvas.GetComponent<TaskPanelBehaviour>().isNextTaskButtonAvailable = true;
                 canvas.GetComponent<TaskCompletingActions>().MakeActions(sceneIndex, taskNumber);
-                closeTaskButton.gameObject.SetActive(false);
+                closeTaskButton.transform.localScale = new Vector3(0, 0, 0);
             }
             else resultField.text = "Есть ошибки. Попробуй ещё раз!";
             outputField.text = result.Item2;

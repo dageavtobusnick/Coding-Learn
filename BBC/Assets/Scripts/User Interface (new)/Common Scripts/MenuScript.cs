@@ -13,79 +13,34 @@ public class MenuScript : MonoBehaviour
     private GameObject levels;
     private GameObject blackScreen;
 
-    public void GoTo_Settings()
-    {
-        StartCoroutine(GoTo_Settings_COR());
-    }
+    public void GoTo_Settings() => StartCoroutine(GoTo_Settings_COR());
 
-    public void GoTo_Partners()
-    {
-        StartCoroutine(GoTo_Partners_COR());
-    }
+    public void GoTo_Partners() => StartCoroutine(GoTo_Partners_COR());
 
-    public void GoTo_Play()
-    {
-        StartCoroutine(GoTo_Play_COR());
-    }
+    public void GoTo_Play() => StartCoroutine(GoTo_Play_COR());
 
-    public void ReturnToMainMenuFrom_Settings()
-    {
-        StartCoroutine(ReturnToMainMenuFrom_Settings_COR());
-    }
+    public void ReturnToMainMenuFrom_Settings() => StartCoroutine(ReturnToMainMenuFrom_Settings_COR());
 
-    public void ReturnToMainMenuFrom_Partners()
-    {
-        StartCoroutine(ReturnToMainMenuFrom_Partners_COR());
-    }
+    public void ReturnToMainMenuFrom_Partners() => StartCoroutine(ReturnToMainMenuFrom_Partners_COR());
 
-    public void ReturnToMainMenuFrom_Play()
-    {
-        StartCoroutine(ReturnToMainMenuFrom_Play_COR());
-    }
+    public void ReturnToMainMenuFrom_Play() => StartCoroutine(ReturnToMainMenuFrom_Play_COR());
 
-    public void GoToURL_Financies()
-    {
-        Application.OpenURL("http://13.59.215.174/FiveRaccoons/");
-    }
-    public void GoToURL_VK_Group()
-    {
-        Application.OpenURL("https://vk.com/iritrtf_urfu");
-    }
+    public void GoToURL_Financies() => Application.OpenURL("http://13.59.215.174/FiveRaccoons/");
+    public void GoToURL_VK_Group() => Application.OpenURL("https://vk.com/iritrtf_urfu");
 
-    public void Start_Level_Training()
-    {
-        StartCoroutine(Start_Level_COR(6));
-    }
+    public void Start_Level_Training() => StartCoroutine(Start_Level_COR(6));
 
-    public void Start_Level_1()
-    {
-        StartCoroutine(Start_Level_COR(1));
-    }
+    public void Start_Level_1() => StartCoroutine(Start_Level_COR(1));
 
-    public void Start_Level_2()
-    {
-        StartCoroutine(Start_Level_COR(2));
-    }
+    public void Start_Level_2() => StartCoroutine(Start_Level_COR(2));
 
-    public void Start_Level_3()
-    {
-        StartCoroutine(Start_Level_COR(3));
-    }
+    public void Start_Level_3() => StartCoroutine(Start_Level_COR(3));
 
-    public void Start_Level_4()
-    {
-        StartCoroutine(Start_Level_COR(4));
-    }
+    public void Start_Level_4() => StartCoroutine(Start_Level_COR(4));
 
-    public void Start_Level_5()
-    {
-        StartCoroutine(Start_Level_COR(5));
-    }
+    public void Start_Level_5() => StartCoroutine(Start_Level_COR(5));
 
-    public void Exit()
-    {
-        Application.Quit();
-    }
+    public void Exit() => Application.Quit();
 
     private IEnumerator GoTo_Settings_COR()
     {

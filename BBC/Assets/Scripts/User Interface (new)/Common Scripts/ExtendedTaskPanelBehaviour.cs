@@ -13,6 +13,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     private GameObject extendedTaskPanel;
     private GameObject canvas;
     private GameObject closeTaskButton;
+    private GameObject blackScreen;
     private Scrollbar scrollbar;
 
     public void OpenTaskExtendedDescription() => StartCoroutine(OpenTaskExtendedDescription_COR());
@@ -56,7 +57,8 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     {
         extendedTaskPanel.GetComponent<Animator>().Play("MoveDown_TaskPanel_Extended");
         yield return new WaitForSeconds(0.7f);
-        GameObject.Find("BlackScreen").GetComponent<Animator>().Play("AppearBlackScreen");
+        GameObject.Find("BlackScreen_Container").transform.localScale = new Vector3(1, 1, 1);
+        blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
         var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch (currentSceneIndex)
@@ -86,6 +88,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         extendedTaskPanel = GameObject.Find("TaskPanel_Extended");
         canvas = GameObject.Find("Canvas");
         closeTaskButton = GameObject.Find("CloseTaskButton");
+        blackScreen = GameObject.Find("BlackScreen");
         scrollbar = GameObject.Find("Scrollbar").GetComponent<Scrollbar>();
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch(sceneIndex)
@@ -104,6 +107,10 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
                 break;
             case 5:
                 canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_5();
+                break;
+            case 6:
+                canvas.GetComponent<GameData>().currentTaskNumber = 1;
+                GameObject.Find("ActivateTaskButton").GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
                 break;
         }
         OpenTaskExtendedDescription_Special();

@@ -11,9 +11,18 @@ public class TaskCompletingActions : MonoBehaviour
     {
         if (!isTasksCompleted[taskNumber - 1])
         {
-            Invoke("MakeActions_Level_" + levelNumber + "_Task_" + taskNumber, 0f);
+            if (levelNumber == 6)
+                Invoke("MakeActions_Level_Training", 0f);
+            else Invoke("MakeActions_Level_" + levelNumber + "_Task_" + taskNumber, 0f);
             isTasksCompleted[taskNumber - 1] = true;
         }
+    }
+
+    private void MakeActions_Level_Training()
+    {
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
+        canvas.GetComponent<GameData>().currentTaskNumber++;
+        GameObject.Find("ActivateTaskButton").GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
     }
 
     #region Actions_Level_1

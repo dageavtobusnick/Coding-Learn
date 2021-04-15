@@ -15,7 +15,9 @@ public class RobotBehaviour : MonoBehaviour
         var deltaX = Input.GetAxis("Horizontal");
         var deltaZ = Input.GetAxis("Vertical");
         transform.Rotate(0f, deltaX * currentRotateSpeed, 0f);
-        transform.Translate(new Vector3(0f, 0f, -deltaZ * currentMoveSpeed * Time.deltaTime));   
+        if (Input.GetKey(KeyCode.LeftShift))
+            transform.Translate(new Vector3(0f, 0f, -deltaZ * currentMoveSpeed * 2 * Time.deltaTime));
+        else transform.Translate(new Vector3(0f, 0f, -deltaZ * currentMoveSpeed * Time.deltaTime));   
     }
 
     private void Start()

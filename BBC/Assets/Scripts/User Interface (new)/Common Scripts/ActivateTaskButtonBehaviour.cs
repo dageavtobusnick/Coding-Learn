@@ -27,6 +27,8 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
             if (currentCameraName.StartsWith("SceneCamera"))
             {
                 var currentCameraNumber = int.Parse(currentCameraName[currentCameraName.Length - 1].ToString());
+                if (char.IsDigit(currentCameraName[currentCameraName.Length - 2]))
+                    currentCameraNumber += 10 * int.Parse(currentCameraName[currentCameraName.Length - 2].ToString());
                 currentCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber + "_SceneCamera_" + currentCameraNumber);
                 yield return new WaitForSeconds(2f);
             }
@@ -34,7 +36,7 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
         canvas.GetComponent<TaskPanelBehaviour>().ChangeTask();
     }
 
-    private void Start()
+    private void Awake()
     {
         canvas = GameObject.Find("Canvas");
         robotBehaviour = GameObject.Find("robot1").GetComponent<RobotBehaviour>();

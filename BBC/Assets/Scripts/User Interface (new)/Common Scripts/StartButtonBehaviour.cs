@@ -139,7 +139,7 @@ public Tuple<bool, string> isTaskCompleted_3()
 {
     var result1 = Execute(true);
     var result2 = Execute(false);
-    var totalResult = result1 == 1 && result2 == 2;
+    var totalResult = result1 == 800 && result2 == 1600;
     var output = totalResult ? ""корректный"" : ""неправильный"";
     return Tuple.Create(totalResult, ""Выход:  "" + output);
 }";
@@ -147,16 +147,16 @@ public Tuple<bool, string> isTaskCompleted_3()
                 return @"
 public Tuple<bool, string> isTaskCompleted_4()
 {
-    var result1 = Execute(7, false, false);
-    var result2 = Execute(7, false, true);
-    var result3 = Execute(7, true, false);
-    var result4 = Execute(5, true, false);
-    var result5 = Execute(3, true, true);
-    var result6 = Execute(3, true, false);
-    var result7 = Execute(3, false, true);
-    var result8 = Execute(3, false, false);
-    var result9 = Execute(4, true, true);
-    var totalResult = !result1 && !result2 && !result3 && result4 && !result5 && result6 && result7 && result8 && result9;
+    var result1 = Execute(0, 7, false, false);
+    var result2 = Execute(0, 7, false, true);
+    var result3 = Execute(0, 7, true, false);
+    var result4 = Execute(0, 5, true, false);
+    var result5 = Execute(0, 3, true, true);
+    var result6 = Execute(0, 3, true, false);
+    var result7 = Execute(0, 3, false, true);
+    var result8 = Execute(0, 3, false, false);
+    var result9 = Execute(0, 4, true, true);
+    var totalResult = result1 == -1 && result2 == -1 && result3 == -1 && result4 == 1 && result5 == -1 && result6 == 1 && result7 == 1 && result8 == 1 && result9 == 1;
     var output = totalResult ? ""корректный"" : ""неправильный"";
     return Tuple.Create(totalResult, ""Выход:  "" + output);
 }";
@@ -167,7 +167,7 @@ public Tuple<bool, string> isTaskCompleted_5()
     var result1 = Execute(true, false, false);
     var result2 = Execute(false, true, false);
     var result3 = Execute(false, false, true);
-    var totalResult = result1 == 1 && result2 == 2 && result3 == 3;
+    var totalResult = result1 == 400 && result2 == 800 && result3 == 1200;
     var output = totalResult ? ""корректный"" : ""неправильный"";
     return Tuple.Create(totalResult, ""Выход:  "" + output);
 }";

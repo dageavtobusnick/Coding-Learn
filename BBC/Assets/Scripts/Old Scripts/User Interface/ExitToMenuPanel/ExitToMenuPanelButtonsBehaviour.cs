@@ -8,7 +8,7 @@ public class ExitToMenuPanelButtonsBehaviour : MonoBehaviour
     public void ActivatePanel()
     {
         var panel = GameObject.Find("Panel_ExitToMenu");
-        panel.transform.position = panel.GetComponent<ExitToMenuPanelBehaviour>().TurnOnPosition;
+        panel.transform.position = panel.GetComponent<ExitToMenuPanel_Old_Behaviour>().TurnOnPosition;
         GameObject.Find("Snowman").GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezePosition;
     }
 
@@ -20,7 +20,7 @@ public class ExitToMenuPanelButtonsBehaviour : MonoBehaviour
     public void ReturnToLevel()
     {
         var panel = GameObject.Find("Panel_ExitToMenu");
-        panel.transform.position = panel.GetComponent<ExitToMenuPanelBehaviour>().TurnOffPosition;
+        panel.transform.position = panel.GetComponent<ExitToMenuPanel_Old_Behaviour>().TurnOffPosition;
         GameObject.Find("Snowman").GetComponent<Rigidbody2D>().constraints = ~RigidbodyConstraints2D.FreezePosition;
     }
 }

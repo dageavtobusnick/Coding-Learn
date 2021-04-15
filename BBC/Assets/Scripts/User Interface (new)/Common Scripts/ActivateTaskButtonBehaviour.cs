@@ -11,13 +11,27 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
     {
         var currentTaskNumber = canvas.GetComponent<GameData>().currentTaskNumber;
         canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
-        canvas.GetComponent<TaskPanelBehaviour>().ChangeTask();
-        var camera = GameObject.Find("TaskCamera_" + currentTaskNumber);
-        if (camera != null)
-            camera.GetComponent<Camera>().enabled = true;
-        gameObject.SetActive(false);
         robotBehaviour.currentMoveSpeed = robotBehaviour.freezeSpeed;
         robotBehaviour.currentRotateSpeed = robotBehaviour.freezeSpeed;
+        StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber));
+    }
+
+    private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber)
+    {
+        gameObject.GetComponent<Animator>().Play("CollapseInterface");
+        yield return new WaitForSeconds(0.75f);
+        if (currentTaskNumber <= canvas.GetComponent<TaskPanelBehaviour>().tasksCount)
+        {
+            var currentCamera = canvas.GetComponent<GameData>().currentSceneCamera;
+            var currentCameraName = currentCamera.gameObject.name;
+            if (currentCameraName.StartsWith("SceneCamera"))
+            {
+                var currentCameraNumber = int.Parse(currentCameraName[currentCameraName.Length - 1].ToString());
+                currentCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber + "_SceneCamera_" + currentCameraNumber);
+                yield return new WaitForSeconds(2f);
+            }
+        }
+        canvas.GetComponent<TaskPanelBehaviour>().ChangeTask();
     }
 
     private void Start()

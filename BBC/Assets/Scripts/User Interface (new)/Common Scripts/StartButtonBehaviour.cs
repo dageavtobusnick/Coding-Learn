@@ -39,6 +39,9 @@ public class StartButtonBehaviour : MonoBehaviour
                 case 5:
                     robotManagementCode = GetRobotManagementClass(GetCheckingMethods_Level_5());
                     break;
+                case 6:
+                    robotManagementCode = GetRobotManagementClass(GetCheckingMethods_Level_Training());
+                    break;
             }
             ScriptDomain domain = ScriptDomain.CreateDomain("MyDomain");
             ScriptType type = domain.CompileAndLoadMainSource(robotManagementCode);
@@ -47,9 +50,8 @@ public class StartButtonBehaviour : MonoBehaviour
             if (result.Item1)
             {
                 resultField.text = "<color=green>Задание выполнено!</color>";
-                canvas.GetComponent<TaskPanelBehaviour>().isNextTaskButtonAvailable = true;
                 canvas.GetComponent<TaskCompletingActions>().MakeActions(sceneIndex, taskNumber);
-                closeTaskButton.gameObject.SetActive(false);
+                closeTaskButton.transform.localScale = new Vector3(0, 0, 0);
             }
             else resultField.text = "Есть ошибки. Попробуй ещё раз!";
             outputField.text = result.Item2;
@@ -73,7 +75,7 @@ public class StartButtonBehaviour : MonoBehaviour
 
     private string GetCheckingMethods_Level_1()
     {
-        switch(taskNumber)
+        switch (taskNumber)
         {
             case 1:
                 return @"
@@ -224,82 +226,54 @@ public Tuple<bool, string> isTaskCompleted_8()
         return null;
     }
 
+    private string GetCheckingMethods_Level_Training()
+    {
+        switch (taskNumber)
+        {
+            case 1:
+                return @"
+public Tuple<bool, string> isTaskCompleted_1()
+{
+    var result = Execute();
+    return Tuple.Create(result == 4, ""Выход:  "" + result);
+}";
+            case 2:
+                return @"
+public Tuple<bool, string> isTaskCompleted_2()
+{
+    var result = Execute();
+    return Tuple.Create(result == 0, ""Выход:  "" + result);
+}";
+            case 3:
+                return @"
+public Tuple<bool, string> isTaskCompleted_3()
+{
+    var result = Execute();
+    return Tuple.Create(result == 2, ""Выход:  "" + result);
+}";
+            case 4:
+                return @"
+public Tuple<bool, string> isTaskCompleted_4()
+{
+    var result = Execute();
+    return Tuple.Create(Math.Abs(result - 1000000014.94159) < 1e-7, ""Выход:  "" + result);
+}";
+        }
+        return null;
+    }
+
     private string GetRobotManagementClass(string checkingMethods)
     {
         return @"
 using UnityEngine;
 using System;
 using System.Collections;
-using System.Threading.Tasks;
+using System.Collections.Generic;
 
 public class RobotManagementClass : MonoBehaviour
-{" + codeField.text + @"
-
-    public enum Direction
-    {
-        Forward,
-        Right,
-        Back,
-        Left,
-    }
-
-    public int movesCount;
-    public Direction direction = Direction.Forward;
-    private float latency = 0.8f;
-
-    private IEnumerator Run(int requiredMovesCount)
-    {
-        Vector3 vector = new Vector3();
-        movesCount = requiredMovesCount;
-        switch (direction)
-        {
-            case Direction.Forward:
-                vector = new Vector3(0.0f, 0.0f, -1.0f);
-                break;
-            case Direction.Left:
-                vector = new Vector3(1.0f, 0.0f, 0.0f);
-                break;
-            case Direction.Right:
-                vector = new Vector3(-1.0f, 0.0f, 0.0f);
-                break;
-            case Direction.Back:
-                vector = new Vector3(0.0f, 0.0f, 1.0f);
-                break;
-        }
-        yield return StartCoroutine(Run_COR(vector));;
-    }
-
-    private IEnumerator Run_COR(Vector3 vector)
-    {
-        for (var i = 0; i < movesCount; i++)
-        {
-            gameObject.transform.position += vector;
-            yield return new WaitForSeconds(latency);
-        }           
-    }
-
-    private IEnumerator Rotate(string input)
-    {
-        Vector3 rotationVector;
-        if (input == ""Right"")
-        {
-            rotationVector = new Vector3(0.0f, 90.0f, 0.0f);
-            direction = (Direction)(((int)direction + 1) % 4);
-        }
-        else if (input == ""Left"")
-        {
-            rotationVector = new Vector3(0.0f, -90.0f, 0.0f);
-            direction = (Direction)(((int)direction + 3) % 4);
-        }
-        else yield break;
-        yield return StartCoroutine(Rotate_COR(rotationVector));
-    }
-
-    private IEnumerator Rotate_COR(Vector3 vector)
-    {
-        gameObject.transform.Rotate(vector, Space.Self);
-        yield return new WaitForSeconds(latency);
-    }" + checkingMethods + @"
+{" + 
+   codeField.text + 
+   checkingMethods + @"
 }";
     }
 }

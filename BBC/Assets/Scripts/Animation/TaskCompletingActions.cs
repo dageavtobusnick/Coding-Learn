@@ -4,37 +4,35 @@ using UnityEngine;
 
 public class TaskCompletingActions : MonoBehaviour
 {
-    private List<List<bool>> isTasksCompleted = new List<List<bool>>();
+    public List<bool> isTasksCompleted = new List<bool>();
+    private GameObject canvas;
 
     public void MakeActions(int levelNumber, int taskNumber)
     {
-        if (!isTasksCompleted[levelNumber - 1][taskNumber - 1])
+        if (!isTasksCompleted[taskNumber - 1])
         {
-            Invoke("MakeActions_Level_" + levelNumber + "_Task_" + taskNumber, 0f);
-            isTasksCompleted[levelNumber - 1][taskNumber - 1] = true;
+            if (levelNumber == 6)
+                Invoke("MakeActions_Level_Training", 0f);
+            else Invoke("MakeActions_Level_" + levelNumber + "_Task_" + taskNumber, 0f);
+            isTasksCompleted[taskNumber - 1] = true;
         }
     }
 
+    private void MakeActions_Level_Training()
+    {
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
+        canvas.GetComponent<GameData>().currentTaskNumber++;
+        GameObject.Find("ActivateTaskButton").GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+    }
+
     #region Actions_Level_1
-    private void MakeActions_Level_1_Task_1()
-    {
-        StartCoroutine(Level_1_Task_1_COR());
-    }
+    private void MakeActions_Level_1_Task_1() => StartCoroutine(Level_1_Task_1_COR());
 
-    private void MakeActions_Level_1_Task_2()
-    {
-        StartCoroutine(Level_1_Task_2_COR());
-    }
+    private void MakeActions_Level_1_Task_2() => StartCoroutine(Level_1_Task_2_COR());
 
-    private void MakeActions_Level_1_Task_3()
-    {
-        StartCoroutine(Level_1_Task_3_COR());
-    }
+    private void MakeActions_Level_1_Task_3() => StartCoroutine(Level_1_Task_3_COR());
 
-    private void MakeActions_Level_1_Task_4()
-    {
-        StartCoroutine(Level_1_Task_4_COR());
-    }
+    private void MakeActions_Level_1_Task_4() => StartCoroutine(Level_1_Task_4_COR());
 
     private IEnumerator Level_1_Task_1_COR()
     {
@@ -43,6 +41,7 @@ public class TaskCompletingActions : MonoBehaviour
             GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("ToUp");
             yield return new WaitForSeconds(1.9f);
         }
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
     }
 
     private IEnumerator Level_1_Task_2_COR()
@@ -51,6 +50,7 @@ public class TaskCompletingActions : MonoBehaviour
         mushroom.GetComponent<Animator>().Play("PickUp");
         yield return new WaitForSeconds(1.95f);
         mushroom.SetActive(false);
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
     }
 
     private IEnumerator Level_1_Task_3_COR()
@@ -61,6 +61,8 @@ public class TaskCompletingActions : MonoBehaviour
             yield return new WaitForSeconds(2.2f);
         }
         GameObject.Find("Flower_" + 11).GetComponent<Animator>().Play("Move_Flower_" + 11);
+        yield return new WaitForSeconds(5f);
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
     }
 
     private IEnumerator Level_1_Task_4_COR()
@@ -70,17 +72,20 @@ public class TaskCompletingActions : MonoBehaviour
             GameObject.Find("Rock_" + i).GetComponent<Animator>().Play("Rock_ToUp");
             yield return new WaitForSeconds(1.9f);
         }
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
     }
     #endregion
 
     private void MakeActions_Level_2_Task_1()
     {
         GameObject.Find("GreenLight_1").GetComponent<Animator>().Play("LightTurnOn");
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
     }
 
     private void MakeActions_Level_2_Task_3()
     {
         GameObject.Find("GreenLight_2").GetComponent<Animator>().Play("LightTurnOn");
+        canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
     }
 
     private void MakeActions_Level_2_Task_5()
@@ -125,13 +130,10 @@ public class TaskCompletingActions : MonoBehaviour
 
     private void Start()
     {
-        for (var i = 0; i < 5; i++)
+        canvas = GameObject.Find("Canvas");
+        for (var i = 0; i < 8; i++)
         {
-            isTasksCompleted.Add(new List<bool>());
-            for (var j = 0; j < 8; j++)
-            {
-                isTasksCompleted[i].Add(false);
-            }
+            isTasksCompleted.Add(false);
         }
     }
 }

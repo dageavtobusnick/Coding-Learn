@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExitToMenuPanelBehaviour : MonoBehaviour
+public class ExitToMenuPanel_Old_Behaviour : MonoBehaviour
 {
     public Vector3 TurnOnPosition;
     public Vector3 TurnOffPosition;

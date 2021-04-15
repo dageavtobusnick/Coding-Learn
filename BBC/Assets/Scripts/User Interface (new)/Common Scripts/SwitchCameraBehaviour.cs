@@ -7,31 +7,12 @@ public class SwitchCameraBehaviour : MonoBehaviour
     public Camera PreviousCamera;
     public Camera NextCamera;
     private GameObject canvas;
-    private bool isCameraChanged;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!isCameraChanged)
-        {
-            if (PreviousCamera.enabled)
-            {
-                PreviousCamera.enabled = false;
-                NextCamera.enabled = true;
-                canvas.GetComponent<GameData>().currentSceneCamera = NextCamera;
-            }
-            else
-            {
-                PreviousCamera.enabled = true;
-                NextCamera.enabled = false;
-                canvas.GetComponent<GameData>().currentSceneCamera = PreviousCamera;
-            }
-            isCameraChanged = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        isCameraChanged = false;
+        PreviousCamera.enabled = false;
+        NextCamera.enabled = true;
+        canvas.GetComponent<GameData>().currentSceneCamera = NextCamera;
     }
 
     private void Start()

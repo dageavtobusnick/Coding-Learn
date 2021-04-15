@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class GameData : MonoBehaviour
 
     private void Start()
     {
-        currentSceneCamera = GameObject.Find("SceneCamera_1").GetComponent<Camera>();
+        if (SceneManager.GetActiveScene().buildIndex == 6)
+            currentSceneCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        else currentSceneCamera = GameObject.Find("SceneCamera_1").GetComponent<Camera>();
     }
 }

@@ -7,12 +7,12 @@ using UnityEngine.SceneManagement;
 public class TaskPanelBehaviour : MonoBehaviour
 {
     public int taskNumber;
-    public bool isNextTaskButtonAvailable;
+    public int tasksCount;
     private int sceneIndex;
     private GameObject canvas;
     private GameObject startButton;
-    private GameObject UICollector;
-    private Button nextTaskButton;
+    private GameObject taskPanel;
+    private Button activateTaskButton;
     private Button nextLevelButton;
     private Button closeTaskButton;
     private Text currentTaskTitle;
@@ -21,7 +21,7 @@ public class TaskPanelBehaviour : MonoBehaviour
     private Text currentExtendedTaskDescription;
     private InputField codeField;
     private InputField resultField;
-    private InputField outputField;  
+    private InputField outputField;
     private PadBehaviour pad;
     private RobotBehaviour robotBehaviour;
     private List<string> taskTitles = new List<string>();
@@ -31,7 +31,7 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     public void ChangeTask()
     {
-        if (taskNumber <= taskTitles.Count)
+        if (taskNumber <= tasksCount)
         {
             currentTaskTitle.text = taskTitles[taskNumber - 1];
             currentExtendedTaskTitle.text = taskTitles[taskNumber - 1];
@@ -41,16 +41,15 @@ public class TaskPanelBehaviour : MonoBehaviour
             codeField.text = pad.startCode;
             resultField.text = "";
             outputField.text = "";
-            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
-            isNextTaskButtonAvailable = false;
+            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
             startButton.GetComponent<StartButtonBehaviour>().taskNumber = taskNumber;
         }
         else
         {
             GameObject.Find("CloseExtendedTaskButton").SetActive(false);
             nextLevelButton.gameObject.SetActive(true);
-            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription();
-            switch(sceneIndex)
+            canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
+            switch (sceneIndex)
             {
                 case 1:
                     currentExtendedTaskTitle.text = "Поздравляем!";
@@ -62,20 +61,17 @@ public class TaskPanelBehaviour : MonoBehaviour
                     currentExtendedTaskDescription.text = "     Вы смогли пройти этот запутанный лес-лабиринт, а заодно получили навыки работы с условиями.\n" +
                                                           "     Не будем терять здесь больше времени и двинемся дальше!";
                     break;
-            }                  
+                case 6:
+                    currentExtendedTaskTitle.text = "Поздравляем!";
+                    currentExtendedTaskDescription.text = "     Вы отлично справились с первыми заданиями. Это не может не радовать! Рад и наш друг <name>, который надеется на нашу помощь в поиске сокровищ. Отправимся же на улицу и применим знания на железном друге. Во время путешествия мы освоим новые возможности " +
+                                                  "языка и отточим наши навыки.\n" +
+                                                  "     Если вы готовы, тогда поехали!";
+                    break;
+            }
         }
     }
 
-    public void CloseTask()
-    {
-        pad.transform.position = UICollector.transform.position;
-        GameObject.Find("TaskPanel").transform.position = UICollector.transform.position;
-        GameObject.Find("TaskCamera_" + taskNumber).GetComponent<Camera>().enabled = false;
-        canvas.GetComponent<GameData>().currentSceneCamera.enabled = true;
-        closeTaskButton.gameObject.SetActive(true);
-        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
-        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
-    }
+    public void CloseTask() => StartCoroutine(CloseTask_COR());
 
     public void ShowIntroduction_Level_1()
     {
@@ -83,7 +79,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         currentExtendedTaskDescription.text = "     Итак, наше путешествие начинается!\n" +
                                               "     Пока не происходит ничего интересного. Можно спокойно полюбоваться природой... и продолжить осваивать программирование!\n" +
                                               "     Раз уж робот больше не заперт с нами в четырёх стенах, можно наконец-то поуправлять им. Нажимай клавиши <b><color=green>WASD</color></b> для передвижения и поворота. Когда появится что-нибудь интересное (например, задание), внизу появится подсказка." +
-                                              "Нажми на нёё, и сможешь узнать что-то новое.\n" +
+                                              "Нажми на неё, и сможешь узнать что-то новое.\n" +
                                               "     Ну что ж, полный вперёд!";
     }
 
@@ -203,7 +199,7 @@ public class TaskPanelBehaviour : MonoBehaviour
                                      "          /*\n" +
                                      "       }\n" +
                                      "     Её мы и используем для решения первой задачи: нам нужно сказать роботу идти вправо, если есть указатель в ту сторону. Зрительные анализаторы робота определят наличие указателя и передадут информацию как <b><color=green>аргумент</color></b> " +
-                                     "метода.");
+                                     "метода. Если указатель будет обнаружен - вернём программе робота единицу, а в противном случае - ноль.");
         taskStartCodes.Add("public int Execute(bool isRightPointerHere)\n" +
                            "{\n" +
                            "    \n" +
@@ -261,7 +257,7 @@ public class TaskPanelBehaviour : MonoBehaviour
                              "  - В остальных случаях возвращай true");
         taskExtendedDescriptions.Add("     Да что ж такое-то! Первый раз свернули налево - а тут завал. Придётся снова возвращаться. Но чтобы время не прошло даром, расскажем вам ещё кое-что об условиях.\n" +
                                      "     Взгляните на эти грибы. Вот какие, по-вашему мнению, съедобны? Мы вот, кроме мухоморов, ничего не знаем, а робот наш в этом деле и вовсе дилетант. Попробуем распознать мухомор.\n" +
-                                     "     У него два главных атрибута - красная шляпка и белые пятнышки на ней. Выходит, есть два условия. Как их проверить одновременно?\n" +
+                                     "     У него два главных атрибута - красная шляпка и белые пятнышки на ней. Выходит, есть два условия. Как их проверить <b><color=green>одновременно</color></b>?\n" +
                                      "     Можно вложить один if в другой:\n" +
                                      "       if (/* условие 1*/)\n" +
                                      "       {\n" +
@@ -407,11 +403,94 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     }
 
-    private void Update()
+    private void FormTasks_Level_Training()
     {
-        if (isNextTaskButtonAvailable)
-            nextTaskButton.gameObject.SetActive(true);
-        else nextTaskButton.gameObject.SetActive(false);
+        taskTitles.Add("Начало");
+        taskDescriptions.Add("  - В программе между фигурных скобок напиши\n return 2 + 2;");
+        taskExtendedDescriptions.Add("     Привет, игрок! Добро пожаловать в игру Coding Learn! Здесь ты сможешь получить базовые навыки программирования на C# - одном из самых популярных и востребованных языков. Не будет больше терять ни минуты. Приступим!\n" +
+                                     "     Пару дней назад мальчик по имени <name>, гуляя по лесу, нашёл коробку с различными железяками. Он принёс её домой, осмотрел и нашёл инструкцию. В ней были чертежи робота, а также записка о том, что собрав его, можно найти " +
+                                     "сокровища, спрятанные в этой местности. <name>, жаждущий приключений, смог по инструкции собрать робота и скачал секретное приложение для управления им. Но возникла проблема: <name> может спокойно управлять движением, однако чтобы " +
+                                     "использовать остальные функции, нужно писать небольшие программы на языке C#.\n" +
+                                     "     Давайте поможем <name> освоить управление роботом и добраться до сокровищ. Полученные знания будут полезны и нам с вами, не так ли?\n" +
+                                     "     Итак, начнём!\n" +
+                                     "     Программы, написанные на языке C# (да и на других языках тоже), состоят из <b><color=green>инструкций</color></b>. Каждая инструкция выполняет какое-то действие (складывает числа, умножает их и т.д.).\n" +
+                                     "     Чтобы решить какую-то более сложную задачу, в программе " +
+                                     "пишут <b><color=green>функции</color></b> (в C# принято называть их <b><color=green>методами</color></b>), которые включают в себя целый набор различных инструкций.\n" +
+                                     "     Попробуем написать свою первую программу! Для этого используем планшет <name>, он расположен в правом нижнем углу экрана. В левом верхнем углу ты можешь увидеть краткое описание задания. Если хочешь узнать больше подробностей, нажми на кнопку рядом с заданием.");
+        taskStartCodes.Add("public int Execute()\n" +
+                           "{\n" +
+                           "\n" +
+                           "\n" +
+                           "}");
+
+        taskTitles.Add("Знакомимся с переменными");
+        taskDescriptions.Add(" - Перед строчкой с return объяви целочисленную переменную stepsCount:\n int stepsCount; \n" +
+                             " - Ниже присвой переменной значение 0:\n stepsCount = 0;\n" +
+                             " - В return замени 2 + 2 на имя созданной переменной");
+        taskExtendedDescriptions.Add("     Поздравляем! Это ваш первый шаг на пути к званию настоящего программиста. Не будем останавливаться на достигнутом, а лучше разберём, что означал наш код.\n" +
+                                     "     В самой первой строчке находится заголовок метода. Первое слово нам сейчас не интересно (мы поговорим о нём несколько позже, пока просто будем писать его). Второе означает <b><color=green>тип возвращаемого значения</color></b>. Что это значит?\n" +
+                                     "     Каждый метод в программе может как бы <i>отдавать</i> результат его работы в другие части программы для дальнейшего использования. Это мы делаем в строчке с return. Например, ваша программа <i>вернула</i> сумму 2 и 2, т.е. 4. Четыре - это целое число, этот " +
+                                     "тип данных обозначается <b><color=green>int</color></b>. Его мы и видим в заголовке метода.\n" +
+                                     "     Далее идёт название метода. Названия принято задавать в виде глагола (или чтобы он начинался с глагола), обозначающее действие, которое выполняет метод. Это делает код понятным для других разработчиков.\n" +
+                                     "     В круглых скобочках пишутся <b><color=green>аргументы</color></b> - входные данные, которые метод может использовать для выполнения задачи. Их наличие необязательно (у нас их и вовсе нет).\n" +
+                                     "     Наконец, в фигурных скобках находятся все инструкции метода. Каждая отделяется друг от друга точкой с запятой на конце.\n" +
+                                     "     Чтобы сохранять данные, в языках программирования используют <b><color=green>переменные</color></b>. Каждая переменная - это, по сути, ячейка памяти, которой мы даём имя для удобного поиска данных. Переменные бывают разных типов. Один из них - знакомый нам " +
+                                     "<b><color=green>int</color></b>. Посмотрим, как работают с переменными на практике!");
+        taskStartCodes.Add("public int Execute()\n" +
+                           "{\n" +
+                           "    return 2 + 2;\n" +
+                           "}");
+
+        taskTitles.Add("Каково моё (предна)значение?");
+        taskDescriptions.Add("  - Удали вторую строчку программы.\n" +
+                             "  - Присвой переменной stepsCount значение 2, написав:\n" +
+                             "    int stepsCount = 2;\n");
+        taskExtendedDescriptions.Add("     Отлично! Итак, что же мы сделали?\n" +
+                                     "     В первой строчке мы <i><color=green>объявили</color></i> переменную, т.е. попросили программу зарезервировать память для нашых данных. Данными, в нашем случае, является целое число, это мы указываем в начале с помощью типа данных int.\n" +
+                                     "     Далее мы даём нашей переменной имя, по которому мы сможем обращаться к этой ячейке памяти. Имена лучше давать осмысленные, чтобы было понятно, что за данные мы храним в переменной. Имя stepsCount будет означать количество шагов, которое должен сделать робот.\n" +
+                                     "     Далее мы <i><color=green>присвоили</color></i> переменной значение 0, т.е. теперь в этой ячейке памяти хранится значение 'ноль'. На самом деле, всё это можно сделать короче. Сейчас покажем, как.");
+        taskStartCodes.Add("public int Execute()\n" +
+                           "{\n" +
+                           "    int stepsCount;\n" +
+                           "    stepsCount = 0;\n" +
+                           "    return stepsCount;\n" +
+                           "}");
+
+        taskTitles.Add("Не int-ом единым");
+        taskDescriptions.Add("  - Ниже, после переменной stepsCount, создайте переменную g типа float и присвойте ей значение 9.8\n" +
+                             "  - Ниже, по аналогии с g, создайте переменную pi типа double со значением 3.14159\n" +
+                             "  - Ниже создайте переменную billion типа long со значением 1000000000\n" +
+                             "  - В return вместо stepsCount напишите: stepsCount + g + pi + billion");
+        taskExtendedDescriptions.Add("     Супер! Мы научились сохранять в памяти целые числа. Но мы ведь знаем, что числа бывают разные и далеко не только целые. Может, для них есть другие типы данных?\n" +
+                                     "     Да! Например, для очень длинных целых чисел есть \"длинный int\" - <b><color=green>long</color></b>. Если нужно хранить не только целые, но и дробные числа, используют <b><color=green>float</color></b>, но чаще - тип <b><color=green>double</color></b>. Они отличаются тем, " +
+                                     "что в double могут храниться числа куда большой точности.\n" +
+                                     "     Есть и другие типы, но пока нам хватит и этих. Поработаем с ними в следующем задании!");
+        taskStartCodes.Add("public double Execute()\n" +
+                           "{\n" +
+                           "    int stepsCount = 2;\n" +
+                           "    return stepsCount;\n" +
+                           "}");
+    }
+
+    private IEnumerator CloseTask_COR()
+    {
+        taskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
+        pad.GetComponent<Animator>().Play("MoveRight_Pad");
+        if (sceneIndex != 6)
+        {
+            closeTaskButton.transform.localScale = new Vector3(0, 0, 0);
+            yield return new WaitForSeconds(0.7f);
+            canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
+            yield return new WaitForSeconds(2f);
+            var isTaskCompleted = canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
+            if (!isTaskCompleted)
+            {
+                activateTaskButton.GetComponent<Animator>().Play("ScaleInterfaceUp");
+                yield return new WaitForSeconds(0.75f);
+            }
+            robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+            robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+        }
     }
 
     private void Awake()
@@ -424,7 +503,7 @@ public class TaskPanelBehaviour : MonoBehaviour
     private void Start()
     {   
         startButton = GameObject.Find("StartButton");
-        UICollector = GameObject.Find("UI_Collector");
+        taskPanel = GameObject.Find("TaskPanel");
         currentTaskTitle = GameObject.Find("TaskTitle").GetComponent<Text>();
         currentTaskDescription = GameObject.Find("TaskDescription").GetComponent<Text>();
         pad = GameObject.Find("Pad").GetComponent<PadBehaviour>();
@@ -432,12 +511,10 @@ public class TaskPanelBehaviour : MonoBehaviour
         codeField = GameObject.Find("CodeField").GetComponent<InputField>();
         resultField = GameObject.Find("ResultField").GetComponent<InputField>();
         outputField = GameObject.Find("OutputField").GetComponent<InputField>();
-        nextTaskButton = GameObject.Find("NextTaskButton").GetComponent<Button>();
+        activateTaskButton = GameObject.Find("ActivateTaskButton").GetComponent<Button>();
         nextLevelButton = GameObject.Find("NextLevelButton").GetComponent<Button>();
         closeTaskButton = GameObject.Find("CloseTaskButton").GetComponent<Button>();
-        nextTaskButton.gameObject.SetActive(false);
         nextLevelButton.gameObject.SetActive(false);
-        isNextTaskButtonAvailable = false;
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
         switch(sceneIndex)
         {
@@ -456,6 +533,10 @@ public class TaskPanelBehaviour : MonoBehaviour
             case 5:
                 FormTasks_Level_5();
                 break;
-        }      
+            case 6:
+                FormTasks_Level_Training();
+                break;
+        }
+        tasksCount = taskTitles.Count;
     }
 }

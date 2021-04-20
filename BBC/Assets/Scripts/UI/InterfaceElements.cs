@@ -58,5 +58,4 @@ public class InterfaceElements : MonoBehaviour
     [Header("Чёрный экран (контейнер)")]
     [Tooltip("Чёрный экран (контейнер)")]
     public GameObject BlackScreen;
-
 }

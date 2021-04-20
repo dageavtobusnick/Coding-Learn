@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ActivateTaskButtonBehaviour : MonoBehaviour
 {
-    [Header ("Игрок")]
-    public GameObject Player;
     [Header ("Интерфейс")]
     public GameObject Canvas;
 
@@ -42,6 +40,6 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        robotBehaviour = Player.GetComponent<RobotBehaviour>();
+        robotBehaviour = Canvas.GetComponent<GameData>().Player.GetComponent<RobotBehaviour>();
     }
 }

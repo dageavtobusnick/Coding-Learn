@@ -13,7 +13,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
 
     private InterfaceElements UI;
     private GameObject blackScreen;
-    private int sceneIndex;
+    private GameData gameData;
 
     public void OpenTaskExtendedDescription() => StartCoroutine(OpenTaskExtendedDescription_COR());
 
@@ -60,54 +60,28 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
         var currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        switch (currentSceneIndex)
-        {
-            case 1:
-                SceneManager.LoadScene(2);
-                break;
-            case 2:
-                SceneManager.LoadScene(3);
-                break;
-            case 3:
-                SceneManager.LoadScene(4);
-                break;
-            case 4:
-                SceneManager.LoadScene(5);
-                break;
-            case 6:
-                SceneManager.LoadScene(1);
-                break;
-        }
+        if (gameData.SceneIndex == SceneManager.sceneCountInBuildSettings - 1)
+            SceneManager.LoadScene(2);
+        SceneManager.LoadScene(gameData.SceneIndex + 1);
     }
 
     private void Start()
     {
         UI = Canvas.GetComponent<InterfaceElements>();
+        gameData = Canvas.GetComponent<GameData>();
         blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
-        sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        switch(sceneIndex)
+        if (gameData.SceneIndex == 0)
         {
-            case 1:
-                Canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_1();
-                break;
-            case 2:
-                Canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_2();
-                break;
-            case 3:
-                Canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_3();
-                break;
-            case 4:
-                Canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_4();
-                break;
-            case 5:
-                Canvas.GetComponent<TaskPanelBehaviour>().ShowIntroduction_Level_5();
-                break;
-            case 6:
-                Canvas.GetComponent<GameData>().currentTaskNumber = 1;
-                UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
-                break;
+            Canvas.GetComponent<GameData>().currentTaskNumber = 1;
+            UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+        }
+        else
+        {
+            var startMessage = gameData.StartMessages[gameData.SceneIndex - 1];
+            UI.ExtendedTaskTitle.text = startMessage.Title;
+            UI.ExtendedTaskDescription.text = startMessage.Description;
         }
         OpenTaskExtendedDescription_Special();
-        isTask = sceneIndex == 6 ? true : false;
+        isTask = gameData.SceneIndex == 0 ? true : false;
     }
 }

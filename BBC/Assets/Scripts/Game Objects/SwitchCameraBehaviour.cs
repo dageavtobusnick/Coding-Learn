@@ -9,13 +9,11 @@ public class SwitchCameraBehaviour : MonoBehaviour
     public Camera PreviousCamera;
     [Tooltip("Камера, которая будет включена")]
     public Camera NextCamera;
-    [Header("Интерфейс")]
-    public GameObject Canvas;
 
     private void OnTriggerEnter(Collider other)
     {
         PreviousCamera.enabled = false;
         NextCamera.enabled = true;
-        Canvas.GetComponent<GameData>().currentSceneCamera = NextCamera;
+        GameObject.Find("Canvas").GetComponent<GameData>().currentSceneCamera = NextCamera;
     }
 }

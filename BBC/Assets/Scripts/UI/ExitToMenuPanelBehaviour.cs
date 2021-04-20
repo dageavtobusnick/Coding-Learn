@@ -44,6 +44,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private void Start()
     {
+        UI = Canvas.GetComponent<InterfaceElements>();
         blackScreenContent = UI.BlackScreen.transform.GetChild(0).gameObject;
     }
 }

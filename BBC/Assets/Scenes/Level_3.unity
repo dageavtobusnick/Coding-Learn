@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.36826542, g: 0.2833898, b: 0.42505842, a: 1}
+  m_IndirectSpecularColor: {r: 0.3273415, g: 0.2819711, b: 0.41690004, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -17296,7 +17296,6 @@ Transform:
   - {fileID: 559337221}
   - {fileID: 1531156280}
   - {fileID: 1185911618}
-  - {fileID: 1334530876}
   - {fileID: 2004220949}
   - {fileID: 1796369264}
   - {fileID: 915371239}
@@ -17315,7 +17314,6 @@ Transform:
   - {fileID: 824910486}
   - {fileID: 939270657}
   - {fileID: 954532572}
-  - {fileID: 1666332848}
   - {fileID: 87657730}
   - {fileID: 1224493850}
   - {fileID: 742315454}
@@ -17326,6 +17324,7 @@ Transform:
   - {fileID: 1366043140}
   - {fileID: 117123648}
   - {fileID: 1351631414}
+  - {fileID: 1334530876}
   - {fileID: 747590}
   - {fileID: 269439168}
   - {fileID: 1687571250}
@@ -17350,6 +17349,7 @@ Transform:
   - {fileID: 1747499734}
   - {fileID: 40449306}
   - {fileID: 965035730}
+  - {fileID: 1666332848}
   - {fileID: 279575625}
   - {fileID: 949405350}
   - {fileID: 687814666}
@@ -17376,10 +17376,10 @@ Transform:
   - {fileID: 323596989}
   - {fileID: 734807247}
   - {fileID: 123054997}
-  - {fileID: 1957139658}
   - {fileID: 1685067204}
   - {fileID: 620550713}
   - {fileID: 859809724}
+  - {fileID: 1957139658}
   - {fileID: 610952240}
   - {fileID: 722736572}
   - {fileID: 197194134}
@@ -32122,6 +32122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 167d02fd95a2d974395c4c57f2e08ccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Canvas: {fileID: 0}
 --- !u!95 &864008247
 Animator:
   serializedVersion: 3
@@ -45473,8 +45474,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223133455}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 231.1864, y: 188.18, z: 486.4894}
-  m_LocalScale: {x: 497, y: 2, z: 158.26318}
+  m_LocalPosition: {x: 231.1864, y: 188.18, z: 494.376}
+  m_LocalScale: {x: 497, y: 2, z: 142.47812}
   m_Children: []
   m_Father: {fileID: 1010369501}
   m_RootOrder: 5
@@ -46475,21 +46476,19 @@ Transform:
   m_Children:
   - {fileID: 1312595161}
   - {fileID: 663713567}
-  - {fileID: 1184918742}
   - {fileID: 92179408}
   - {fileID: 1605266533}
+  - {fileID: 1184918742}
   - {fileID: 1223107583}
   - {fileID: 83740230}
   - {fileID: 763742629}
-  - {fileID: 1546718065}
   - {fileID: 1546069333}
   - {fileID: 301699308}
   - {fileID: 489686809}
   - {fileID: 1345508001}
-  - {fileID: 533816022}
-  - {fileID: 929616183}
   - {fileID: 518381733}
   - {fileID: 375669413}
+  - {fileID: 1546718065}
   - {fileID: 2075952607}
   - {fileID: 1639785450}
   - {fileID: 1747282692}
@@ -46511,6 +46510,7 @@ Transform:
   - {fileID: 70861756}
   - {fileID: 1288694521}
   - {fileID: 1342074375}
+  - {fileID: 533816022}
   - {fileID: 133751504}
   - {fileID: 1094034855}
   - {fileID: 1381829633}
@@ -46529,6 +46529,7 @@ Transform:
   - {fileID: 633462205}
   - {fileID: 1484809409}
   - {fileID: 768300311}
+  - {fileID: 929616183}
   - {fileID: 185067693}
   - {fileID: 160540808}
   - {fileID: 1484126500}
@@ -46550,9 +46551,8 @@ Transform:
   - {fileID: 1718277735}
   - {fileID: 1051548377}
   - {fileID: 1050251715}
-  - {fileID: 1771657015}
-  - {fileID: 1333661120}
   - {fileID: 684314730}
+  - {fileID: 1333661120}
   - {fileID: 771469308}
   - {fileID: 2142414906}
   - {fileID: 2043561223}
@@ -46588,15 +46588,13 @@ Transform:
   - {fileID: 718150732}
   - {fileID: 422731351}
   - {fileID: 319913169}
-  - {fileID: 871491333}
-  - {fileID: 959276651}
   - {fileID: 165149900}
-  - {fileID: 1324558670}
-  - {fileID: 2120874469}
+  - {fileID: 959276651}
   - {fileID: 89656947}
-  - {fileID: 186216255}
+  - {fileID: 2120874469}
   - {fileID: 412639697}
-  - {fileID: 2031558625}
+  - {fileID: 1771657015}
+  - {fileID: 186216255}
   - {fileID: 1116301935}
   - {fileID: 1648288445}
   - {fileID: 986644367}
@@ -46613,18 +46611,19 @@ Transform:
   - {fileID: 1134328289}
   - {fileID: 1803880360}
   - {fileID: 1312757742}
+  - {fileID: 871491333}
   - {fileID: 429504478}
   - {fileID: 1555586817}
   - {fileID: 509473503}
   - {fileID: 630609919}
-  - {fileID: 1247121043}
-  - {fileID: 1724559341}
   - {fileID: 1176079042}
+  - {fileID: 1724559341}
   - {fileID: 1260137952}
   - {fileID: 1661722245}
   - {fileID: 1097167068}
   - {fileID: 1234874517}
   - {fileID: 1736625317}
+  - {fileID: 2031558625}
   - {fileID: 231969625}
   - {fileID: 630688148}
   - {fileID: 743363513}
@@ -46646,6 +46645,7 @@ Transform:
   - {fileID: 1033625331}
   - {fileID: 391041776}
   - {fileID: 1430599156}
+  - {fileID: 1324558670}
   - {fileID: 500397370}
   - {fileID: 1710192893}
   - {fileID: 370771843}
@@ -46678,6 +46678,7 @@ Transform:
   - {fileID: 1668897463}
   - {fileID: 1172038842}
   - {fileID: 691136151}
+  - {fileID: 1247121043}
   - {fileID: 212295816}
   - {fileID: 1512764998}
   - {fileID: 1903111030}
@@ -46807,8 +46808,8 @@ Transform:
   - {fileID: 1078780793}
   - {fileID: 1835589720}
   - {fileID: 1636314471}
-  - {fileID: 36461988}
   - {fileID: 950592883}
+  - {fileID: 36461988}
   - {fileID: 9223055}
   - {fileID: 725497716}
   - {fileID: 1861572756}
@@ -58261,12 +58262,12 @@ Transform:
   - {fileID: 1714473707}
   - {fileID: 1970322411}
   - {fileID: 976508417}
-  - {fileID: 1450264046}
   - {fileID: 1037072276}
+  - {fileID: 1450264046}
   - {fileID: 93679952}
-  - {fileID: 1518559996}
   - {fileID: 1984476682}
   - {fileID: 1534200183}
+  - {fileID: 1518559996}
   - {fileID: 1167440882}
   - {fileID: 877881217}
   - {fileID: 1715327376}
@@ -58281,8 +58282,8 @@ Transform:
   - {fileID: 2015348961}
   - {fileID: 1063574033}
   - {fileID: 1223431330}
-  - {fileID: 1107038778}
   - {fileID: 2076727688}
+  - {fileID: 1107038778}
   - {fileID: 1889220735}
   - {fileID: 39170332}
   - {fileID: 769777403}
@@ -78649,10 +78650,10 @@ Transform:
   - {fileID: 64516953}
   - {fileID: 1644608220}
   - {fileID: 244070474}
+  - {fileID: 1795532264}
   - {fileID: 2031920414}
   - {fileID: 816711461}
   - {fileID: 2108489521}
-  - {fileID: 1795532264}
   - {fileID: 1222008553}
   - {fileID: 596012402}
   m_Father: {fileID: 1010369501}

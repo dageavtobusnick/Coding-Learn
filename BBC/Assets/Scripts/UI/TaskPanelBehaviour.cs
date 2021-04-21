@@ -51,7 +51,7 @@ public class TaskPanelBehaviour : MonoBehaviour
     private IEnumerator CloseTask_COR()
     {
         UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
-        padBehaviour.GetComponent<Animator>().Play("MoveRight_Pad");
+        UI.Pad.transform.parent.gameObject.GetComponent<Animator>().Play("MoveRight_Pad");
         if (sceneIndex != 0)
         {
             UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);

@@ -33,7 +33,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         UI.ExtendedTaskDescriptionScrollbar.value = 1;
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
-        UI.Pad.GetComponent<Animator>().Play("MoveRight_Pad");
+        UI.Pad.transform.parent.gameObject.GetComponent<Animator>().Play("MoveRight_Pad");
         UI.ExtendedTaskPanel.GetComponent<Animator>().Play("MoveUp_TaskPanel_Extended");
         yield break;
     }
@@ -43,7 +43,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         if (isTask)
         {
             UI.TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
-            UI.Pad.GetComponent<Animator>().Play("MoveLeft_Pad");
+            UI.Pad.transform.parent.gameObject.GetComponent<Animator>().Play("MoveLeft_Pad");
         }
         UI.ExtendedTaskPanel.GetComponent<Animator>().Play("MoveDown_TaskPanel_Extended");
         yield return new WaitForSeconds(0.7f);

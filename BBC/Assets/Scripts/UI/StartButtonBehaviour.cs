@@ -20,27 +20,19 @@ public class StartButtonBehaviour : MonoBehaviour
 
     public void ExecuteCode()
     {
-        /*try
-        {*/
+        try
+        {
             robotManagementCode = GetRobotManagementClass();
             ScriptDomain domain = ScriptDomain.CreateDomain("MyDomain");
             ScriptType type = domain.CompileAndLoadMainSource(robotManagementCode);
             ScriptProxy proxy = type.CreateInstance(robot);
-            Tuple<bool, string> result = (Tuple<bool, string>)proxy.Call("isTaskCompleted");
-            if (result.Item1)
-            {
-                UI.ResultField.text = "<color=green>Задание выполнено!</color>";
-                Canvas.GetComponent<TaskCompletingActions>().MakeActions(taskNumber);
-                UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
-            }
-            else UI.ResultField.text = "Есть ошибки. Попробуй ещё раз!";
-            UI.OutputField.text = result.Item2;
-        //}
-        /*catch
+            StartCoroutine(ShowExecutingProcess(proxy));      
+        }
+        catch
         {
             Debug.Log("Exception!!!");
             UI.ResultField.text = "Есть ошибки. Попробуй ещё раз!";
-        }*/
+        }
     }
 
     private void Start()
@@ -48,6 +40,24 @@ public class StartButtonBehaviour : MonoBehaviour
         UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
         robot = gameData.Player;
+    }
+
+    private IEnumerator ShowExecutingProcess(ScriptProxy proxy)
+    {
+        for (var i = 0; i <= 3; i++)
+        {
+            UI.OutputField.text = "Выполнение" + new string('.', i);
+            yield return new WaitForSeconds(0.5f);
+        }
+        Tuple<bool, string> result = (Tuple<bool, string>)proxy.Call("isTaskCompleted");
+        if (result.Item1)
+        {
+            UI.ResultField.text = "<color=green>Задание выполнено!</color>";
+            Canvas.GetComponent<TaskCompletingActions>().MakeActions(taskNumber);
+            UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
+        }
+        else UI.ResultField.text = "Есть ошибки. Попробуй ещё раз!";
+        UI.OutputField.text = result.Item2;
     }
 
     private string GetRobotManagementClass()

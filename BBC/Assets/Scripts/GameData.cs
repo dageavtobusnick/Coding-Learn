@@ -114,4 +114,10 @@ public class GameData : MonoBehaviour
         FinishMessages = JsonHelper.FromJson<Message>(finishMessagesFile.text);*/
         #endregion
     }
+
+    private void OnGUI()
+    {
+        float fps = 1.0f / Time.deltaTime;
+        GUILayout.Label("FPS = " + fps);
+    }
 }

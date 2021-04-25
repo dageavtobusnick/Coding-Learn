@@ -139,7 +139,20 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_4()
     {  
-        yield return new WaitForSeconds(0f);
+        for (var i = 1; i <= 9; i++)
+        {
+            var mushroom = GameObject.Find("ScriptingMushroom_" + i).transform.GetChild(0);
+            if (i % 2 == 1)
+            {
+                mushroom.GetComponent<Animator>().Play("MoveMushroom");
+                yield return new WaitForSeconds(2f);
+            }
+            else
+            {
+                mushroom.GetComponent<Animator>().Play("PutDown_Mushroom_" + i);
+                yield return new WaitForSeconds(3f);
+            }
+        }
         CloseTask();
     }
 
@@ -170,6 +183,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_7()
     {
+        GameObject.Find("GreenLight_5").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
     }

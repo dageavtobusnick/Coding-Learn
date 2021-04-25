@@ -50,20 +50,15 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator CloseTask_COR()
     {
-        UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
-        UI.Pad.transform.parent.gameObject.GetComponent<Animator>().Play("MoveRight_Pad");
+        UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         if (sceneIndex != 0)
-        {
-            UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
-            yield return new WaitForSeconds(0.7f);
+        {           
             Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
             yield return new WaitForSeconds(2f);
             var isTaskCompleted = Canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
             if (!isTaskCompleted)
-            {
-                UI.ActivateTaskButton.GetComponent<Animator>().Play("ScaleInterfaceUp");
-                yield return new WaitForSeconds(0.75f);
-            }
+                StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActivateTaskButton_COR());
             robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
             robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
         }

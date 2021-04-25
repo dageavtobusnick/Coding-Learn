@@ -20,8 +20,7 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
 
     private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber)
     {
-        gameObject.GetComponent<Animator>().Play("CollapseInterface");
-        yield return new WaitForSeconds(0.75f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActivateTaskButton_COR());
         if (currentTaskNumber <= Canvas.GetComponent<TaskPanelBehaviour>().tasksCount)
         {
             var currentCamera = Canvas.GetComponent<GameData>().currentSceneCamera;

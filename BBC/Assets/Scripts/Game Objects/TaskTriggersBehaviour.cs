@@ -8,6 +8,7 @@ public class TaskTriggersBehaviour : MonoBehaviour
     public GameObject Canvas;
 
     private InterfaceElements UI;
+    private InterfaceAnimations UIAnimations;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +20,7 @@ public class TaskTriggersBehaviour : MonoBehaviour
             if (!isTaskCompleted)
             {
                 UI.ActivateTaskButton.gameObject.SetActive(true);
-                UI.ActivateTaskButton.GetComponent<Animator>().Play("ScaleInterfaceUp");
+                StartCoroutine(UIAnimations.ShowActivateTaskButton_COR());
                 Canvas.GetComponent<GameData>().currentTaskNumber = taskNumber;
             }
         }
@@ -29,14 +30,14 @@ public class TaskTriggersBehaviour : MonoBehaviour
 
     private IEnumerator DeleteButton_COR()
     {
-        UI.ActivateTaskButton.GetComponent<Animator>().Play("CollapseInterface");
-        yield return new WaitForSeconds(0.7f);
+        yield return StartCoroutine(UIAnimations.HideActivateTaskButton_COR());
         UI.ActivateTaskButton.gameObject.SetActive(false);
     }
 
     void Start()
     {
         UI = Canvas.GetComponent<InterfaceElements>();
+        UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
         UI.ActivateTaskButton.gameObject.SetActive(false);
     } 
 }

@@ -183,6 +183,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_7()
     {
+        GameObject.Find("GreenLight_5").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
     }

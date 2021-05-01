@@ -8,6 +8,7 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
     public GameObject Canvas;
 
     private RobotBehaviour robotBehaviour;
+    private GameObject taskTriggers;
 
     public void ActivateTask()
     {
@@ -15,6 +16,8 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
         Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
         robotBehaviour.currentMoveSpeed = robotBehaviour.freezeSpeed;
         robotBehaviour.currentRotateSpeed = robotBehaviour.freezeSpeed;
+        if (Canvas.GetComponent<GameData>().SceneIndex != 0)
+            taskTriggers.transform.GetChild(currentTaskNumber - 1).gameObject.SetActive(false);
         StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber));
     }
 
@@ -40,5 +43,11 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
     private void Awake()
     {
         robotBehaviour = Canvas.GetComponent<GameData>().Player.GetComponent<RobotBehaviour>();
+    }
+
+    private void Start()
+    {
+        if (Canvas.GetComponent<GameData>().SceneIndex != 0)
+            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
     }
 }

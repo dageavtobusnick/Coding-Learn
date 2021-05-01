@@ -44,7 +44,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     private IEnumerator GoToNextLevel_COR()
     {
         yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
-        GameObject.Find("BlackScreen_Container").transform.localScale = new Vector3(1, 1, 1);
+        UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
         if (gameData.SceneIndex == 0)

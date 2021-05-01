@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class TaskCompletingActions : MonoBehaviour
 {
-    [Header ("Интерфейс")]
-    public GameObject Canvas; 
+    [Header("Интерфейс")]
+    public GameObject Canvas;
     [HideInInspector]
     public List<bool> isTasksCompleted = new List<bool>();
 
     private int sceneIndex;
+    private GameObject taskTriggers;
 
     #region Служебные методы (не трогать!)
     public void MakeActions(int taskNumber)
@@ -33,11 +34,31 @@ public class TaskCompletingActions : MonoBehaviour
 
     private void CloseTask() => Canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
 
+    private void ReturnToScene() => Canvas.GetComponent<TaskPanelBehaviour>().ReturnToScene();
+
     private void Start()
     {
         sceneIndex = Canvas.GetComponent<GameData>().SceneIndex;
+        taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
         for (var i = 0; i < 9; i++)
             isTasksCompleted.Add(false);
+        switch (sceneIndex)
+        {
+            case 3:
+                taskTriggers.transform.GetChild(1).gameObject.SetActive(false);
+                taskTriggers.transform.GetChild(2).gameObject.SetActive(false);
+                taskTriggers.transform.GetChild(4).gameObject.SetActive(false);
+                var boards = GameObject.Find("ScriptingBoards");
+                var stumps = GameObject.Find("ScriptingStumps");
+                var newBridge = GameObject.Find("NewBridge");
+                for (var i = 0; i < boards.transform.childCount; i++)
+                    boards.transform.GetChild(i).gameObject.SetActive(false);
+                for (var i = 0; i < stumps.transform.childCount; i++)
+                    stumps.transform.GetChild(i).gameObject.SetActive(false);
+                for (var i = 0; i < newBridge.transform.childCount; i++)
+                    newBridge.transform.GetChild(i).gameObject.SetActive(false);
+                break;
+        }
     }
     #endregion
 
@@ -77,7 +98,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         for (var i = 7; i <= 10; i++)
         {
-            GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("Move_Flower_" + i); 
+            GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("Move_Flower_" + i);
             yield return new WaitForSeconds(2.2f);
         }
         GameObject.Find("Flower_" + 11).GetComponent<Animator>().Play("Move_Flower_" + 11);
@@ -138,7 +159,7 @@ public class TaskCompletingActions : MonoBehaviour
     }
 
     private IEnumerator MakeActions_Level_2_Task_4()
-    {  
+    {
         for (var i = 1; i <= 9; i++)
         {
             var mushroom = GameObject.Find("ScriptingMushroom_" + i).transform.GetChild(0);
@@ -198,4 +219,131 @@ public class TaskCompletingActions : MonoBehaviour
         CloseTask();
     }
     #endregion
+
+    private IEnumerator MakeActions_Level_3_Task_1()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        var boxes = GameObject.Find("Boxes");
+        for (var i = 0; i < boxes.transform.childCount; i++)
+        {
+            var box = boxes.transform.GetChild(i);
+            box.GetChild(0).GetComponent<Animator>().Play("BreakBox");
+            yield return new WaitForSeconds(1.833f);
+            box.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds(0.5f);
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        taskTriggers.transform.GetChild(1).gameObject.SetActive(true);
+        taskTriggers.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Animator>().Play("RotateExclamationMark");
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_2()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        var boxes = GameObject.Find("Boxes");
+        for (var i = 0; i < 2; i++)
+        {
+            var box = boxes.transform.GetChild(i).GetChild(0);
+            for (var j = 1; j < 3; j++)
+            {
+                box.GetChild(j).GetChild(0).gameObject.GetComponent<Animator>().Play("PickUpItem");
+                yield return new WaitForSeconds(1f);
+            }
+        }
+        GameObject.Find("Hatchet").GetComponent<Animator>().Play("PickUpAxe");
+        yield return new WaitForSeconds(2f);
+        GameObject.Find("Hatchet").SetActive(false);
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        taskTriggers.transform.GetChild(2).gameObject.SetActive(true);
+        taskTriggers.transform.GetChild(2).GetChild(0).GetChild(0).gameObject.GetComponent<Animator>().Play("RotateExclamationMark");
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_3()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        var axe = GameObject.Find("Box_3_Parent").transform.GetChild(0).GetChild(1).gameObject;
+        axe.SetActive(true);
+        axe.GetComponent<Animator>().Play("UseAxe_Vertical");
+        yield return new WaitForSeconds(4f);
+        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
+        yield return new WaitForSeconds(1.5f);
+        axe.SetActive(false);
+        var logs = GameObject.Find("ScriptingLogs");
+        for (var i = 0; i < logs.transform.childCount; i++)
+            logs.transform.GetChild(i).gameObject.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
+        yield return new WaitForSeconds(1.4f);
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        ReturnToScene();
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_4()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        var axe = GameObject.Find("Box_3_Parent").transform.GetChild(0).GetChild(1).gameObject;
+        axe.SetActive(true);
+        axe.GetComponent<Animator>().Play("UseAxe_Horizontal");
+        yield return new WaitForSeconds(4f);
+        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
+        yield return new WaitForSeconds(1.5f);
+        axe.SetActive(false);
+        var boards = GameObject.Find("ScriptingBoards");
+        var stumps = GameObject.Find("ScriptingStumps");
+        var trees = GameObject.Find("ScriptingTrees");
+        for (var i = 0; i < boards.transform.childCount; i++)
+            boards.transform.GetChild(i).gameObject.SetActive(true);
+        for (var i = 0; i < stumps.transform.childCount; i++)
+            stumps.transform.GetChild(i).gameObject.SetActive(true);
+        for (var i = 0; i < trees.transform.childCount; i++)
+            trees.transform.GetChild(i).gameObject.SetActive(false);
+        yield return new WaitForSeconds(2f);
+        blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
+        yield return new WaitForSeconds(1.4f);
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        taskTriggers.transform.GetChild(4).gameObject.SetActive(true);
+        taskTriggers.transform.GetChild(4).GetChild(0).GetChild(0).gameObject.GetComponent<Animator>().Play("RotateExclamationMark");
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_5()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        var boards = GameObject.Find("ScriptingBoards");
+        for (var i = 0; i < 3; i++)
+        {
+            boards.transform.GetChild(i).gameObject.GetComponent<Animator>().Play("UseBoard_" + (i + 1));
+            yield return new WaitForSeconds(1.5f);
+        }
+        boards.transform.GetChild(3).gameObject.GetComponent<Animator>().Play("UseBoard_4");
+        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
+        yield return new WaitForSeconds(1.5f);
+        GameObject.Find("BrokenBridge").SetActive(false);
+        GameObject.Find("ScriptingBoards").SetActive(false);
+        var newBridge = GameObject.Find("NewBridge");
+        for (var i = 0; i < newBridge.transform.childCount; i++)
+            newBridge.transform.GetChild(i).gameObject.SetActive(true);
+        blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
+        yield return new WaitForSeconds(1.4f);
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        GameObject.Find("lever").GetComponent<Animator>().Play("ActivateLever");
+        yield return new WaitForSeconds(1f);
+        newBridge.GetComponent<Animator>().Play("GetBridgeDown");
+        yield return new WaitForSeconds(1.5f);
+        ReturnToScene();
+    }
 }

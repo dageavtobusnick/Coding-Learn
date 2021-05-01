@@ -35,13 +35,6 @@ public class StartButtonBehaviour : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        UI = Canvas.GetComponent<InterfaceElements>();
-        gameData = Canvas.GetComponent<GameData>();
-        robot = gameData.Player;
-    }
-
     private IEnumerator ShowExecutingProcess(ScriptProxy proxy)
     {
         for (var i = 0; i <= 3; i++)
@@ -60,6 +53,13 @@ public class StartButtonBehaviour : MonoBehaviour
         UI.OutputField.text = result.Item2;
     }
 
+    private void Start()
+    {
+        UI = Canvas.GetComponent<InterfaceElements>();
+        gameData = Canvas.GetComponent<GameData>();
+        robot = gameData.Player;
+    }
+
     private string GetRobotManagementClass()
     {
         return @"
@@ -69,7 +69,39 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class RobotManagementClass : MonoBehaviour
-{" +
+{
+    public int L3_T1_boxesCount = 0;
+    public int L3_T2_isAxeCallsCount = 0;
+    public int L3_T2_pickUpCallsCount = 0;
+    public int L3_T3_treesCount = 10;
+    public int L3_T4_isTreeTallCallsCount = 0;
+    public int L3_T4_setUpBoardCallsCount = 0;
+
+    public void OpenContainer() => L3_T1_boxesCount++;
+
+    public bool IsAxe()
+    {
+        L3_T2_isAxeCallsCount++;
+        return L3_T2_isAxeCallsCount == 5;
+    }
+ 
+    public bool IsSaw() => false;
+
+    public void PickUp() => L3_T2_pickUpCallsCount++;
+
+    public bool IsPathClear() => L3_T3_treesCount == 0;
+
+    public void UseAxe() => L3_T3_treesCount--;
+
+    public bool IsTreeTall()
+    {
+       L3_T4_isTreeTallCallsCount++;
+       return L3_T4_isTreeTallCallsCount % 2 == 1;
+    }
+
+    public void SetUpBoard() => L3_T4_setUpBoardCallsCount++;
+
+" +
    UI.CodeField.text + @"
    public Tuple<bool, string> isTaskCompleted()
    {" +

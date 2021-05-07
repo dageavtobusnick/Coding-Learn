@@ -31,6 +31,13 @@ public class GameData : MonoBehaviour
         public string Description; 
     }
 
+    [Serializable]
+    public class ScenarioMessage
+    {
+        public string Title;
+        public string Description;
+    }
+
     public static class JsonHelper
     {
         public static T[] FromJson<T>(string json)
@@ -52,12 +59,17 @@ public class GameData : MonoBehaviour
             public T[] Items;
         }
     }
+    
     [Header("Игрок")]
     public GameObject Player;
     [Header ("Текущая включенная камера на сцене")]
     public Camera currentSceneCamera;
     [Header("Номер текущего задания")]
     public int currentTaskNumber;
+    [Header("Номер текущего триггера смены сцены")]
+    public int currentChangeSceneTriggerNumber;
+    [Header("Номер текущего сценарного триггера")]
+    public int currentScenarioTriggerNumber;
     [Header("Индекс сцены")]
     public int SceneIndex;
     [HideInInspector]
@@ -65,23 +77,31 @@ public class GameData : MonoBehaviour
     [HideInInspector]
     public Test[] Tests;
     [HideInInspector]
+    public ScenarioMessage[] ScenarioMessages;
+    [HideInInspector]
     public Message[] StartMessages;
     [HideInInspector]
     public Message[] FinishMessages;
+    [HideInInspector]
+    public int taskItemsCount;
 
     private void Awake()
     {
+        taskItemsCount = 0;
         SceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneIndex == SceneManager.sceneCountInBuildSettings - 1)
             SceneIndex = 0;
         var tasksFile = Resources.Load<TextAsset>("Tasks Level " + SceneIndex);
         var testsFile = Resources.Load<TextAsset>("Tests Level " + SceneIndex);
+        var scenarioMessagesFile = Resources.Load<TextAsset>("Scenario Messages Level " + SceneIndex);
         var startMessagesFile = Resources.Load<TextAsset>("Start Messages");
         var finishMessagesFile = Resources.Load<TextAsset>("Finish Messages");
         TaskTexts = JsonHelper.FromJson<TaskText>(tasksFile.text);
         Tests = JsonHelper.FromJson<Test>(testsFile.text);
         StartMessages = JsonHelper.FromJson<Message>(startMessagesFile.text);
         FinishMessages = JsonHelper.FromJson<Message>(finishMessagesFile.text);
+        if (SceneIndex > 2)
+            ScenarioMessages = JsonHelper.FromJson<ScenarioMessage>(scenarioMessagesFile.text);
 
         #region Код для дебагга
         /*var tasksFile_0 = Resources.Load<TextAsset>("Tasks Level 0");

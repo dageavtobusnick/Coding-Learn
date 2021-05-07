@@ -12,6 +12,9 @@ public class TaskCompletingActions : MonoBehaviour
 
     private int sceneIndex;
     private GameObject taskTriggers;
+    private GameObject enterTriggers;
+    private GameObject scenarioTriggers;
+    private RobotBehaviour robotBehaviour;
 
     #region Служебные методы (не трогать!)
     public void MakeActions(int taskNumber)
@@ -39,7 +42,13 @@ public class TaskCompletingActions : MonoBehaviour
     private void Start()
     {
         sceneIndex = Canvas.GetComponent<GameData>().SceneIndex;
-        taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
+        robotBehaviour = Canvas.GetComponent<GameData>().Player.GetComponent<RobotBehaviour>();
+        if (sceneIndex != 0)
+        {
+            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
+            enterTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().EnterTriggers;
+            scenarioTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().ScenarioTriggers;
+        }
         for (var i = 0; i < 9; i++)
             isTasksCompleted.Add(false);
         switch (sceneIndex)
@@ -48,15 +57,25 @@ public class TaskCompletingActions : MonoBehaviour
                 taskTriggers.transform.GetChild(1).gameObject.SetActive(false);
                 taskTriggers.transform.GetChild(2).gameObject.SetActive(false);
                 taskTriggers.transform.GetChild(4).gameObject.SetActive(false);
+                taskTriggers.transform.GetChild(7).gameObject.SetActive(false);
+                enterTriggers.transform.GetChild(0).gameObject.SetActive(false);
+                enterTriggers.transform.GetChild(2).gameObject.SetActive(false);
+                scenarioTriggers.transform.GetChild(1).gameObject.SetActive(false);
                 var boards = GameObject.Find("ScriptingBoards");
                 var stumps = GameObject.Find("ScriptingStumps");
                 var newBridge = GameObject.Find("NewBridge");
+                var unearthedItems = GameObject.Find("UnearthedItems");
+                var gatesKeys = GameObject.Find("GatesKeys");
                 for (var i = 0; i < boards.transform.childCount; i++)
                     boards.transform.GetChild(i).gameObject.SetActive(false);
                 for (var i = 0; i < stumps.transform.childCount; i++)
                     stumps.transform.GetChild(i).gameObject.SetActive(false);
                 for (var i = 0; i < newBridge.transform.childCount; i++)
                     newBridge.transform.GetChild(i).gameObject.SetActive(false);
+                for (var i = 0; i < unearthedItems.transform.childCount; i++)
+                    unearthedItems.transform.GetChild(i).gameObject.SetActive(false);
+                for (var i = 0; i < gatesKeys.transform.childCount; i++)
+                    gatesKeys.transform.GetChild(i).gameObject.SetActive(false);
                 break;
         }
     }
@@ -345,5 +364,105 @@ public class TaskCompletingActions : MonoBehaviour
         newBridge.GetComponent<Animator>().Play("GetBridgeDown");
         yield return new WaitForSeconds(1.5f);
         ReturnToScene();
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_6()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("CheckAllPlaces");
+        yield return new WaitForSeconds(10.5f);
+        GameObject.Find("Key_MiniScene_1").GetComponent<Animator>().Play("PickUpKey_1");
+        yield return new WaitForSeconds(2f);
+        GameObject.Find("Key_MiniScene_1").SetActive(false);
+        yield return new WaitForSeconds(2.5f);
+        Canvas.GetComponent<GameData>().taskItemsCount++;
+        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+        TurnOnScenarioTrigger2_Level_3();
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_7()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("CheckAllChests");
+        yield return new WaitForSeconds(2f);
+
+        var chest1 = GameObject.Find("Chest_1");
+        chest1.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("OpenChest");
+        yield return new WaitForSeconds(1.5f);
+        for (var i = 2; i < chest1.transform.childCount; i++)
+            chest1.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Animator>().Play("CheckItem");
+        yield return new WaitForSeconds(3f);
+        chest1.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("CloseChest");
+        yield return new WaitForSeconds(4f);
+
+        var chest2 = GameObject.Find("Chest_2");
+        chest2.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("OpenChest");
+        yield return new WaitForSeconds(1.5f);
+        for (var i = 2; i < chest2.transform.childCount; i++)
+            chest2.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Animator>().Play("CheckItem");
+        yield return new WaitForSeconds(3f);
+        chest2.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("CloseChest");
+        yield return new WaitForSeconds(4f);
+
+        var chest3 = GameObject.Find("Chest_3");
+        chest3.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("OpenChest");
+        yield return new WaitForSeconds(1.5f);
+        for (var i = 2; i < chest3.transform.childCount - 1; i++)
+            chest3.transform.GetChild(i).GetChild(0).gameObject.GetComponent<Animator>().Play("CheckItem");
+        var key = chest3.transform.GetChild(chest3.transform.childCount - 1).GetChild(0).gameObject;
+        key.GetComponent<Animator>().Play("PickUpKey_2");
+        yield return new WaitForSeconds(4f);
+        key.SetActive(false);
+        chest3.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("CloseChest");
+        yield return new WaitForSeconds(4f);
+
+        Canvas.GetComponent<GameData>().taskItemsCount++;
+        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+        TurnOnScenarioTrigger2_Level_3();
+    }
+
+    private IEnumerator MakeActions_Level_3_Task_8()
+    {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        GameObject.Find("robot3").GetComponent<Animator>().Play("ActivateDigger");
+        yield return new WaitForSeconds(3.8f);
+        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
+        yield return new WaitForSeconds(3f);
+        var buriedItems = GameObject.Find("BuriedItems");
+        var unearthedItems = GameObject.Find("UnearthedItems");
+        for (var i = 0; i < buriedItems.transform.childCount; i++)
+        {
+            buriedItems.transform.GetChild(i).gameObject.SetActive(false);
+            unearthedItems.transform.GetChild(i).gameObject.SetActive(true);
+        }
+        blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
+        yield return new WaitForSeconds(1.4f);
+        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        var key = unearthedItems.transform.GetChild(0).gameObject;
+        key.GetComponent<Animator>().Play("PickUpKey_3");
+        yield return new WaitForSeconds(2f);
+        key.SetActive(false);
+        ReturnToScene();
+        Canvas.GetComponent<GameData>().taskItemsCount++;
+        TurnOnScenarioTrigger2_Level_3();
+    }
+
+    private void TurnOnScenarioTrigger2_Level_3()
+    {
+        if (Canvas.GetComponent<GameData>().taskItemsCount == 3)
+        {
+            var scenarioTrigger1 = scenarioTriggers.transform.GetChild(0).gameObject;
+            var scenarioTrigger2 = scenarioTriggers.transform.GetChild(1).gameObject;
+            scenarioTrigger1.SetActive(false);
+            scenarioTrigger2.SetActive(true);
+            scenarioTrigger2.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+        }
     }
 }

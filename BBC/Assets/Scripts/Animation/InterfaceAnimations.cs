@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InterfaceAnimations : MonoBehaviour
 {
     public GameObject ActivateTaskButtonBackground;
+    public GameObject ChangeSceneButtonBackground;
+    public GameObject ScenarioButtonBackground;
     public GameObject TaskPanelBackground;
     public GameObject ExtendedTaskPanelBackground;
     public GameObject PadBackground;
@@ -63,19 +66,31 @@ public class InterfaceAnimations : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
     }
 
-    public IEnumerator ShowActivateTaskButton_COR()
+    public IEnumerator ShowActivateTaskButton_COR() => ShowButton_COR(UI.ActivateTaskButton, ActivateTaskButtonBackground);
+
+    public IEnumerator HideActivateTaskButton_COR() => HideButton_COR(UI.ActivateTaskButton, ActivateTaskButtonBackground);
+
+    public IEnumerator ShowChangeSceneButton_COR() => ShowButton_COR(UI.ChangeSceneButton, ChangeSceneButtonBackground);
+
+    public IEnumerator HideChangeSceneButton_COR() => HideButton_COR(UI.ChangeSceneButton, ChangeSceneButtonBackground);
+
+    public IEnumerator ShowScenarioButton_COR() => ShowButton_COR(UI.ScenarioButton, ScenarioButtonBackground);
+
+    public IEnumerator HideScenarioButton_COR() => HideButton_COR(UI.ScenarioButton, ScenarioButtonBackground);
+
+    public IEnumerator ShowButton_COR(Button button, GameObject buttonBackground)
     {
-        ActivateTaskButtonBackground.GetComponent<Animator>().Play("DrawBackground");
+        buttonBackground.GetComponent<Animator>().Play("DrawBackground");
         yield return new WaitForSeconds(0.15f);
-        UI.ActivateTaskButton.GetComponent<Animator>().Play("ScaleInterfaceUp");
+        button.GetComponent<Animator>().Play("ScaleInterfaceUp");
         yield return new WaitForSeconds(0.15f);
     }
 
-    public IEnumerator HideActivateTaskButton_COR()
+    public IEnumerator HideButton_COR(Button button, GameObject buttonBackground)
     {
-        UI.ActivateTaskButton.GetComponent<Animator>().Play("CollapseInterface");
+        button.GetComponent<Animator>().Play("CollapseInterface");
         yield return new WaitForSeconds(0.15f);
-        ActivateTaskButtonBackground.GetComponent<Animator>().Play("EraseBackground");
+        buttonBackground.GetComponent<Animator>().Play("EraseBackground");
         yield return new WaitForSeconds(0.15f);
     }
 

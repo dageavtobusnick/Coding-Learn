@@ -8,6 +8,10 @@ public class InterfaceElements : MonoBehaviour
     [Header (" нопки")]
     [Tooltip (" нопка активации задани€")]
     public Button ActivateTaskButton;
+    [Tooltip(" нопка смены сцены")]
+    public Button ChangeSceneButton;
+    [Tooltip(" нопка активации сценарного момента")]
+    public Button ScenarioButton;
 
     [Header ("ѕанель задани€")]
     [Tooltip("ѕанель задани€")]

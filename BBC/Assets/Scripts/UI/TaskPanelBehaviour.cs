@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class TaskPanelBehaviour : MonoBehaviour
 {
@@ -24,10 +23,10 @@ public class TaskPanelBehaviour : MonoBehaviour
         if (taskNumber <= tasksCount)
         {
             var taskText = gameData.TaskTexts[taskNumber - 1];
-            UI.TaskTitle.text = taskText.Title;
             UI.ExtendedTaskTitle.text = taskText.Title;
-            UI.TaskDescription.text = taskText.Description;
             UI.ExtendedTaskDescription.text = taskText.ExtendedDescription;
+            UI.TaskTitle.text = taskText.Title;
+            UI.TaskDescription.text = taskText.Description;
             padBehaviour.StartCode = taskText.StartCode;
             UI.CodeField.text = taskText.StartCode;
             UI.ResultField.text = "";

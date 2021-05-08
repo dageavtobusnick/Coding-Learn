@@ -18,7 +18,19 @@
     },
     {
       "TaskNumber": 5,
-      "Code": "Execute(10); var totalResult = L3_T4_setUpBoardCallsCount == 8;"
+      "Code": "Execute(10); var totalResult = L3_T5_setUpBoardCallsCount == 8;"
+    },
+    {
+      "TaskNumber": 6,
+      "Code": "Execute(); var totalResult = L3_T6_chooseNewPlaceCallsCount == 3 && L3_T6_searchKeyCallsCount == 3;"
+    },
+    {
+      "TaskNumber": 7,
+      "Code": "Execute(); var totalResult = L3_T7_checkNewItemsCallsCount == 12;"
+    },
+    {
+      "TaskNumber": 8,
+      "Code": "Execute(); var totalResult = L3_T8_turnToNextTargetCallsCount == 3 && L3_T8_digsCount == 9;"
     }
   ]
 }

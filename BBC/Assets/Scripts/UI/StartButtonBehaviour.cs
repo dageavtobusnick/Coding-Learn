@@ -106,6 +106,8 @@ public class RobotManagementClass : MonoBehaviour
                                "public bool IsPathClear() => L3_T3_treesCount == 0;";
                     case 4:
                         return "public int L3_T4_isTreeTallCallsCount = 0;" +
+                               "public int L3_T4_useAxeCallsCount = 0;" +
+                               "public void UseAxe() => L3_T4_useAxeCallsCount++;" +
                                "public bool IsTreeTall()" +
                                "{" +
                                "    L3_T4_isTreeTallCallsCount++;" +

@@ -38,17 +38,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             yield return StartCoroutine(UIAnimations.ShowTaskPanel_COR());
             UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
         }
-        else
-        {
-            isTask = true;
-            /*var triggerNumber = Canvas.GetComponent<GameData>().currentScenarioTriggerNumber;
-            if (gameData.SceneIndex != 0 && triggerNumber != 0)
-            {
-                var scenarioTrigger = gameData.Player.GetComponent<TaskTriggersBehaviour>().ScenarioTriggers.transform.GetChild(triggerNumber - 1).gameObject;
-                scenarioTrigger.SetActive(true);
-                scenarioTrigger.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
-            }*/
-        }
+        else isTask = true;
     }
 
     private IEnumerator GoToNextLevel_COR()

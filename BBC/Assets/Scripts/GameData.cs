@@ -135,9 +135,9 @@ public class GameData : MonoBehaviour
         #endregion
     }
 
-    private void OnGUI()
+   /* private void OnGUI()
     {
         float fps = 1.0f / Time.deltaTime;
         GUILayout.Label("FPS = " + fps);
-    }
+    }*/
 }

@@ -18,14 +18,14 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToGame_COR()
     {
-        UI.ExitToMenuPanel.GetComponent<Animator>().Play("CollapseInterface");
+        UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
         yield return new WaitForSeconds(0.75f);
         isPressed = false;
     }
 
     private IEnumerator ExitToMenu_COR()
     {
-        UI.ExitToMenuPanel.GetComponent<Animator>().Play("CollapseInterface");
+        UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
         yield return new WaitForSeconds(0.75f);
         UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         blackScreenContent.GetComponent<Animator>().Play("AppearBlackScreen");
@@ -37,7 +37,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape) && !isPressed)
         {
-            UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleInterfaceUp");
+            UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelUp");
             isPressed = true;
         }
     }

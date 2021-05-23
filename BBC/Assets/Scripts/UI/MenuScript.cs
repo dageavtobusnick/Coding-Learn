@@ -26,7 +26,7 @@ public class MenuScript : MonoBehaviour
     public void GoToURL_Financies() => Application.OpenURL("http://13.59.215.174/FiveRaccoons/");
     public void GoToURL_VK_Group() => Application.OpenURL("https://vk.com/iritrtf_urfu");
 
-    public void Start_Level_Training() => StartCoroutine(Start_Level_COR(6));
+    public void Start_Level_Training() => StartCoroutine(Start_Level_COR(SceneManager.sceneCountInBuildSettings - 1));
 
     public void Start_Level_1() => StartCoroutine(Start_Level_COR(1));
 

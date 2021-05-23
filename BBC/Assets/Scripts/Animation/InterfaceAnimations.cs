@@ -17,6 +17,7 @@ public class InterfaceAnimations : MonoBehaviour
 
     public IEnumerator ShowTaskPanel_COR()
     {
+        UI.TaskDescriptionScrollbar.value = 1;
         TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
         PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
         yield return new WaitForSeconds(0.15f);
@@ -41,7 +42,7 @@ public class InterfaceAnimations : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
         TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
         PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
-        yield return new WaitForSeconds(0.15f);      
+        yield return new WaitForSeconds(0.15f);
     }
 
     public IEnumerator ShowExtendedTaskPanel_COR()

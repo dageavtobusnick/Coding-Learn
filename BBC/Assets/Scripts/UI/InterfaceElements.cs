@@ -20,6 +20,8 @@ public class InterfaceElements : MonoBehaviour
     public Text TaskTitle;
     [Tooltip("Описание задания")]
     public Text TaskDescription;
+    [Tooltip("Скроллбар для прокрутки задания")]
+    public Scrollbar TaskDescriptionScrollbar;
     [Tooltip("Кнопка для получения полной доп. информации о задании")]
     public Button TaskInfoButton;
     [Tooltip("Кнопка для закрытия задания")]

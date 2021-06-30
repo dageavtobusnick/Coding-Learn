@@ -8489,9 +8489,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1752824715}
   - {fileID: 711430160}
   - {fileID: 1343883287}
+  - {fileID: 1752824715}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10319,6 +10319,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Canvas: {fileID: 0}
+  TaskTriggers: {fileID: 0}
+  EnterTriggers: {fileID: 0}
+  ScenarioTriggers: {fileID: 0}
 --- !u!95 &309254352
 Animator:
   serializedVersion: 3

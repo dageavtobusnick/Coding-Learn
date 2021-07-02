@@ -26,7 +26,7 @@ public class InterfaceAnimations : MonoBehaviour
         TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("DrawBackground");
         yield return new WaitForSeconds(0.15f);
         UI.TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
-        UI.Pad.transform.parent.gameObject.GetComponent<Animator>().Play("MoveLeft_Pad");
+        PlayPadMoveAnimation("MoveLeft_Pad", "MoveLeft_Pad_DevMode");
         yield return new WaitForSeconds(0.7f);
     }
 
@@ -34,7 +34,7 @@ public class InterfaceAnimations : MonoBehaviour
     {
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
-        UI.Pad.transform.parent.gameObject.GetComponent<Animator>().Play("MoveRight_Pad");
+        PlayPadMoveAnimation("MoveRight_Pad", "MoveRight_Pad_DevMode");
         yield return new WaitForSeconds(0.7f);
         PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
         TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
@@ -93,6 +93,16 @@ public class InterfaceAnimations : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
         buttonBackground.GetComponent<Animator>().Play("EraseBackground");
         yield return new WaitForSeconds(0.15f);
+    }
+
+    private void PlayPadMoveAnimation(string normalAnimation, string devAnimation, string handbookAnimation = null)
+    {
+        var padMode = UI.Pad.GetComponent<PadBehaviour>().Mode;
+        var padAnimator = UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>();
+        if (padMode == PadBehaviour.PadMode.Normal)
+            padAnimator.Play(normalAnimation);
+        else if (padMode == PadBehaviour.PadMode.Development)
+            padAnimator.Play(devAnimation);
     }
 
     private void Awake()

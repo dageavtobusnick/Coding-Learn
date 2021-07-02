@@ -70,6 +70,6 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             UI.ExtendedTaskDescription.text = startMessage.Description;
         }
         OpenTaskExtendedDescription_Special();
-        isTask = gameData.SceneIndex == 0 ? true : false;
+        isTask = gameData.SceneIndex == 0;
     }
 }

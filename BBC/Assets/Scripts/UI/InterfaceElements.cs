@@ -41,7 +41,7 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip("Кнопка для закрытия расширенного описания задания")]
     public Button CloseExtendedTaskButton;
 
-    [Header("Планшет")]
+    [Header("Планшет (режим разработки)")]
     [Tooltip("Планшет")]
     public GameObject Pad;
     [Tooltip("Поле для ввода кода")]
@@ -56,6 +56,16 @@ public class InterfaceElements : MonoBehaviour
     public Button ResetButton;
     [Tooltip("Кнопка выключения планшета")]
     public Button PowerButton;
+
+    [Header("Планшет (режим справочника)")]
+    [Tooltip("Кнопки разделов по программированию")]
+    public GameObject ThemeButtons;
+    [Tooltip("Кнопки подразделов для каждого раздела")]
+    public GameObject SubThemeButtons;
+    [Tooltip("Поле для информации по программрованию")]
+    public Text ProgrammingInfo;
+    [Tooltip("Кнопка для перехода на предыдущую страницу")]
+    public Button PreviousHandbookPageButton;
 
     [Header("Панель выхода в меню")]
     [Tooltip("Панель выхода в меню")]

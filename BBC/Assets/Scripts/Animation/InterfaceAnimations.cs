@@ -18,13 +18,7 @@ public class InterfaceAnimations : MonoBehaviour
     public IEnumerator ShowTaskPanel_COR()
     {
         UI.TaskDescriptionScrollbar.value = 1;
-        TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
-        PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
-        yield return new WaitForSeconds(0.15f);
-        TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
-        PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
-        TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("DrawBackground");
-        yield return new WaitForSeconds(0.15f);
+        yield return StartCoroutine(DrawTaskPanelBackground_COR());
         UI.TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
         PlayPadMoveAnimation("MoveLeft_Pad", "MoveLeft_Pad_DevMode");
         yield return new WaitForSeconds(0.7f);
@@ -36,13 +30,7 @@ public class InterfaceAnimations : MonoBehaviour
         UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
         PlayPadMoveAnimation("MoveRight_Pad", "MoveRight_Pad_DevMode");
         yield return new WaitForSeconds(0.7f);
-        PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
-        TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
-        TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("EraseBackground");
-        yield return new WaitForSeconds(0.15f);
-        TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
-        PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
-        yield return new WaitForSeconds(0.15f);
+        yield return StartCoroutine(EraseTaskPanelBackground_COR());
     }
 
     public IEnumerator ShowExtendedTaskPanel_COR()
@@ -95,7 +83,29 @@ public class InterfaceAnimations : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
     }
 
-    private void PlayPadMoveAnimation(string normalAnimation, string devAnimation, string handbookAnimation = null)
+    public IEnumerator DrawTaskPanelBackground_COR()
+    {
+        TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
+        PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
+        yield return new WaitForSeconds(0.15f);
+        TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
+        PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
+        TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("DrawBackground");
+        yield return new WaitForSeconds(0.15f);
+    }
+
+    public IEnumerator EraseTaskPanelBackground_COR()
+    {
+        PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
+        TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
+        TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("EraseBackground");
+        yield return new WaitForSeconds(0.15f);
+        TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
+        PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
+        yield return new WaitForSeconds(0.15f);
+    }
+
+    private void PlayPadMoveAnimation(string normalAnimation, string devAnimation)
     {
         var padMode = UI.Pad.GetComponent<PadBehaviour>().Mode;
         var padAnimator = UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>();

@@ -78,10 +78,13 @@ public class TaskTriggersBehaviour : MonoBehaviour
 
     private void RotateMarks(GameObject triggers)
     {
-        for (var i = 0; i < triggers.transform.childCount; i++)
+        if (triggers != null)
         {
-            var currentChild = triggers.transform.GetChild(i);
-            currentChild.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+            for (var i = 0; i < triggers.transform.childCount; i++)
+            {
+                var currentChild = triggers.transform.GetChild(i);
+                currentChild.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+            }
         }
     }
     

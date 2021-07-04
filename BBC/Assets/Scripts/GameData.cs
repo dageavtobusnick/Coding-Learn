@@ -100,7 +100,7 @@ public class GameData : MonoBehaviour
         Tests = JsonHelper.FromJson<Test>(testsFile.text);
         StartMessages = JsonHelper.FromJson<Message>(startMessagesFile.text);
         FinishMessages = JsonHelper.FromJson<Message>(finishMessagesFile.text);
-        if (SceneIndex > 2)
+        if (SceneIndex == 3)
             ScenarioMessages = JsonHelper.FromJson<ScenarioMessage>(scenarioMessagesFile.text);
 
         #region Код для дебагга

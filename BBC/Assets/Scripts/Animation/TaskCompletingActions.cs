@@ -16,7 +16,6 @@ public class TaskCompletingActions : MonoBehaviour
     private GameObject scenarioTriggers;
     private RobotBehaviour robotBehaviour;
 
-    #region Служебные методы (не трогать!)
     public void MakeActions(int taskNumber)
     {
         if (!isTasksCompleted[taskNumber - 1])
@@ -79,7 +78,6 @@ public class TaskCompletingActions : MonoBehaviour
                 break;
         }
     }
-    #endregion
 
     #region Пример
     private IEnumerator MakeActions_Level_НомерУровня_Task_НомерЗадания()             // Шаблон для названия методов

@@ -16,7 +16,6 @@ public class TaskCompletingActions : MonoBehaviour
     private GameObject scenarioTriggers;
     private RobotBehaviour robotBehaviour;
 
-    #region Служебные методы (не трогать!)
     public void MakeActions(int taskNumber)
     {
         if (!isTasksCompleted[taskNumber - 1])
@@ -79,7 +78,6 @@ public class TaskCompletingActions : MonoBehaviour
                 break;
         }
     }
-    #endregion
 
     #region Пример
     private IEnumerator MakeActions_Level_НомерУровня_Task_НомерЗадания()             // Шаблон для названия методов
@@ -96,6 +94,8 @@ public class TaskCompletingActions : MonoBehaviour
     #region Анимации для 1-го уровня
     private IEnumerator MakeActions_Level_1_Task_1()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         for (var i = 1; i <= 6; i++)
         {
             GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("ToUp");
@@ -106,6 +106,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_1_Task_2()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         var mushroom = GameObject.Find("Mushroom");
         mushroom.GetComponent<Animator>().Play("PickUp");
         yield return new WaitForSeconds(1.95f);
@@ -115,6 +117,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_1_Task_3()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         for (var i = 7; i <= 10; i++)
         {
             GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("Move_Flower_" + i);
@@ -127,6 +131,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_1_Task_4()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         for (var i = 1; i <= 8; i++)
         {
             GameObject.Find("Rock_" + i).GetComponent<Animator>().Play("Rock_ToUp");
@@ -139,6 +145,8 @@ public class TaskCompletingActions : MonoBehaviour
     #region Анимации для 2-го уровня
     private IEnumerator MakeActions_Level_2_Task_1()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         GameObject.Find("GreenLight_1").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
@@ -146,6 +154,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_2()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         GameObject.Find("ScriptingMemoryTree_1").GetComponent<Animator>().Play("ScaleBigTreeUp");
         yield return new WaitForSeconds(2f);
         GameObject.Find("ScriptingMemoryTree_2").GetComponent<Animator>().Play("ScaleSmallTreeUp");
@@ -172,6 +182,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_3()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         GameObject.Find("GreenLight_2").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
@@ -179,6 +191,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_4()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         for (var i = 1; i <= 9; i++)
         {
             var mushroom = GameObject.Find("ScriptingMushroom_" + i).transform.GetChild(0);
@@ -198,6 +212,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_5()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         GameObject.Find("ScriptingTree").GetComponent<Animator>().Play("ToUp_BrokenTree");
         yield return new WaitForSeconds(2f);
         GameObject.Find("RedLight_1").GetComponent<Animator>().Play("LightTurnOn");
@@ -213,6 +229,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_6()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         for (var i = 1; i <= 5; i++)
         {
             GameObject.Find("BridgeFence_" + i).GetComponent<Animator>().Play("Move_BridgeFence_" + i);
@@ -223,6 +241,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_7()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         GameObject.Find("GreenLight_5").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
@@ -230,6 +250,8 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_8()
     {
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         GameObject.Find("RedLight_3").GetComponent<Animator>().Play("LightTurnOn");
         GameObject.Find("RedLight_4").GetComponent<Animator>().Play("LightTurnOn");
         GameObject.Find("RedLight_5").GetComponent<Animator>().Play("LightTurnOn");
@@ -239,6 +261,7 @@ public class TaskCompletingActions : MonoBehaviour
     }
     #endregion
 
+    #region Анимации для 3-го уровня
     private IEnumerator MakeActions_Level_3_Task_1()
     {
         yield return new WaitForSeconds(1f);
@@ -465,4 +488,5 @@ public class TaskCompletingActions : MonoBehaviour
             scenarioTrigger2.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
         }
     }
+    #endregion
 }

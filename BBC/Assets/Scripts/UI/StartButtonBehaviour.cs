@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using RoslynCSharp;
 
 public class StartButtonBehaviour : MonoBehaviour
@@ -58,6 +57,22 @@ public class StartButtonBehaviour : MonoBehaviour
         UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
         robot = gameData.Player;
+        LaunchCompiler();
+    }
+
+    private void LaunchCompiler()
+    {
+        ScriptDomain domain = ScriptDomain.CreateDomain("MyDomain");
+        ScriptType type = domain.CompileAndLoadMainSource(@"
+using UnityEngine;
+using System;
+
+public class LaunchClass : MonoBehaviour
+{
+    public void LaunchCompiler() => Debug.Log(""Compiler is working!"");
+}");
+        ScriptProxy proxy = type.CreateInstance(robot);
+        proxy.Call("LaunchCompiler");
     }
 
     private string GetRobotManagementClass(string extraCode)

@@ -64,6 +64,8 @@ public class InterfaceElements : MonoBehaviour
     public GameObject SubThemeButtons;
     [Tooltip("Поле для информации по программрованию")]
     public Text ProgrammingInfo;
+    [Tooltip("Заголовок для раздела по программрованию")]
+    public Text ProgrammingInfoTitle;
     [Tooltip("Кнопка для перехода на предыдущую страницу")]
     public Button PreviousHandbookPageButton;
 

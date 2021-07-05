@@ -52,6 +52,6 @@ public class ChangeSceneButtonBehaviour : MonoBehaviour
     private void Start()
     {
         if (Canvas.GetComponent<GameData>().SceneIndex != 0)
-            enterTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().EnterTriggers;
+            enterTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TriggersBehaviour>().EnterTriggers;
     }
 }

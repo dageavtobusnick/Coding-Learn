@@ -218,7 +218,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -430,7 +430,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -563,7 +563,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -853,6 +853,7 @@ RectTransform:
   - {fileID: 6707002845865475695}
   - {fileID: 802326268649685922}
   - {fileID: 4456086274902574525}
+  - {fileID: 3194474373014093794}
   m_Father: {fileID: 6204997533059973172}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5147,6 +5148,7 @@ MonoBehaviour:
   ThemeButtons: {fileID: 7578673582067282668}
   SubThemeButtons: {fileID: 7614873481410825911}
   ProgrammingInfo: {fileID: 5689621053553090932}
+  ProgrammingInfoTitle: {fileID: 1866759411194174459}
   PreviousHandbookPageButton: {fileID: 194797254636738496}
   ExitToMenuPanel: {fileID: 1158166881011097118}
   BlackScreen: {fileID: 1158166880654185344}
@@ -6185,7 +6187,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6442,7 +6444,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 4062622.8}
+  m_AnchoredPosition: {x: -0.000061035156, y: 94838.79}
   m_SizeDelta: {x: -11.300049, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &181331970985258621
@@ -8005,7 +8007,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8214,7 +8216,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8596,7 +8598,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10209,6 +10211,105 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &7715086748664096236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3194474373014093794}
+  - component: {fileID: 509540914601203912}
+  - component: {fileID: 1866759411194174459}
+  - component: {fileID: 6386108179666578751}
+  m_Layer: 5
+  m_Name: InfoPanel_Title
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &3194474373014093794
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715086748664096236}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 6449600066999491905}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 17, y: 402.88}
+  m_SizeDelta: {x: 441.2898, y: 71.177}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &509540914601203912
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715086748664096236}
+  m_CullTransparentMesh: 1
+--- !u!114 &1866759411194174459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715086748664096236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 25
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"
+--- !u!95 &6386108179666578751
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715086748664096236}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0f2f649a1009e54db05776e08f79802, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7816359398442646792
 GameObject:
   m_ObjectHideFlags: 0
@@ -11066,7 +11167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_1
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11616,7 +11717,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1158166880377900267}
         m_TargetAssemblyTypeName: PadBehaviour, Assembly-CSharp
-        m_MethodName: ShowProgrammingInfo
+        m_MethodName: ShowProgrammingInfo_SubTheme_3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

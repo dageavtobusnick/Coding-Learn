@@ -93,9 +93,9 @@ public class ScenarioButtonBehaviour : MonoBehaviour
         UI = Canvas.GetComponent<InterfaceElements>();
         if (sceneIndex != 0)
         {
-            scenarioTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().ScenarioTriggers;
-            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
-            enterTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().EnterTriggers;
+            scenarioTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TriggersBehaviour>().ScenarioTriggers;
+            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TriggersBehaviour>().TaskTriggers;
+            enterTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TriggersBehaviour>().EnterTriggers;
         }
     }
 }

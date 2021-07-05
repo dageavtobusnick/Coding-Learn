@@ -48,6 +48,6 @@ public class ActivateTaskButtonBehaviour : MonoBehaviour
     private void Start()
     {
         if (Canvas.GetComponent<GameData>().SceneIndex != 0)
-            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
+            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TriggersBehaviour>().TaskTriggers;
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TaskTriggersBehaviour : MonoBehaviour
+public class TriggersBehaviour : MonoBehaviour
 {
     [Header("Интерфейс")]
     public GameObject Canvas;

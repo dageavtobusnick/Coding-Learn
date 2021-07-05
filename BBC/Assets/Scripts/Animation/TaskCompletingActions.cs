@@ -14,24 +14,27 @@ public class TaskCompletingActions : MonoBehaviour
     private GameObject taskTriggers;
     private GameObject enterTriggers;
     private GameObject scenarioTriggers;
+    private GameObject player;
     private RobotBehaviour robotBehaviour;
+    private GameData gameData;
+    private InterfaceElements UI;
+    private InterfaceAnimations UIAnimations;
 
     public void MakeActions(int taskNumber)
     {
         if (!isTasksCompleted[taskNumber - 1])
         {
             if (sceneIndex == 0)
-                Invoke("MakeActions_Level_Training", 0f);
+                StartCoroutine(MakeActions_Level_Training());
             else StartCoroutine("MakeActions_Level_" + sceneIndex + "_Task_" + taskNumber);
             isTasksCompleted[taskNumber - 1] = true;
         }
     }
 
-    private void MakeActions_Level_Training()
+    private IEnumerator WaitAndHideTaskPanel_COR()
     {
-        Canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
-        Canvas.GetComponent<GameData>().currentTaskNumber++;
-        Canvas.GetComponent<InterfaceElements>().ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(UIAnimations.HideTaskPanel_COR());
     }
 
     private void CloseTask() => Canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
@@ -40,16 +43,25 @@ public class TaskCompletingActions : MonoBehaviour
 
     private void Start()
     {
-        sceneIndex = Canvas.GetComponent<GameData>().SceneIndex;
-        robotBehaviour = Canvas.GetComponent<GameData>().Player.GetComponent<RobotBehaviour>();
+        gameData = Canvas.GetComponent<GameData>();
+        UI = Canvas.GetComponent<InterfaceElements>();
+        UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
+        sceneIndex = gameData.SceneIndex;
+        player = gameData.Player;
+        robotBehaviour = player.GetComponent<RobotBehaviour>();
         if (sceneIndex != 0)
         {
-            taskTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers;
-            enterTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().EnterTriggers;
-            scenarioTriggers = Canvas.GetComponent<GameData>().Player.GetComponent<TaskTriggersBehaviour>().ScenarioTriggers;
+            taskTriggers = player.GetComponent<TriggersBehaviour>().TaskTriggers;
+            enterTriggers = player.GetComponent<TriggersBehaviour>().EnterTriggers;
+            scenarioTriggers = player.GetComponent<TriggersBehaviour>().ScenarioTriggers;
         }
         for (var i = 0; i < 9; i++)
             isTasksCompleted.Add(false);
+        SwitchObjectsToStartState();
+    }
+
+    private void SwitchObjectsToStartState()
+    {
         switch (sceneIndex)
         {
             case 3:
@@ -91,11 +103,21 @@ public class TaskCompletingActions : MonoBehaviour
     }
     #endregion
 
-    #region Анимации для 1-го уровня
-    private IEnumerator MakeActions_Level_1_Task_1()
+    #region Действия для обучающего уровня
+    private IEnumerator MakeActions_Level_Training()
     {
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        CloseTask();
+        yield return new WaitForSeconds(0.7f);
+        gameData.currentTaskNumber++;
+        UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+    }
+    #endregion
+
+    #region Действия для 1-го уровня
+    private IEnumerator MakeActions_Level_1_Task_1()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         for (var i = 1; i <= 6; i++)
         {
             GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("ToUp");
@@ -106,8 +128,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_1_Task_2()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         var mushroom = GameObject.Find("Mushroom");
         mushroom.GetComponent<Animator>().Play("PickUp");
         yield return new WaitForSeconds(1.95f);
@@ -117,8 +138,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_1_Task_3()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         for (var i = 7; i <= 10; i++)
         {
             GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("Move_Flower_" + i);
@@ -131,8 +151,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_1_Task_4()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         for (var i = 1; i <= 8; i++)
         {
             GameObject.Find("Rock_" + i).GetComponent<Animator>().Play("Rock_ToUp");
@@ -142,11 +161,10 @@ public class TaskCompletingActions : MonoBehaviour
     }
     #endregion
 
-    #region Анимации для 2-го уровня
+    #region Действия для 2-го уровня
     private IEnumerator MakeActions_Level_2_Task_1()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("GreenLight_1").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
@@ -154,8 +172,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_2()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("ScriptingMemoryTree_1").GetComponent<Animator>().Play("ScaleBigTreeUp");
         yield return new WaitForSeconds(2f);
         GameObject.Find("ScriptingMemoryTree_2").GetComponent<Animator>().Play("ScaleSmallTreeUp");
@@ -182,8 +199,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_3()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("GreenLight_2").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
@@ -191,8 +207,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_4()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         for (var i = 1; i <= 9; i++)
         {
             var mushroom = GameObject.Find("ScriptingMushroom_" + i).transform.GetChild(0);
@@ -212,8 +227,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_5()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("ScriptingTree").GetComponent<Animator>().Play("ToUp_BrokenTree");
         yield return new WaitForSeconds(2f);
         GameObject.Find("RedLight_1").GetComponent<Animator>().Play("LightTurnOn");
@@ -229,8 +243,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_6()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         for (var i = 1; i <= 5; i++)
         {
             GameObject.Find("BridgeFence_" + i).GetComponent<Animator>().Play("Move_BridgeFence_" + i);
@@ -241,8 +254,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_7()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("GreenLight_5").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
         CloseTask();
@@ -250,8 +262,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_2_Task_8()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("RedLight_3").GetComponent<Animator>().Play("LightTurnOn");
         GameObject.Find("RedLight_4").GetComponent<Animator>().Play("LightTurnOn");
         GameObject.Find("RedLight_5").GetComponent<Animator>().Play("LightTurnOn");
@@ -261,11 +272,10 @@ public class TaskCompletingActions : MonoBehaviour
     }
     #endregion
 
-    #region Анимации для 3-го уровня
+    #region Действия для 3-го уровня
     private IEnumerator MakeActions_Level_3_Task_1()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         var boxes = GameObject.Find("Boxes");
         for (var i = 0; i < boxes.transform.childCount; i++)
         {
@@ -283,8 +293,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_3_Task_2()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         var boxes = GameObject.Find("Boxes");
         for (var i = 0; i < 2; i++)
         {
@@ -306,14 +315,13 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_3_Task_3()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         var axe = GameObject.Find("Box_3_Parent").transform.GetChild(0).GetChild(1).gameObject;
         axe.SetActive(true);
         axe.GetComponent<Animator>().Play("UseAxe_Vertical");
         yield return new WaitForSeconds(4f);
-        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
+        UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.5f);
         axe.SetActive(false);
@@ -323,20 +331,19 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(2f);
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         ReturnToScene();
     }
 
     private IEnumerator MakeActions_Level_3_Task_4()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         var axe = GameObject.Find("Box_3_Parent").transform.GetChild(0).GetChild(1).gameObject;
         axe.SetActive(true);
         axe.GetComponent<Animator>().Play("UseAxe_Horizontal");
         yield return new WaitForSeconds(4f);
-        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
+        UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.5f);
         axe.SetActive(false);
@@ -352,7 +359,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(2f);
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         ReturnToScene();
         yield return new WaitForSeconds(2f);
         taskTriggers.transform.GetChild(4).gameObject.SetActive(true);
@@ -361,8 +368,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_3_Task_5()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         var boards = GameObject.Find("ScriptingBoards");
         for (var i = 0; i < 3; i++)
         {
@@ -370,8 +376,8 @@ public class TaskCompletingActions : MonoBehaviour
             yield return new WaitForSeconds(1.5f);
         }
         boards.transform.GetChild(3).gameObject.GetComponent<Animator>().Play("UseBoard_4");
-        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
+        UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.5f);
         GameObject.Find("BrokenBridge").SetActive(false);
@@ -381,7 +387,7 @@ public class TaskCompletingActions : MonoBehaviour
             newBridge.transform.GetChild(i).gameObject.SetActive(true);
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         GameObject.Find("lever").GetComponent<Animator>().Play("ActivateLever");
         yield return new WaitForSeconds(1f);
         newBridge.GetComponent<Animator>().Play("GetBridgeDown");
@@ -391,15 +397,14 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_3_Task_6()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
-        Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("CheckAllPlaces");
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        gameData.currentSceneCamera.GetComponent<Animator>().Play("CheckAllPlaces");
         yield return new WaitForSeconds(10.5f);
         GameObject.Find("Key_MiniScene_1").GetComponent<Animator>().Play("PickUpKey_1");
         yield return new WaitForSeconds(2f);
         GameObject.Find("Key_MiniScene_1").SetActive(false);
         yield return new WaitForSeconds(2.5f);
-        Canvas.GetComponent<GameData>().taskItemsCount++;
+        gameData.taskItemsCount++;
         robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
         robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
         TurnOnScenarioTrigger2_Level_3();
@@ -407,8 +412,7 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_3_Task_7()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("CheckAllChests");
         yield return new WaitForSeconds(2f);
 
@@ -450,12 +454,11 @@ public class TaskCompletingActions : MonoBehaviour
 
     private IEnumerator MakeActions_Level_3_Task_8()
     {
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("robot3").GetComponent<Animator>().Play("ActivateDigger");
         yield return new WaitForSeconds(3.8f);
-        var blackScreen = Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.GetChild(0).gameObject;
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
+        UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(3f);
         var buriedItems = GameObject.Find("BuriedItems");
@@ -467,19 +470,19 @@ public class TaskCompletingActions : MonoBehaviour
         }
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        Canvas.GetComponent<InterfaceElements>().BlackScreen.transform.localScale = new Vector3(0, 0, 0);
+        UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         var key = unearthedItems.transform.GetChild(0).gameObject;
         key.GetComponent<Animator>().Play("PickUpKey_3");
         yield return new WaitForSeconds(2f);
         key.SetActive(false);
         ReturnToScene();
-        Canvas.GetComponent<GameData>().taskItemsCount++;
+        gameData.taskItemsCount++;
         TurnOnScenarioTrigger2_Level_3();
     }
 
     private void TurnOnScenarioTrigger2_Level_3()
     {
-        if (Canvas.GetComponent<GameData>().taskItemsCount == 3)
+        if (gameData.taskItemsCount == 3)
         {
             var scenarioTrigger1 = scenarioTriggers.transform.GetChild(0).gameObject;
             var scenarioTrigger2 = scenarioTriggers.transform.GetChild(1).gameObject;

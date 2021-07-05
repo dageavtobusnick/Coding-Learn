@@ -53,28 +53,26 @@ public class TaskPanelBehaviour : MonoBehaviour
     {
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
-        yield return StartCoroutine(ReturnToScene_COR());
-        UI.Pad.GetComponent<PadBehaviour>().Mode = PadBehaviour.PadMode.Normal;
+        if (sceneIndex != 0)
+            yield return StartCoroutine(ReturnToScene_COR());
+        padBehaviour.Mode = PadBehaviour.PadMode.Normal;
     }
 
     private IEnumerator ReturnToScene_COR()
     {
-        if (sceneIndex != 0)
+        Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
+        yield return new WaitForSeconds(2f);
+        padBehaviour.Mode = PadBehaviour.PadMode.Normal;
+        var isTaskCompleted = Canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
+        if (!isTaskCompleted)
         {
-            Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
-            yield return new WaitForSeconds(2f);
-            padBehaviour.Mode = PadBehaviour.PadMode.Normal;
-            var isTaskCompleted = Canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
-            if (!isTaskCompleted)
-            {
-                var taskMark = gameData.Player.GetComponent<TaskTriggersBehaviour>().TaskTriggers.transform.GetChild(taskNumber - 1);
-                taskMark.gameObject.SetActive(true);
-                taskMark.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
-                StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActivateTaskButton_COR());
-            }
-            robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
-            robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+            var taskMark = gameData.Player.GetComponent<TriggersBehaviour>().TaskTriggers.transform.GetChild(taskNumber - 1);
+            taskMark.gameObject.SetActive(true);
+            taskMark.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+            StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActivateTaskButton_COR());
         }
+        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
     }
 
     private void Start()

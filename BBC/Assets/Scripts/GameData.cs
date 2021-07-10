@@ -38,6 +38,13 @@ public class GameData : MonoBehaviour
         public string Description;
     }
 
+    [Serializable]
+    public class HandbookLetter
+    {
+        public string Title;
+        public string Description;
+    }
+
     public static class JsonHelper
     {
         public static T[] FromJson<T>(string json)
@@ -83,6 +90,8 @@ public class GameData : MonoBehaviour
     [HideInInspector]
     public Message[] FinishMessages;
     [HideInInspector]
+    public List<HandbookLetter[]> HandbookLetters;
+    [HideInInspector]
     public int taskItemsCount;
 
     private void Awake()
@@ -100,6 +109,12 @@ public class GameData : MonoBehaviour
         Tests = JsonHelper.FromJson<Test>(testsFile.text);
         StartMessages = JsonHelper.FromJson<Message>(startMessagesFile.text);
         FinishMessages = JsonHelper.FromJson<Message>(finishMessagesFile.text);
+        HandbookLetters = new List<HandbookLetter[]>();
+        for (var i = 0; i <= 3; i++)
+        {
+            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters Level " + SceneIndex);
+            HandbookLetters.Add(JsonHelper.FromJson<HandbookLetter>(handbookLettersFile.text));
+        }
         if (SceneIndex == 3)
             ScenarioMessages = JsonHelper.FromJson<ScenarioMessage>(scenarioMessagesFile.text);
 

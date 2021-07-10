@@ -45,6 +45,12 @@ public class GameData : MonoBehaviour
         public string Description;
     }
 
+    [Serializable]
+    public class TipMessage
+    {
+        public string Tip;
+    }
+
     public static class JsonHelper
     {
         public static T[] FromJson<T>(string json)
@@ -69,6 +75,8 @@ public class GameData : MonoBehaviour
     
     [Header("Игрок")]
     public GameObject Player;
+    public int CoinsCount;
+    public int TipsCount;
     [Header ("Текущая включенная камера на сцене")]
     public Camera currentSceneCamera;
     [Header("Номер текущего задания")]
@@ -92,6 +100,9 @@ public class GameData : MonoBehaviour
     [HideInInspector]
     public List<HandbookLetter[]> HandbookLetters;
     [HideInInspector]
+    public List<TipMessage[]> Tips;
+    [HideInInspector]
+    [Tooltip("Кол-во предметов, необходимых для прохождения задания")]
     public int taskItemsCount;
 
     private void Awake()
@@ -100,8 +111,8 @@ public class GameData : MonoBehaviour
         SceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneIndex == SceneManager.sceneCountInBuildSettings - 1)
             SceneIndex = 0;
-        var tasksFile = Resources.Load<TextAsset>("Tasks Level " + SceneIndex);
-        var testsFile = Resources.Load<TextAsset>("Tests Level " + SceneIndex);
+        var tasksFile = Resources.Load<TextAsset>("Tasks/Tasks Level " + SceneIndex);
+        var testsFile = Resources.Load<TextAsset>("Tests/Tests Level " + SceneIndex);
         var scenarioMessagesFile = Resources.Load<TextAsset>("Scenario Messages Level " + SceneIndex);
         var startMessagesFile = Resources.Load<TextAsset>("Start Messages");
         var finishMessagesFile = Resources.Load<TextAsset>("Finish Messages");
@@ -112,9 +123,18 @@ public class GameData : MonoBehaviour
         HandbookLetters = new List<HandbookLetter[]>();
         for (var i = 0; i <= 3; i++)
         {
-            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters Level " + SceneIndex);
+            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters/Handbook Letters Level " + SceneIndex);
             HandbookLetters.Add(JsonHelper.FromJson<HandbookLetter>(handbookLettersFile.text));
-        }
+        }     
+        if (SceneIndex == 2) //SceneIndex > 0
+        {
+            Tips = new List<TipMessage[]>();
+            for (var i = 1; i <= TaskTexts.Length; i++)
+            {
+                var tipsFile = Resources.Load<TextAsset>("Tips/Tips Level " + SceneIndex + " Task " + i);
+                Tips.Add(JsonHelper.FromJson<TipMessage>(tipsFile.text));
+            }
+        }       
         if (SceneIndex == 3)
             ScenarioMessages = JsonHelper.FromJson<ScenarioMessage>(scenarioMessagesFile.text);
 

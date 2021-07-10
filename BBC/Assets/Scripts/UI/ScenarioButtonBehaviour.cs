@@ -49,7 +49,7 @@ public class ScenarioButtonBehaviour : MonoBehaviour
                 {
                     var key = gatesKeys.transform.GetChild(i).gameObject;
                     key.SetActive(true);
-                    key.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("TurnKey");
+                    key.GetComponentInChildren<Animator>().Play("TurnKey");
                 }
                 yield return new WaitForSeconds(3f);
                 for (var i = 0; i < gatesKeys.transform.childCount; i++)

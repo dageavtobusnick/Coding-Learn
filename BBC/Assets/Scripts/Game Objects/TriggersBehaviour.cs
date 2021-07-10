@@ -45,6 +45,8 @@ public class TriggersBehaviour : MonoBehaviour
             StartCoroutine(UIAnimations.ShowScenarioButton_COR());
             Canvas.GetComponent<GameData>().currentScenarioTriggerNumber = int.Parse(triggerName[triggerName.Length - 1].ToString());
         }
+        else if (triggerName.StartsWith("Coin"))
+            StartCoroutine(PickCoinUp_COR(other));
     }
 
     private void OnTriggerExit(Collider other)
@@ -76,6 +78,14 @@ public class TriggersBehaviour : MonoBehaviour
         UI.ScenarioButton.gameObject.SetActive(false);
     }
 
+    private IEnumerator PickCoinUp_COR(Collider coin)
+    {
+        coin.GetComponentInChildren<Animator>().Play("PickCoinUp");
+        yield return new WaitForSeconds(1f);
+        coin.gameObject.SetActive(false);
+        Canvas.GetComponent<GameData>().CoinsCount++;
+    }
+
     private void RotateMarks(GameObject triggers)
     {
         if (triggers != null)
@@ -83,7 +93,7 @@ public class TriggersBehaviour : MonoBehaviour
             for (var i = 0; i < triggers.transform.childCount; i++)
             {
                 var currentChild = triggers.transform.GetChild(i);
-                currentChild.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+                currentChild.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
             }
         }
     }

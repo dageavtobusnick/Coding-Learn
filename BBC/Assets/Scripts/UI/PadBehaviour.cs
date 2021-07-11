@@ -237,7 +237,7 @@ public class PadBehaviour : MonoBehaviour
         UI.BuyTipButton.interactable = gameData.CoinsCount >= 3;
         UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= 8;
         UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
-        if (taskNumber > 0)
+        if (gameData.SceneIndex > 0 && taskNumber > 0)
             UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
     }
 
@@ -248,7 +248,10 @@ public class PadBehaviour : MonoBehaviour
         Mode = PadMode.Normal;
         LockThemes();
         availableTipsCounts = new List<int>();
-        for (var i = 0; i < gameData.TaskTexts.Length; i++) //i < gameData.TaskTexts.Length
-            availableTipsCounts.Add(gameData.Tips[i].Length);
+        if (gameData.SceneIndex > 0)
+        {
+            for (var i = 0; i < gameData.TaskTexts.Length; i++)
+                availableTipsCounts.Add(gameData.Tips[i].Length);
+        }
     }
 }

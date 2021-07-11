@@ -237,7 +237,7 @@ public class PadBehaviour : MonoBehaviour
         UI.BuyTipButton.interactable = gameData.CoinsCount >= 3;
         UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= 8;
         UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
-        if (gameData.SceneIndex > 0 && taskNumber > 0)
+        if (gameData.SceneIndex == 2 && taskNumber > 0) //gameData.SceneIndex > 0
             UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
     }
 

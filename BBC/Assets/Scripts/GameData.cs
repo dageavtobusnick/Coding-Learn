@@ -20,7 +20,8 @@ public class GameData : MonoBehaviour
     public class Test
     {
         public int TaskNumber;
-        public string Code;
+        public string ExtraCode;
+        public string TestCode;
     }
 
     [Serializable]

@@ -388,7 +388,7 @@ public class TaskCompletingActions : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
-        GameObject.Find("lever").GetComponent<Animator>().Play("ActivateLever");
+        GameObject.Find("Lever").GetComponent<Animator>().Play("ActivateLever");
         yield return new WaitForSeconds(1f);
         newBridge.GetComponent<Animator>().Play("GetBridgeDown");
         yield return new WaitForSeconds(1.5f);
@@ -455,7 +455,7 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_3_Task_8()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        GameObject.Find("robot3").GetComponent<Animator>().Play("ActivateDigger");
+        GameObject.Find("Robot_Digger").GetComponent<Animator>().Play("ActivateDigger");
         yield return new WaitForSeconds(3.8f);
         var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
         UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);

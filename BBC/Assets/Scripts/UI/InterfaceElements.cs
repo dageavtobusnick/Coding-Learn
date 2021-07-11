@@ -57,6 +57,24 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip("Кнопка выключения планшета")]
     public Button PowerButton;
 
+    [Header("Планшет (панель подсказок)")]
+    [Tooltip("Панель подсказок")]
+    public GameObject HelpPanel;
+    [Tooltip("Кнопка показа подсказки")]
+    public Button ShowTipButton;
+    [Tooltip("Кнопка покупки подсказки")]
+    public Button BuyTipButton;
+    [Tooltip("Кнопка покупки нескольких подсказок")]
+    public Button BuyManyTipsButton;
+    [Tooltip("Поле с текстом подсказки")]
+    public Text Tip;
+    [Tooltip("Счётчик подсказок")]
+    public Text TipsCounter;
+    [Tooltip("Счётчик монет")]
+    public Text CoinsCounter;
+    [Tooltip("Текст-филлер (заполняется место подсказки, пока она недоступна)")]
+    public Text TipFiller;
+
     [Header("Планшет (режим справочника)")]
     [Tooltip("Кнопки разделов по программированию")]
     public GameObject ThemeButtons;

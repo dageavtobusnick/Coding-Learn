@@ -30,6 +30,7 @@ public class InterfaceAnimations : MonoBehaviour
         UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
         PlayPadMoveAnimation("MoveRight_Pad", "MoveRight_Pad_DevMode");
         yield return new WaitForSeconds(0.7f);
+        UI.HelpPanel.GetComponent<Animator>().Play("ScaleDown_Quick");
         yield return StartCoroutine(EraseTaskPanelBackground_COR());
     }
 

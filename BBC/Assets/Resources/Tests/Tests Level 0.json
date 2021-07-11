@@ -1,0 +1,24 @@
+{
+  "Items": [
+    {
+      "TaskNumber": 1,
+      "ExtraCode": "",
+      "TestCode": "var result = Execute(); var totalResult = result == 4;"
+    },
+    {
+      "TaskNumber": 2,
+      "ExtraCode": "",
+      "TestCode": "var result = Execute(); var totalResult = result == 0;"
+    },
+    {
+      "TaskNumber": 3,
+      "ExtraCode": "",
+      "TestCode": "var result = Execute(); var totalResult = result == 2;"
+    },
+    {
+      "TaskNumber": 4,
+      "ExtraCode": "",
+      "TestCode": "var result = Execute(); var totalResult = Math.Abs(result - 1000000014.94159) < 1e-7;"
+    }
+  ]
+}

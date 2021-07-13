@@ -43,6 +43,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator GoToNextLevel_COR()
     {
+        Canvas.GetComponent<SaveLoad>().Save_NextLevel();
         yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
         UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
@@ -61,7 +62,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         if (gameData.SceneIndex == 0)
         {
             Canvas.GetComponent<GameData>().currentTaskNumber = 1;
-            UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+            UI.ActionButton.GetComponent<ActionButtonBehaviour>().ActivateTask();
         }
         else
         {

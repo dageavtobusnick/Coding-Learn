@@ -6,12 +6,8 @@ using UnityEngine.UI;
 public class InterfaceElements : MonoBehaviour
 {
     [Header ("Кнопки")]
-    [Tooltip ("Кнопка активации задания")]
-    public Button ActivateTaskButton;
-    [Tooltip("Кнопка смены сцены")]
-    public Button ChangeSceneButton;
-    [Tooltip("Кнопка активации сценарного момента")]
-    public Button ScenarioButton;
+    [Tooltip ("Кнопка выполнения действия (активация задания, смена сцены и т.д.)")]
+    public Button ActionButton;
 
     [Header ("Панель задания")]
     [Tooltip("Панель задания")]

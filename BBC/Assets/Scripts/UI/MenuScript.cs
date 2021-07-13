@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class MenuScript : MonoBehaviour
@@ -10,6 +11,7 @@ public class MenuScript : MonoBehaviour
     public GameObject Robot;
     public GameObject FireLight;
     public GameObject BlackScreen;
+    public Button ContinueButton;
 
     public void GoTo_Settings() => StartCoroutine(GoTo_Settings_COR());
 
@@ -25,6 +27,8 @@ public class MenuScript : MonoBehaviour
 
     public void GoToURL_Financies() => Application.OpenURL("http://13.59.215.174/FiveRaccoons/");
     public void GoToURL_VK_Group() => Application.OpenURL("https://vk.com/iritrtf_urfu");
+
+    public void Continue() => StartCoroutine(Continue_COR());
 
     public void Start_Level_Training() => StartCoroutine(Start_Level_COR(SceneManager.sceneCountInBuildSettings - 1));
 
@@ -146,8 +150,25 @@ public class MenuScript : MonoBehaviour
         yield return new WaitForSeconds(2f);
     }
 
+    private IEnumerator Continue_COR()
+    {
+        GameObject.Find("Content").GetComponent<Animator>().Play("MoveMainMenuUp");
+        yield return new WaitForSeconds(0.5f);
+        for (var i = 5; i >= 1; i--)
+        {
+            GameObject.Find("MainMenuBackground_Part_" + i).GetComponent<Animator>().Play("EraseMainMenu");
+            yield return new WaitForSeconds(0.15f);
+        }
+        Robot.GetComponent<Animator>().Play("Walk_MainMenu");
+        yield return new WaitForSeconds(5f);
+        BlackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
+        yield return new WaitForSeconds(1.4f);
+        SceneManager.LoadScene(PlayerPrefs.GetInt("SceneIndex"));
+    }
+
     private IEnumerator Start_Level_COR(int levelNumber)
     {
+        PlayerPrefs.DeleteAll();
         GameObject.Find("LevelsBackground_BackToMenu").GetComponent<Animator>().Play("EraseChapter");
         GameObject.Find("LevelsScrollArea").GetComponent<Animator>().Play("MoveLevelsUp");
         GameObject.Find("BackToMainMenuButton_Levels").GetComponent<Animator>().Play("MoveBackToMenuButtonDown");
@@ -164,11 +185,12 @@ public class MenuScript : MonoBehaviour
         BlackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
         SceneManager.LoadScene(levelNumber);
-        yield break;
     }
 
     private void Start()
     {
         FireLight.GetComponent<Animator>().Play("Fire");
+        if (!PlayerPrefs.HasKey("PositionX"))
+            ContinueButton.gameObject.SetActive(false);
     }
 }

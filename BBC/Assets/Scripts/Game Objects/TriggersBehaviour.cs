@@ -22,28 +22,28 @@ public class TriggersBehaviour : MonoBehaviour
         var triggerName = other.gameObject.name;
         if (triggerName.StartsWith("TaskTrigger"))
         {
-            var taskNumber = int.Parse(triggerName[triggerName.Length - 1].ToString());
-            var isTaskCompleted = Canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
-            if (!isTaskCompleted)
+            var taskNumber = int.Parse(triggerName.Split('_')[1]);
+            if (!Canvas.GetComponent<GameData>().hasTasksCompleted[taskNumber - 1])
             {
-                UI.ActivateTaskButton.gameObject.SetActive(true);
-                StartCoroutine(UIAnimations.ShowActivateTaskButton_COR());
+                ActivateButton("Начать задание", ActionButtonBehaviour.TriggerType.Task);
                 Canvas.GetComponent<GameData>().currentTaskNumber = taskNumber;
             }
         }
         else if (triggerName.StartsWith("EnterTrigger"))
         {
-            UI.ChangeSceneButton.gameObject.SetActive(true);
             var buttonText = other.gameObject.GetComponent<SwitchSceneBehaviour>().buttonText;
-            UI.ChangeSceneButton.GetComponentInChildren<Text>().text = buttonText;
-            StartCoroutine(UIAnimations.ShowChangeSceneButton_COR());
-            Canvas.GetComponent<GameData>().currentChangeSceneTriggerNumber = int.Parse(triggerName[triggerName.Length - 1].ToString());
+            ActivateButton(buttonText, ActionButtonBehaviour.TriggerType.SceneChange);
+            Canvas.GetComponent<GameData>().currentChangeSceneTriggerNumber = int.Parse(triggerName.Split('_')[1]);
         }
         else if (triggerName.StartsWith("ScenarioTrigger"))
         {
-            UI.ScenarioButton.gameObject.SetActive(true);
-            StartCoroutine(UIAnimations.ShowScenarioButton_COR());
-            Canvas.GetComponent<GameData>().currentScenarioTriggerNumber = int.Parse(triggerName[triggerName.Length - 1].ToString());
+            ActivateButton("Взаимодействовать", ActionButtonBehaviour.TriggerType.ScenarioMoment);
+            Canvas.GetComponent<GameData>().currentScenarioTriggerNumber = int.Parse(triggerName.Split('_')[1]);
+        }
+        else if (triggerName.StartsWith("SaveTrigger"))
+        {
+            ActivateButton("Сохранить игру", ActionButtonBehaviour.TriggerType.Save);
+            Canvas.GetComponent<GameData>().currentSaveTriggerNumber = int.Parse(triggerName.Split('_')[1]);
         }
         else if (triggerName.StartsWith("Coin"))
             StartCoroutine(PickCoinUp_COR(other));
@@ -52,30 +52,23 @@ public class TriggersBehaviour : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         var triggerName = other.gameObject.name;
-        if (triggerName.StartsWith("TaskTrigger"))
-            StartCoroutine(DeleteActivateTaskButton_COR());
-        else if (triggerName.StartsWith("EnterTrigger"))
-            StartCoroutine(DeleteChangeSceneButton_COR());
-        else if (triggerName.StartsWith("ScenarioTrigger"))
-            StartCoroutine(DeleteScenarioButton_COR());
+        if (triggerName.StartsWith("TaskTrigger") || triggerName.StartsWith("EnterTrigger") || triggerName.StartsWith("ScenarioTrigger")
+            || triggerName.StartsWith("SaveTrigger"))
+            StartCoroutine(DeleteActionButton_COR());
     }
 
-    private IEnumerator DeleteActivateTaskButton_COR()
+    private void ActivateButton(string buttonText, ActionButtonBehaviour.TriggerType triggerType)
     {
-        yield return StartCoroutine(UIAnimations.HideActivateTaskButton_COR());
-        UI.ActivateTaskButton.gameObject.SetActive(false);
+        Canvas.GetComponent<ActionButtonBehaviour>().triggerType = triggerType;
+        UI.ActionButton.gameObject.SetActive(true);
+        UI.ActionButton.GetComponentInChildren<Text>().text = buttonText;
+        StartCoroutine(UIAnimations.ShowActionButton_COR());
     }
 
-    private IEnumerator DeleteChangeSceneButton_COR()
+    private IEnumerator DeleteActionButton_COR()
     {
-        yield return StartCoroutine(UIAnimations.HideChangeSceneButton_COR());
-        UI.ChangeSceneButton.gameObject.SetActive(false);
-    }
-
-    private IEnumerator DeleteScenarioButton_COR()
-    {
-        yield return StartCoroutine(UIAnimations.HideScenarioButton_COR());
-        UI.ScenarioButton.gameObject.SetActive(false);
+        yield return StartCoroutine(UIAnimations.HideActionButton_COR());
+        UI.ActionButton.gameObject.SetActive(false);
     }
 
     private IEnumerator PickCoinUp_COR(Collider coin)
@@ -102,8 +95,7 @@ public class TriggersBehaviour : MonoBehaviour
     {
         UI = Canvas.GetComponent<InterfaceElements>();
         UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
-        UI.ActivateTaskButton.gameObject.SetActive(false);
-        UI.ChangeSceneButton.gameObject.SetActive(false);
+        UI.ActionButton.gameObject.SetActive(false);
         RotateMarks(TaskTriggers);
         RotateMarks(EnterTriggers);
         RotateMarks(ScenarioTriggers);

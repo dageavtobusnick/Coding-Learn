@@ -16,21 +16,20 @@ public class PadBehaviour : MonoBehaviour
 
     [Header("Интерфейс")]
     public GameObject Canvas;
-
     [HideInInspector]
     public string StartCode;
-
     [HideInInspector]
     public PadMode Mode;
-
     [HideInInspector]
     public int firstThemeToLockNumber;
+    [HideInInspector]
+    public List<int> availableTipsCounts;
 
     private InterfaceElements UI;
     private GameData gameData;
     private int themeNumber;
     private int taskNumber;
-    private List<int> availableTipsCounts;
+    private bool isPadCalled;
 
     public void ResetCode() => UI.CodeField.text = StartCode;
 
@@ -229,6 +228,14 @@ public class PadBehaviour : MonoBehaviour
         }
     }
 
+    private void CallPad()
+    {
+        if (!isPadCalled)
+            UI.Pad.GetComponentInParent<Animator>().Play("MoveLeft_Pad");
+        else UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+        isPadCalled = !isPadCalled;
+    }
+
     private void Update()
     {
         taskNumber = gameData.currentTaskNumber;
@@ -237,8 +244,10 @@ public class PadBehaviour : MonoBehaviour
         UI.BuyTipButton.interactable = gameData.CoinsCount >= 3;
         UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= 8;
         UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
-        if (gameData.SceneIndex == 2 && taskNumber > 0) //gameData.SceneIndex > 0
+        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < availableTipsCounts.Count)
             UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
+        //if (Input.GetKeyDown(KeyCode.P))
+          //  CallPad();
     }
 
     private void Start()
@@ -246,6 +255,7 @@ public class PadBehaviour : MonoBehaviour
         UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
         Mode = PadMode.Normal;
+        isPadCalled = false;
         LockThemes();
         availableTipsCounts = new List<int>();
         if (gameData.SceneIndex > 0)
@@ -253,5 +263,11 @@ public class PadBehaviour : MonoBehaviour
             for (var i = 0; i < gameData.TaskTexts.Length; i++)
                 availableTipsCounts.Add(gameData.Tips[i].Length);
         }
+        if (PlayerPrefs.HasKey("PositionX"))
+        {
+            for (var i = 0; i < availableTipsCounts.Count; i++)
+                availableTipsCounts[i] = PlayerPrefs.GetInt("Available Tips Count (Task " + (i + 1) + ")");
+        }
+        Canvas.GetComponent<SaveLoad>().Save();
     }
 }

@@ -7,8 +7,6 @@ public class TaskCompletingActions : MonoBehaviour
 {
     [Header("Интерфейс")]
     public GameObject Canvas;
-    [HideInInspector]
-    public List<bool> isTasksCompleted = new List<bool>();
 
     private int sceneIndex;
     private GameObject taskTriggers;
@@ -22,12 +20,12 @@ public class TaskCompletingActions : MonoBehaviour
 
     public void MakeActions(int taskNumber)
     {
-        if (!isTasksCompleted[taskNumber - 1])
+        if (!gameData.hasTasksCompleted[taskNumber - 1])
         {
             if (sceneIndex == 0)
                 StartCoroutine(MakeActions_Level_Training());
             else StartCoroutine("MakeActions_Level_" + sceneIndex + "_Task_" + taskNumber);
-            isTasksCompleted[taskNumber - 1] = true;
+            gameData.hasTasksCompleted[taskNumber - 1] = true;
         }
     }
 
@@ -55,8 +53,6 @@ public class TaskCompletingActions : MonoBehaviour
             enterTriggers = player.GetComponent<TriggersBehaviour>().EnterTriggers;
             scenarioTriggers = player.GetComponent<TriggersBehaviour>().ScenarioTriggers;
         }
-        for (var i = 0; i < 9; i++)
-            isTasksCompleted.Add(false);
         SwitchObjectsToStartState();
     }
 
@@ -110,7 +106,7 @@ public class TaskCompletingActions : MonoBehaviour
         CloseTask();
         yield return new WaitForSeconds(0.7f);
         gameData.currentTaskNumber++;
-        UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+        UI.ActionButton.GetComponent<ActionButtonBehaviour>().ActivateTask();
     }
     #endregion
 

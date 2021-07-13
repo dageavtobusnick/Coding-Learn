@@ -63,13 +63,13 @@ public class TaskPanelBehaviour : MonoBehaviour
         Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
         yield return new WaitForSeconds(2f);
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
-        var isTaskCompleted = Canvas.GetComponent<TaskCompletingActions>().isTasksCompleted[taskNumber - 1];
+        var isTaskCompleted = Canvas.GetComponent<GameData>().hasTasksCompleted[taskNumber - 1];
         if (!isTaskCompleted)
         {
             var taskMark = gameData.Player.GetComponent<TriggersBehaviour>().TaskTriggers.transform.GetChild(taskNumber - 1);
             taskMark.gameObject.SetActive(true);
-            taskMark.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
-            StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActivateTaskButton_COR());
+            taskMark.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+            StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActionButton_COR());
         }
         robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
         robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;

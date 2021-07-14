@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class InterfaceAnimations : MonoBehaviour
 {
-    public GameObject ActivateTaskButtonBackground;
-    public GameObject ChangeSceneButtonBackground;
-    public GameObject ScenarioButtonBackground;
+    public GameObject ActionButtonBackground;
     public GameObject TaskPanelBackground;
     public GameObject ExtendedTaskPanelBackground;
     public GameObject PadBackground;
@@ -56,17 +54,9 @@ public class InterfaceAnimations : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
     }
 
-    public IEnumerator ShowActivateTaskButton_COR() => ShowButton_COR(UI.ActivateTaskButton, ActivateTaskButtonBackground);
+    public IEnumerator ShowActionButton_COR() => ShowButton_COR(UI.ActionButton, ActionButtonBackground);
 
-    public IEnumerator HideActivateTaskButton_COR() => HideButton_COR(UI.ActivateTaskButton, ActivateTaskButtonBackground);
-
-    public IEnumerator ShowChangeSceneButton_COR() => ShowButton_COR(UI.ChangeSceneButton, ChangeSceneButtonBackground);
-
-    public IEnumerator HideChangeSceneButton_COR() => HideButton_COR(UI.ChangeSceneButton, ChangeSceneButtonBackground);
-
-    public IEnumerator ShowScenarioButton_COR() => ShowButton_COR(UI.ScenarioButton, ScenarioButtonBackground);
-
-    public IEnumerator HideScenarioButton_COR() => HideButton_COR(UI.ScenarioButton, ScenarioButtonBackground);
+    public IEnumerator HideActionButton_COR() => HideButton_COR(UI.ActionButton, ActionButtonBackground);
 
     public IEnumerator ShowButton_COR(Button button, GameObject buttonBackground)
     {
@@ -109,7 +99,7 @@ public class InterfaceAnimations : MonoBehaviour
     private void PlayPadMoveAnimation(string normalAnimation, string devAnimation)
     {
         var padMode = UI.Pad.GetComponent<PadBehaviour>().Mode;
-        var padAnimator = UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>();
+        var padAnimator = UI.Pad.GetComponentInParent<Animator>();
         if (padMode == PadBehaviour.PadMode.Normal)
             padAnimator.Play(normalAnimation);
         else if (padMode == PadBehaviour.PadMode.Development)

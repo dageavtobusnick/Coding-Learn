@@ -6,12 +6,8 @@ using UnityEngine.UI;
 public class InterfaceElements : MonoBehaviour
 {
     [Header ("Кнопки")]
-    [Tooltip ("Кнопка активации задания")]
-    public Button ActivateTaskButton;
-    [Tooltip("Кнопка смены сцены")]
-    public Button ChangeSceneButton;
-    [Tooltip("Кнопка активации сценарного момента")]
-    public Button ScenarioButton;
+    [Tooltip ("Кнопка выполнения действия (активация задания, смена сцены и т.д.)")]
+    public Button ActionButton;
 
     [Header ("Панель задания")]
     [Tooltip("Панель задания")]
@@ -40,6 +36,14 @@ public class InterfaceElements : MonoBehaviour
     public Button NextLevelButton;
     [Tooltip("Кнопка для закрытия расширенного описания задания")]
     public Button CloseExtendedTaskButton;
+
+    [Header("Планшет (главное меню)")]
+    [Tooltip("Счетчик подсказок в меню")]
+    public Text TipsMenuCounter;
+    [Tooltip("Счетчик монет в меню")]
+    public Text CoinsMenuCounter;
+    [Tooltip("Кнопка перехода в режим разработки")]
+    public Button IDEButton;
 
     [Header("Планшет (режим разработки)")]
     [Tooltip("Планшет")]

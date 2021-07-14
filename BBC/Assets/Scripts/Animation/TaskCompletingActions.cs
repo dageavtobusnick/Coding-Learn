@@ -1,14 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TaskCompletingActions : MonoBehaviour
 {
     [Header("Интерфейс")]
     public GameObject Canvas;
-    [HideInInspector]
-    public List<bool> isTasksCompleted = new List<bool>();
 
     private int sceneIndex;
     private GameObject taskTriggers;
@@ -22,12 +19,12 @@ public class TaskCompletingActions : MonoBehaviour
 
     public void MakeActions(int taskNumber)
     {
-        if (!isTasksCompleted[taskNumber - 1])
+        if (!gameData.HasTasksCompleted[taskNumber - 1])
         {
             if (sceneIndex == 0)
                 StartCoroutine(MakeActions_Level_Training());
             else StartCoroutine("MakeActions_Level_" + sceneIndex + "_Task_" + taskNumber);
-            isTasksCompleted[taskNumber - 1] = true;
+            gameData.HasTasksCompleted[taskNumber - 1] = true;
         }
     }
 
@@ -55,8 +52,6 @@ public class TaskCompletingActions : MonoBehaviour
             enterTriggers = player.GetComponent<TriggersBehaviour>().EnterTriggers;
             scenarioTriggers = player.GetComponent<TriggersBehaviour>().ScenarioTriggers;
         }
-        for (var i = 0; i < 9; i++)
-            isTasksCompleted.Add(false);
         SwitchObjectsToStartState();
     }
 
@@ -109,8 +104,8 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(1f);
         CloseTask();
         yield return new WaitForSeconds(0.7f);
-        gameData.currentTaskNumber++;
-        UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+        gameData.CurrentTaskNumber++;
+        UI.ActionButton.GetComponent<ActionButtonBehaviour>().ActivateTask();
     }
     #endregion
 
@@ -398,13 +393,13 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_3_Task_6()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        gameData.currentSceneCamera.GetComponent<Animator>().Play("CheckAllPlaces");
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("CheckAllPlaces");
         yield return new WaitForSeconds(10.5f);
         GameObject.Find("Key_MiniScene_1").GetComponent<Animator>().Play("PickUpKey_1");
         yield return new WaitForSeconds(2f);
         GameObject.Find("Key_MiniScene_1").SetActive(false);
         yield return new WaitForSeconds(2.5f);
-        gameData.taskItemsCount++;
+        gameData.TaskItemsCount++;
         robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
         robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
         TurnOnScenarioTrigger2_Level_3();
@@ -413,7 +408,7 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_3_Task_7()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("CheckAllChests");
+        Canvas.GetComponent<GameData>().CurrentSceneCamera.GetComponent<Animator>().Play("CheckAllChests");
         yield return new WaitForSeconds(2f);
 
         var chest1 = GameObject.Find("Chest_1");
@@ -446,7 +441,7 @@ public class TaskCompletingActions : MonoBehaviour
         chest3.transform.GetChild(0).gameObject.GetComponent<Animator>().Play("CloseChest");
         yield return new WaitForSeconds(4f);
 
-        Canvas.GetComponent<GameData>().taskItemsCount++;
+        Canvas.GetComponent<GameData>().TaskItemsCount++;
         robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
         robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
         TurnOnScenarioTrigger2_Level_3();
@@ -476,13 +471,13 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(2f);
         key.SetActive(false);
         ReturnToScene();
-        gameData.taskItemsCount++;
+        gameData.TaskItemsCount++;
         TurnOnScenarioTrigger2_Level_3();
     }
 
     private void TurnOnScenarioTrigger2_Level_3()
     {
-        if (gameData.taskItemsCount == 3)
+        if (gameData.TaskItemsCount == 3)
         {
             var scenarioTrigger1 = scenarioTriggers.transform.GetChild(0).gameObject;
             var scenarioTrigger2 = scenarioTriggers.transform.GetChild(1).gameObject;

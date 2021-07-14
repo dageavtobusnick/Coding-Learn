@@ -26,6 +26,7 @@ public class PadBehaviour : MonoBehaviour
     public List<int> availableTipsCounts;
 
     private InterfaceElements UI;
+    private RobotBehaviour robotBehaviour;
     private GameData gameData;
     private int themeNumber;
     private int taskNumber;
@@ -137,9 +138,12 @@ public class PadBehaviour : MonoBehaviour
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         UI.PreviousHandbookPageButton.transform.parent.gameObject.SetActive(false);
         UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode");
-        UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
-        yield return new WaitForSeconds(0.7f);
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().EraseTaskPanelBackground_COR());
+        if (gameData.IsTaskStarted)
+        {
+            UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
+            yield return new WaitForSeconds(0.7f);
+            yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().EraseTaskPanelBackground_COR());
+        }
         Mode = PadMode.Handbook_MainThemes;
     }
 
@@ -153,17 +157,20 @@ public class PadBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToMenuFromHandbookMode_COR()
     {
-        UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("ReturnToMenuFromHandbookMode");
+        UI.Pad.GetComponentInParent<Animator>().Play("ReturnToMenuFromHandbookMode");
         yield return new WaitForSeconds(0.83f);
         UI.ThemeButtons.GetComponent<Animator>().Play("ScaleUp");
         for (var i = 0; i < UI.SubThemeButtons.transform.childCount; i++)
             UI.SubThemeButtons.transform.GetChild(i).gameObject.GetComponent<Animator>().Play("ScaleDown");
-        UI.ProgrammingInfo.transform.parent.parent.gameObject.GetComponent<Animator>().Play("ScaleDown");
+        UI.ProgrammingInfo.GetComponentInParent<Animator>().Play("ScaleDown");
         UI.ProgrammingInfoTitle.GetComponent<Animator>().Play("ScaleDown");
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().DrawTaskPanelBackground_COR());
-        UI.TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
-        yield return new WaitForSeconds(0.7f);
-        UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
+        if (gameData.IsTaskStarted)
+        {
+            yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().DrawTaskPanelBackground_COR());
+            UI.TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
+            yield return new WaitForSeconds(0.7f);
+            UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
+        }
         Mode = PadMode.Normal;
     }
 
@@ -179,7 +186,7 @@ public class PadBehaviour : MonoBehaviour
                 Mode = PadMode.Handbook_MainThemes;
                 break;
             case PadMode.Handbook_ProgrammingInfo:
-                UI.ProgrammingInfo.transform.parent.parent.gameObject.GetComponent<Animator>().Play("ScaleDown");
+                UI.ProgrammingInfo.GetComponentInParent<Animator>().Play("ScaleDown");
                 UI.ProgrammingInfoTitle.GetComponent<Animator>().Play("ScaleDown");
                 yield return new WaitForSeconds(0.45f);
                 UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleUp");
@@ -231,31 +238,43 @@ public class PadBehaviour : MonoBehaviour
     private void CallPad()
     {
         if (!isPadCalled)
+        {
+            robotBehaviour.currentMoveSpeed = robotBehaviour.freezeSpeed;
+            robotBehaviour.currentRotateSpeed = robotBehaviour.freezeSpeed;
             UI.Pad.GetComponentInParent<Animator>().Play("MoveLeft_Pad");
-        else UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+        }
+        else
+        {
+            robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
+            robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+            UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+        }
         isPadCalled = !isPadCalled;
+        
     }
 
     private void Update()
     {
-        taskNumber = gameData.currentTaskNumber;
-        UI.CoinsCounter.text = gameData.CoinsCount.ToString();
-        UI.TipsCounter.text = gameData.TipsCount.ToString();
+        taskNumber = gameData.CurrentTaskNumber;
+        UI.CoinsCounter.text = UI.CoinsMenuCounter.text = gameData.CoinsCount.ToString();
+        UI.TipsCounter.text = UI.TipsMenuCounter.text = gameData.TipsCount.ToString();
         UI.BuyTipButton.interactable = gameData.CoinsCount >= 3;
         UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= 8;
         UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
         if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < availableTipsCounts.Count)
             UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
-        //if (Input.GetKeyDown(KeyCode.P))
-          //  CallPad();
+        if (Input.GetKeyDown(KeyCode.P))
+            CallPad();
     }
 
     private void Start()
     {
         UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
+        robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
         Mode = PadMode.Normal;
         isPadCalled = false;
+        UI.IDEButton.interactable = gameData.SceneIndex == 0;
         LockThemes();
         availableTipsCounts = new List<int>();
         if (gameData.SceneIndex > 0)
@@ -268,6 +287,7 @@ public class PadBehaviour : MonoBehaviour
             for (var i = 0; i < availableTipsCounts.Count; i++)
                 availableTipsCounts[i] = PlayerPrefs.GetInt("Available Tips Count (Task " + (i + 1) + ")");
         }
-        Canvas.GetComponent<SaveLoad>().Save();
+        if (gameData.SceneIndex != 0)
+            Canvas.GetComponent<SaveLoad>().Save();
     }
 }

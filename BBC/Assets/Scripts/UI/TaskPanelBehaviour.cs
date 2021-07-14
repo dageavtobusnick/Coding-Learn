@@ -52,7 +52,9 @@ public class TaskPanelBehaviour : MonoBehaviour
     private IEnumerator CloseTask_COR()
     {
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
+        gameData.IsTaskStarted = false;
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        UI.IDEButton.interactable = false;
         if (sceneIndex != 0)
             yield return StartCoroutine(ReturnToScene_COR());
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
@@ -60,10 +62,10 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToScene_COR()
     {
-        Canvas.GetComponent<GameData>().currentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
         yield return new WaitForSeconds(2f);
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
-        var isTaskCompleted = Canvas.GetComponent<GameData>().hasTasksCompleted[taskNumber - 1];
+        var isTaskCompleted = gameData.HasTasksCompleted[taskNumber - 1];
         if (!isTaskCompleted)
         {
             var taskMark = gameData.Player.GetComponent<TriggersBehaviour>().TaskTriggers.transform.GetChild(taskNumber - 1);

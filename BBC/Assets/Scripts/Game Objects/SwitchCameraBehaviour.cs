@@ -14,6 +14,6 @@ public class SwitchCameraBehaviour : MonoBehaviour
     {
         PreviousCamera.enabled = false;
         NextCamera.enabled = true;
-        GameObject.Find("Canvas").GetComponent<GameData>().currentSceneCamera = NextCamera;
+        GameObject.Find("Canvas").GetComponent<GameData>().CurrentSceneCamera = NextCamera;
     }
 }

@@ -79,15 +79,15 @@ public class GameData : MonoBehaviour
     public int CoinsCount;
     public int TipsCount;
     [Header("Текущая включенная камера на сцене")]
-    public Camera currentSceneCamera;
+    public Camera CurrentSceneCamera;
     [Header("Номер текущего задания")]
-    public int currentTaskNumber;
+    public int CurrentTaskNumber;
     [Header("Номер текущего триггера смены сцены")]
-    public int currentChangeSceneTriggerNumber;
+    public int CurrentChangeSceneTriggerNumber;
     [Header("Номер текущего сценарного триггера")]
-    public int currentScenarioTriggerNumber;
+    public int CurrentScenarioTriggerNumber;
     [Header("Номер текущего триггера сохранения")]
-    public int currentSaveTriggerNumber;
+    public int CurrentSaveTriggerNumber;
     [Header("Индекс сцены")]
     public int SceneIndex;
     [HideInInspector]
@@ -106,20 +106,23 @@ public class GameData : MonoBehaviour
     public List<TipMessage[]> Tips;
     [HideInInspector]
     [Tooltip("Кол-во предметов, необходимых для прохождения задания")]
-    public int taskItemsCount;
+    public int TaskItemsCount;
     [HideInInspector]
-    public List<bool> hasTasksCompleted;
+    public List<bool> HasTasksCompleted;
+    [HideInInspector]
+    public bool IsTaskStarted;
 
     private void Awake()
     {
-        taskItemsCount = 0;
+        TaskItemsCount = 0;
         SceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneIndex == SceneManager.sceneCountInBuildSettings - 1)
             SceneIndex = 0;
+        IsTaskStarted = SceneIndex == 0;
         GetDataFromFiles();
-        hasTasksCompleted = new List<bool>();
+        HasTasksCompleted = new List<bool>();
         for (var i = 0; i <= TaskTexts.Length; i++)
-            hasTasksCompleted.Add(false);
+            HasTasksCompleted.Add(false);
         if (PlayerPrefs.HasKey("CoinsCount"))
         {
             if (PlayerPrefs.HasKey("IsTransitToNextLevel"))

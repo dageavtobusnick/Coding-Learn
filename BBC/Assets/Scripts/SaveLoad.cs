@@ -10,8 +10,8 @@ public class SaveLoad : MonoBehaviour
     public void Save()
     {
         var gameData = Canvas.GetComponent<GameData>();
-        for (var i = 0; i < gameData.hasTasksCompleted.Count; i++)
-            PlayerPrefs.SetInt("Task " + (i + 1) + " completed", gameData.hasTasksCompleted[i] ? 1 : 0);
+        for (var i = 0; i < gameData.HasTasksCompleted.Count; i++)
+            PlayerPrefs.SetInt("Task " + (i + 1) + " completed", gameData.HasTasksCompleted[i] ? 1 : 0);
 
         var player = gameData.Player;
         PlayerPrefs.SetFloat("PositionX", player.transform.position.x);
@@ -22,10 +22,10 @@ public class SaveLoad : MonoBehaviour
         PlayerPrefs.SetFloat("RotationY", player.transform.eulerAngles.y);
         PlayerPrefs.SetFloat("RotationZ", player.transform.eulerAngles.z);
 
-        PlayerPrefs.SetString("CurrentCameraName", gameData.currentSceneCamera.name);
+        PlayerPrefs.SetString("CurrentCameraName", gameData.CurrentSceneCamera.name);
         PlayerPrefs.SetInt("CoinsCount", gameData.CoinsCount);
         PlayerPrefs.SetInt("TipsCount", gameData.TipsCount);
-        PlayerPrefs.SetInt("TaskItemsCount", gameData.taskItemsCount);
+        PlayerPrefs.SetInt("TaskItemsCount", gameData.TaskItemsCount);
         PlayerPrefs.SetInt("SceneIndex", SceneManager.GetActiveScene().buildIndex);
 
         var availableTipsCounts = Canvas.GetComponentInChildren<PadBehaviour>().availableTipsCounts;
@@ -53,16 +53,16 @@ public class SaveLoad : MonoBehaviour
         var player = gameData.Player;
         player.transform.position = new Vector3(PlayerPrefs.GetFloat("PositionX"), PlayerPrefs.GetFloat("PositionY"), PlayerPrefs.GetFloat("PositionZ"));
         player.transform.eulerAngles = new Vector3(PlayerPrefs.GetFloat("RotationX"), PlayerPrefs.GetFloat("RotationY"), PlayerPrefs.GetFloat("RotationZ"));
-        gameData.currentSceneCamera = GameObject.Find(PlayerPrefs.GetString("CurrentCameraName")).GetComponent<Camera>();
-        gameData.currentSceneCamera.enabled = true;
+        gameData.CurrentSceneCamera = GameObject.Find(PlayerPrefs.GetString("CurrentCameraName")).GetComponent<Camera>();
+        gameData.CurrentSceneCamera.enabled = true;
         gameData.CoinsCount = PlayerPrefs.GetInt("CoinsCount");
         gameData.TipsCount = PlayerPrefs.GetInt("TipsCount");
-        gameData.taskItemsCount = PlayerPrefs.GetInt("TaskItemsCount");
-        for (var i = 0; i < gameData.hasTasksCompleted.Count; i++)
+        gameData.TaskItemsCount = PlayerPrefs.GetInt("TaskItemsCount");
+        for (var i = 0; i < gameData.HasTasksCompleted.Count; i++)
         {
-            gameData.hasTasksCompleted[i] = PlayerPrefs.GetInt("Task " + (i + 1) + " completed") == 1;
+            gameData.HasTasksCompleted[i] = PlayerPrefs.GetInt("Task " + (i + 1) + " completed") == 1;
             var taskTriggers = gameData.Player.GetComponent<TriggersBehaviour>().TaskTriggers;
-            if (gameData.hasTasksCompleted[i])
+            if (gameData.HasTasksCompleted[i])
                 taskTriggers.transform.GetChild(i).gameObject.SetActive(false);
         }
         var coins = GameObject.Find("Coins");

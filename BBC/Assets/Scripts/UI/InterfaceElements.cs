@@ -37,6 +37,14 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip("Кнопка для закрытия расширенного описания задания")]
     public Button CloseExtendedTaskButton;
 
+    [Header("Планшет (главное меню)")]
+    [Tooltip("Счетчик подсказок в меню")]
+    public Text TipsMenuCounter;
+    [Tooltip("Счетчик монет в меню")]
+    public Text CoinsMenuCounter;
+    [Tooltip("Кнопка перехода в режим разработки")]
+    public Button IDEButton;
+
     [Header("Планшет (режим разработки)")]
     [Tooltip("Планшет")]
     public GameObject Pad;

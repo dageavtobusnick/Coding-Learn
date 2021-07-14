@@ -23,27 +23,27 @@ public class TriggersBehaviour : MonoBehaviour
         if (triggerName.StartsWith("TaskTrigger"))
         {
             var taskNumber = int.Parse(triggerName.Split('_')[1]);
-            if (!Canvas.GetComponent<GameData>().hasTasksCompleted[taskNumber - 1])
+            if (!Canvas.GetComponent<GameData>().HasTasksCompleted[taskNumber - 1])
             {
                 ActivateButton("Начать задание", ActionButtonBehaviour.TriggerType.Task);
-                Canvas.GetComponent<GameData>().currentTaskNumber = taskNumber;
+                Canvas.GetComponent<GameData>().CurrentTaskNumber = taskNumber;
             }
         }
         else if (triggerName.StartsWith("EnterTrigger"))
         {
             var buttonText = other.gameObject.GetComponent<SwitchSceneBehaviour>().buttonText;
             ActivateButton(buttonText, ActionButtonBehaviour.TriggerType.SceneChange);
-            Canvas.GetComponent<GameData>().currentChangeSceneTriggerNumber = int.Parse(triggerName.Split('_')[1]);
+            Canvas.GetComponent<GameData>().CurrentChangeSceneTriggerNumber = int.Parse(triggerName.Split('_')[1]);
         }
         else if (triggerName.StartsWith("ScenarioTrigger"))
         {
             ActivateButton("Взаимодействовать", ActionButtonBehaviour.TriggerType.ScenarioMoment);
-            Canvas.GetComponent<GameData>().currentScenarioTriggerNumber = int.Parse(triggerName.Split('_')[1]);
+            Canvas.GetComponent<GameData>().CurrentScenarioTriggerNumber = int.Parse(triggerName.Split('_')[1]);
         }
         else if (triggerName.StartsWith("SaveTrigger"))
         {
             ActivateButton("Сохранить игру", ActionButtonBehaviour.TriggerType.Save);
-            Canvas.GetComponent<GameData>().currentSaveTriggerNumber = int.Parse(triggerName.Split('_')[1]);
+            Canvas.GetComponent<GameData>().CurrentSaveTriggerNumber = int.Parse(triggerName.Split('_')[1]);
         }
         else if (triggerName.StartsWith("Coin"))
             StartCoroutine(PickCoinUp_COR(other));

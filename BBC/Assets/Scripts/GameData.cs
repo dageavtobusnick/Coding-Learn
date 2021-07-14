@@ -29,7 +29,7 @@ public class GameData : MonoBehaviour
     {
         public int LevelNumber;
         public string Title;
-        public string Description; 
+        public string Description;
     }
 
     [Serializable]
@@ -73,19 +73,21 @@ public class GameData : MonoBehaviour
             public T[] Items;
         }
     }
-    
+
     [Header("Игрок")]
     public GameObject Player;
     public int CoinsCount;
     public int TipsCount;
-    [Header ("Текущая включенная камера на сцене")]
-    public Camera currentSceneCamera;
+    [Header("Текущая включенная камера на сцене")]
+    public Camera CurrentSceneCamera;
     [Header("Номер текущего задания")]
-    public int currentTaskNumber;
+    public int CurrentTaskNumber;
     [Header("Номер текущего триггера смены сцены")]
-    public int currentChangeSceneTriggerNumber;
+    public int CurrentChangeSceneTriggerNumber;
     [Header("Номер текущего сценарного триггера")]
-    public int currentScenarioTriggerNumber;
+    public int CurrentScenarioTriggerNumber;
+    [Header("Номер текущего триггера сохранения")]
+    public int CurrentSaveTriggerNumber;
     [Header("Индекс сцены")]
     public int SceneIndex;
     [HideInInspector]
@@ -104,14 +106,40 @@ public class GameData : MonoBehaviour
     public List<TipMessage[]> Tips;
     [HideInInspector]
     [Tooltip("Кол-во предметов, необходимых для прохождения задания")]
-    public int taskItemsCount;
+    public int TaskItemsCount;
+    [HideInInspector]
+    public List<bool> HasTasksCompleted;
+    [HideInInspector]
+    public bool IsTaskStarted;
 
     private void Awake()
     {
-        taskItemsCount = 0;
+        TaskItemsCount = 0;
         SceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneIndex == SceneManager.sceneCountInBuildSettings - 1)
             SceneIndex = 0;
+        IsTaskStarted = SceneIndex == 0;
+        GetDataFromFiles();
+        HasTasksCompleted = new List<bool>();
+        for (var i = 0; i <= TaskTexts.Length; i++)
+            HasTasksCompleted.Add(false);
+        if (PlayerPrefs.HasKey("CoinsCount"))
+        {
+            if (PlayerPrefs.HasKey("IsTransitToNextLevel"))
+            {
+                gameObject.GetComponent<SaveLoad>().Load_NextLevel();
+                PlayerPrefs.DeleteAll();
+            }
+            else
+            {
+                if (PlayerPrefs.GetInt("SceneIndex") == SceneIndex)
+                    gameObject.GetComponent<SaveLoad>().Load();
+            }
+        }
+    }
+
+    private void GetDataFromFiles()
+    {
         var tasksFile = Resources.Load<TextAsset>("Tasks/Tasks Level " + SceneIndex);
         var testsFile = Resources.Load<TextAsset>("Tests/Tests Level " + SceneIndex);
         var scenarioMessagesFile = Resources.Load<TextAsset>("Scenario Messages Level " + SceneIndex);
@@ -126,8 +154,8 @@ public class GameData : MonoBehaviour
         {
             var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters/Handbook Letters Level " + SceneIndex);
             HandbookLetters.Add(JsonHelper.FromJson<HandbookLetter>(handbookLettersFile.text));
-        }     
-        if (SceneIndex == 2) //SceneIndex > 0
+        }
+        if (SceneIndex > 0)
         {
             Tips = new List<TipMessage[]>();
             for (var i = 1; i <= TaskTexts.Length; i++)
@@ -135,45 +163,8 @@ public class GameData : MonoBehaviour
                 var tipsFile = Resources.Load<TextAsset>("Tips/Tips Level " + SceneIndex + " Task " + i);
                 Tips.Add(JsonHelper.FromJson<TipMessage>(tipsFile.text));
             }
-        }       
+        }
         if (SceneIndex == 3)
             ScenarioMessages = JsonHelper.FromJson<ScenarioMessage>(scenarioMessagesFile.text);
-
-        #region Код для дебагга
-        /*var tasksFile_0 = Resources.Load<TextAsset>("Tasks Level 0");
-        Debug.Log(tasksFile_0);
-        var tasksFile_1 = Resources.Load<TextAsset>("Tasks Level 1");
-        Debug.Log(tasksFile_1);
-        var tasksFile_2 = Resources.Load<TextAsset>("Tasks Level 2");
-        Debug.Log(tasksFile_2);
-        var testsFile_0 = Resources.Load<TextAsset>("Tests Level 0");
-        Debug.Log(testsFile_0);
-        var testsFile_1 = Resources.Load<TextAsset>("Tests Level 1");
-        Debug.Log(testsFile_1);
-        var testsFile_2 = Resources.Load<TextAsset>("Tests Level 2");
-        Debug.Log(testsFile_2);
-        var startMessagesFile = Resources.Load<TextAsset>("Start Messages");
-        var finishMessagesFile = Resources.Load<TextAsset>("Finish Messages");
-        var Tasks_0 = JsonHelper.FromJson<TaskText>(tasksFile_0.text);
-        Debug.Log(Tasks_0);
-        var Tasks_1 = JsonHelper.FromJson<TaskText>(tasksFile_1.text);
-        Debug.Log(Tasks_1);
-        var Tasks_2 = JsonHelper.FromJson<TaskText>(tasksFile_2.text);
-        Debug.Log(Tasks_2);
-        var Tests_0 = JsonHelper.FromJson<Test>(testsFile_0.text);
-        Debug.Log(Tests_0);
-        var Tests_1 = JsonHelper.FromJson<Test>(testsFile_1.text);
-        Debug.Log(Tests_1);
-        var Tests_2 = JsonHelper.FromJson<Test>(testsFile_2.text);
-        Debug.Log(Tests_2);
-        StartMessages = JsonHelper.FromJson<Message>(startMessagesFile.text);
-        FinishMessages = JsonHelper.FromJson<Message>(finishMessagesFile.text);*/
-        #endregion
     }
-
-   /* private void OnGUI()
-    {
-        float fps = 1.0f / Time.deltaTime;
-        GUILayout.Label("FPS = " + fps);
-    }*/
 }

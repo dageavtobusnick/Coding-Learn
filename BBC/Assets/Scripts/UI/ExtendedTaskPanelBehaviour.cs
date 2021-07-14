@@ -9,7 +9,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     [Header ("Интерфейс")]
     public GameObject Canvas;
     [HideInInspector]
-    public bool isTask = true;
+    public bool isTaskMessage = true;
 
     private InterfaceElements UI;
     private InterfaceAnimations UIAnimations;
@@ -33,16 +33,17 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     private IEnumerator CloseTaskExtendedDescription_COR()
     {
         yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
-        if (isTask)
+        if (isTaskMessage)
         {
             yield return StartCoroutine(UIAnimations.ShowTaskPanel_COR());
             UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
         }
-        else isTask = true;
+        else isTaskMessage = true;
     }
 
     private IEnumerator GoToNextLevel_COR()
     {
+        Canvas.GetComponent<SaveLoad>().Save_NextLevel();
         yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
         UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
@@ -60,8 +61,8 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
         if (gameData.SceneIndex == 0)
         {
-            Canvas.GetComponent<GameData>().currentTaskNumber = 1;
-            UI.ActivateTaskButton.GetComponent<ActivateTaskButtonBehaviour>().ActivateTask();
+            gameData.CurrentTaskNumber = 1;
+            Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask();
         }
         else
         {
@@ -70,6 +71,6 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             UI.ExtendedTaskDescription.text = startMessage.Description;
         }
         OpenTaskExtendedDescription_Special();
-        isTask = gameData.SceneIndex == 0;
+        isTaskMessage = gameData.SceneIndex == 0;
     }
 }

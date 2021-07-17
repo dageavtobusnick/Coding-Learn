@@ -10,31 +10,25 @@ public class DialogCompletingActions : MonoBehaviour
     private int sceneIndex;
     private GameData gameData;
 
-    public void MakeActions()
+    public void ActivateTask_PostDialog(int taskNumber)
     {
-        switch (sceneIndex)
-        {
-            case 4:
-                StartCoroutine(MakeActions_Level_4_COR());
-                break;
-        }
+        gameData.CurrentTaskNumber = taskNumber;
+        Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask(false);
     }
 
-    private IEnumerator MakeActions_Level_4_COR()
+    public void LeaveNPC() => gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.gameObject.SetActive(false);
+
+    public void ChangeDialogStartNode()
     {
-        var triggerName = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.name;
-        var triggerNumber = int.Parse(triggerName.Split('_')[1]);
-        switch (triggerNumber)
+        var npc = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+        switch (npc.alias)
         {
-            case 1:
-                gameData.CurrentTaskNumber = 1;
-                Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask(false);
-                yield break;
-            case 2:
-                yield break;
+            case "Дровосек":
+                if (npc.overrideStartNode == 5)
+                    npc.overrideStartNode = 0;
+                break;
         }
-        
-    }
+    } 
 
     private void Start()
     {

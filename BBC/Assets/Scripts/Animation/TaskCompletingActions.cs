@@ -494,14 +494,63 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        var npc = player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.parent;
-        npc.GetChild(1).gameObject.SetActive(false);
-        npc.GetChild(2).gameObject.SetActive(true);
-        npc.GetChild(2).GetChild(0).gameObject.SetActive(false);
-        yield return new WaitForSeconds(0.05f);
         Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
-        gameData.Player.GetComponent<TriggersBehaviour>().DeleteActionButton();
-        npc.GetChild(2).gameObject.SetActive(false);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_2()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_3()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_4()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_5()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_6()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_7()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+    }
+
+    private IEnumerator MakeActions_Level_4_Task_8()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
     }
     #endregion
 }

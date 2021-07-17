@@ -203,7 +203,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     {
         var childTrigger = triggersGroup.transform.GetChild(childNumber).gameObject;
         childTrigger.SetActive(true);
-        childTrigger.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+        childTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
     }
 
     private void Awake()

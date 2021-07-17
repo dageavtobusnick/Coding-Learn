@@ -467,8 +467,6 @@ public class VIDEUIManager1 : MonoBehaviour
             QuestChartDemo.SetQuest(2, false);
 
         QuestChartDemo.CheckTaskCompletion(VD.nodeData);*/
-
-        Canvas.GetComponent<DialogCompletingActions>().MakeActions();
     }
 
     #endregion

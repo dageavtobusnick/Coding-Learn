@@ -16,6 +16,22 @@ public class DialogCompletingActions : MonoBehaviour
         Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask(false);
     }
 
+    public void ActivateTrigger_Task(int triggerNumber)
+    {
+        var taskTrigger = Canvas.GetComponent<TriggersBehaviour>().TaskTriggers.transform.GetChild(triggerNumber - 1).gameObject;
+        taskTrigger.SetActive(true);
+        taskTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_TaskTrigger_" + triggerNumber);
+    }
+
+    public void ActivateTrigger_NPC(int npcOrderNumber)
+    {
+        var npcTrigger = Canvas.GetComponent<TriggersBehaviour>().DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject;
+        npcTrigger.SetActive(true);
+        npcTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_NPC_" + npcOrderNumber);
+    }
+
     public void LeaveNPC() => gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.gameObject.SetActive(false);
 
     public void ChangeDialogStartNode()

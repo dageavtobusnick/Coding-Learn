@@ -26,7 +26,7 @@ public class DialogCompletingActions : MonoBehaviour
 
     public void ActivateTrigger_NPC(int npcOrderNumber)
     {
-        var npcTrigger = Canvas.GetComponent<TriggersBehaviour>().DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject;
+        var npcTrigger = gameData.Player.GetComponent<TriggersBehaviour>().DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject;
         npcTrigger.SetActive(true);
         npcTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
         gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_NPC_" + npcOrderNumber);

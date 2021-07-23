@@ -55,7 +55,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
         gameData.IsTaskStarted = true;
         UI.IDEButton.interactable = true;
-        robotBehaviour.FreezePlayer();
+        //robotBehaviour.FreezePlayer();
         if (gameData.SceneIndex != 0)
             taskTriggers.transform.GetChild(currentTaskNumber - 1).gameObject.SetActive(false);
         StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber, hasActivateButton));

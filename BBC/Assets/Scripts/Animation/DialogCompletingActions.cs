@@ -51,4 +51,5 @@ public class DialogCompletingActions : MonoBehaviour
         gameData = Canvas.GetComponent<GameData>();
         sceneIndex = gameData.SceneIndex;
     }
+
 }

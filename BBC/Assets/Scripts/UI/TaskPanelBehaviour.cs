@@ -73,7 +73,7 @@ public class TaskPanelBehaviour : MonoBehaviour
                 var npcMark = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.GetChild(0).gameObject;
                 npcMark.SetActive(true);
                 npcMark.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
-                Canvas.GetComponent<DialogCompletingActions>().ChangeDialogStartNode();
+                Canvas.GetComponentInChildren<DialogActions>().ChangeDialogStartNode();
             }
             else
             {

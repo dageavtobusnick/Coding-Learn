@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ActionButtonBehaviour : MonoBehaviour
 {
     public enum TriggerType
     {
         Task,
-        SceneChange,
+        PositionChange,
         ScenarioMoment,
         Save,
-        Dialog
+        Dialog,
+        ChangeScene
     }
 
     [Header ("Интерфейс")]
@@ -26,6 +28,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     private InterfaceElements UI;
     private GameData gameData;
     private int sceneIndex;
+    private string otherColliderName;
 
     public void MakeAction()
     {
@@ -34,8 +37,8 @@ public class ActionButtonBehaviour : MonoBehaviour
             case TriggerType.Task:
                 ActivateTask();
                 break;
-            case TriggerType.SceneChange:
-                ChangeScene();
+            case TriggerType.PositionChange:
+                ChangePosition();
                 break;
             case TriggerType.ScenarioMoment:
                 ActivateScenarioMoment();
@@ -45,6 +48,9 @@ public class ActionButtonBehaviour : MonoBehaviour
                 break;
             case TriggerType.Dialog:
                 ActivateDialog();
+                break;
+            case TriggerType.ChangeScene:
+                StartCoroutine(ChangeScene_COR());
                 break;
         }
     }
@@ -61,13 +67,13 @@ public class ActionButtonBehaviour : MonoBehaviour
         StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber, hasActivateButton));
     }
 
-    public void ChangeScene()
+    public void ChangePosition()
     {
         var triggerNumber = gameData.CurrentChangeSceneTriggerNumber;
         robotBehaviour.FreezePlayer();
         if (gameData.SceneIndex != 0)
             enterTriggers.transform.GetChild(triggerNumber - 1).gameObject.SetActive(false);
-        StartCoroutine(ChangeScene_COR(triggerNumber));
+        StartCoroutine(ChangePosition_COR(triggerNumber));
     }
 
     public void ActivateScenarioMoment()
@@ -89,6 +95,22 @@ public class ActionButtonBehaviour : MonoBehaviour
         dialogTrigger.transform.GetChild(0).gameObject.SetActive(false);
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());      
         Canvas.GetComponent<VIDEUIManager1>().Interact(dialogTrigger);
+    }
+
+    private IEnumerator ChangeScene_COR()
+    {
+        var nextSceneIndex = 0;
+        //Canvas.GetComponent<SaveLoad>().Save_NextLevel();
+        UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
+        UI.BlackScreen.GetComponentInChildren<Animator>().Play("AppearBlackScreen");
+        yield return new WaitForSeconds(1.4f);
+        switch(otherColliderName.Split('_')[1])
+        {
+            case "Шахты":
+                nextSceneIndex = 5;
+                break;
+        }
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
     private IEnumerator SaveGame_COR()
@@ -127,7 +149,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         Canvas.GetComponent<TaskPanelBehaviour>().ChangeTask();
     } 
 
-    private IEnumerator ChangeScene_COR(int triggerNumber)
+    private IEnumerator ChangePosition_COR(int triggerNumber)
     {
         var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
         UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
@@ -204,6 +226,12 @@ public class ActionButtonBehaviour : MonoBehaviour
         var childTrigger = triggersGroup.transform.GetChild(childNumber).gameObject;
         childTrigger.SetActive(true);
         childTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {   
+        if (other.name.StartsWith("ChangeSceneTrigger"))
+            otherColliderName = other.name;
     }
 
     private void Awake()

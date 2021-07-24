@@ -80,6 +80,8 @@ public class GameData : MonoBehaviour
     public int TipsCount;
     [Header("Текущая включенная камера на сцене")]
     public Camera CurrentSceneCamera;
+    [Header("Текущая включенная камера диалога")]
+    public Camera CurrentDialogCamera;
     [Header("Номер текущего задания")]
     public int CurrentTaskNumber;
     [Header("Номер текущего триггера смены сцены")]

@@ -494,7 +494,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(11);
     }
 
     private IEnumerator MakeActions_Level_4_Task_2()
@@ -502,7 +502,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(3);
     }
 
     private IEnumerator MakeActions_Level_4_Task_3()
@@ -510,7 +510,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(10);
     }
 
     private IEnumerator MakeActions_Level_4_Task_4()
@@ -518,7 +518,6 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
     }
 
     private IEnumerator MakeActions_Level_4_Task_5()
@@ -526,7 +525,6 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
     }
 
     private IEnumerator MakeActions_Level_4_Task_6()
@@ -534,7 +532,6 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
     }
 
     private IEnumerator MakeActions_Level_4_Task_7()
@@ -542,7 +539,6 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
     }
 
     private IEnumerator MakeActions_Level_4_Task_8()
@@ -550,7 +546,6 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponent<VIDEUIManager1>().Interact(player.GetComponent<VIDEDemoPlayer>().inTrigger);
     }
     #endregion
 }

@@ -36,7 +36,7 @@ public class TriggersBehaviour : MonoBehaviour
         else if (triggerName.StartsWith("EnterTrigger"))
         {
             var buttonText = other.gameObject.GetComponent<SwitchSceneBehaviour>().buttonText;
-            ActivateButton(buttonText, ActionButtonBehaviour.TriggerType.SceneChange);
+            ActivateButton(buttonText, ActionButtonBehaviour.TriggerType.PositionChange);
             Canvas.GetComponent<GameData>().CurrentChangeSceneTriggerNumber = int.Parse(triggerName.Split('_')[1]);
         }
         else if (triggerName.StartsWith("ScenarioTrigger"))
@@ -53,6 +53,11 @@ public class TriggersBehaviour : MonoBehaviour
         {
             ActivateButton("Поговорить", ActionButtonBehaviour.TriggerType.Dialog);
         }
+        else if (triggerName.StartsWith("ChangeSceneTrigger"))
+        {
+            var locationName = other.gameObject.name.Split('_')[1];
+            ActivateButton("Перейти в: " + locationName, ActionButtonBehaviour.TriggerType.ChangeScene);
+        }
         else if (triggerName.StartsWith("Coin"))
             StartCoroutine(PickCoinUp_COR(other));
     }
@@ -61,7 +66,7 @@ public class TriggersBehaviour : MonoBehaviour
     {
         var triggerName = other.gameObject.name;
         if (triggerName.StartsWith("TaskTrigger") || triggerName.StartsWith("EnterTrigger") || triggerName.StartsWith("ScenarioTrigger")
-            || triggerName.StartsWith("SaveTrigger") || triggerName.StartsWith("DialogTrigger"))
+            || triggerName.StartsWith("SaveTrigger") || triggerName.StartsWith("DialogTrigger") || triggerName.StartsWith("ChangeSceneTrigger"))
             StartCoroutine(DeleteActionButton_COR());
     }
 

@@ -30,30 +30,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     private int sceneIndex;
     private string otherColliderName;
 
-    public void MakeAction()
-    {
-        switch (triggerType)
-        {
-            case TriggerType.Task:
-                ActivateTask();
-                break;
-            case TriggerType.PositionChange:
-                ChangePosition();
-                break;
-            case TriggerType.ScenarioMoment:
-                ActivateScenarioMoment();
-                break;
-            case TriggerType.Save:
-                StartCoroutine(SaveGame_COR());
-                break;
-            case TriggerType.Dialog:
-                ActivateDialog();
-                break;
-            case TriggerType.ChangeScene:
-                StartCoroutine(ChangeScene_COR());
-                break;
-        }
-    }
+    public void MakeAction() => StartCoroutine(MakeAction_COR());
 
     public void ActivateTask(bool hasActivateButton = true)
     {
@@ -88,6 +65,37 @@ public class ActionButtonBehaviour : MonoBehaviour
     }
 
     public void ActivateDialog() => StartCoroutine(ActivateDialog_COR());
+
+    private IEnumerator MakeAction_COR()
+    {
+        if (UI.Pad.GetComponent<PadBehaviour>().IsPadCalled)
+        {
+            UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+            yield return new WaitForSeconds(0.667f);
+        }
+        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = false;
+        switch (triggerType)
+        {
+            case TriggerType.Task:
+                ActivateTask();
+                yield break;
+            case TriggerType.PositionChange:
+                ChangePosition();
+                yield break;
+            case TriggerType.ScenarioMoment:
+                ActivateScenarioMoment();
+                yield break;
+            case TriggerType.Save:
+                StartCoroutine(SaveGame_COR());
+                yield break;
+            case TriggerType.Dialog:
+                ActivateDialog();
+                yield break;
+            case TriggerType.ChangeScene:
+                StartCoroutine(ChangeScene_COR());
+                yield break;
+        }
+    }
 
     private IEnumerator ActivateDialog_COR()
     {
@@ -129,6 +137,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         buttonText.text = "Сохранить игру";
         UI.ActionButton.interactable = true;
+        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
     }
 
     private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber, bool hasActivateButton = true)
@@ -169,6 +178,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         yield return new WaitForSeconds(2f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         robotBehaviour.UnfreezePlayer();
+        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
     }    
 
     private IEnumerator ActivateScenarioMoment_Level_3_COR(int triggerNumber)
@@ -219,6 +229,7 @@ public class ActionButtonBehaviour : MonoBehaviour
                 robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
                 break;
         }
+        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
     }
 
     private void ActivateTrigger(GameObject triggersGroup, int childNumber)

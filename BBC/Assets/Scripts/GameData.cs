@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
+    #region Сериализуемые классы
     [Serializable]
     public class TaskText
     {
@@ -73,6 +74,7 @@ public class GameData : MonoBehaviour
             public T[] Items;
         }
     }
+    #endregion
 
     [Header("Игрок")]
     public GameObject Player;

@@ -58,6 +58,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         if (sceneIndex != 0)
             yield return StartCoroutine(ReturnToScene_COR());
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
+        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
     }
 
     private IEnumerator ReturnToScene_COR()

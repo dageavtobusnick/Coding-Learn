@@ -24,13 +24,16 @@ public class PadBehaviour : MonoBehaviour
     public int firstThemeToLockNumber;
     [HideInInspector]
     public List<int> availableTipsCounts;
+    [HideInInspector]
+    public bool IsPadCalled;
+    [HideInInspector]
+    public bool IsCallAvailable;
 
     private InterfaceElements UI;
     private RobotBehaviour robotBehaviour;
     private GameData gameData;
     private int themeNumber;
     private int taskNumber;
-    private bool isPadCalled;
 
     public void ResetCode() => UI.CodeField.text = StartCode;
 
@@ -240,18 +243,21 @@ public class PadBehaviour : MonoBehaviour
 
     private void CallPad()
     {
-        if (!isPadCalled)
+        if (!IsPadCalled)
         {
             robotBehaviour.FreezePlayer();
             UI.Pad.GetComponentInParent<Animator>().Play("MoveLeft_Pad");
+            IsPadCalled = !IsPadCalled;
         }
         else
         {
-            robotBehaviour.UnfreezePlayer();
-            UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
-        }
-        isPadCalled = !isPadCalled;
-        
+            if (Mode == PadMode.Normal)
+            {
+                robotBehaviour.UnfreezePlayer();
+                UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+                IsPadCalled = !IsPadCalled;
+            }
+        }      
     }
 
     private void Update()
@@ -264,7 +270,7 @@ public class PadBehaviour : MonoBehaviour
         UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
         if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < availableTipsCounts.Count)
             UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable)
             CallPad();
     }
 
@@ -274,7 +280,8 @@ public class PadBehaviour : MonoBehaviour
         gameData = Canvas.GetComponent<GameData>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
         Mode = PadMode.Normal;
-        isPadCalled = false;
+        IsPadCalled = false;
+        IsCallAvailable = true;
         UI.IDEButton.interactable = gameData.SceneIndex == 0;
         LockThemes();
         availableTipsCounts = new List<int>();

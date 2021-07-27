@@ -9,4 +9,6 @@ public class SwitchSceneBehaviour : MonoBehaviour
     public Camera NextCamera;
     public int destinationTriggerNumber;
     public string buttonText;
+    [Tooltip("Должна ли мини-карта быть активной")]
+    public bool IsMinimapShouldActive;
 }

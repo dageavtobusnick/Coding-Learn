@@ -105,7 +105,7 @@ public class TaskCompletingActions : MonoBehaviour
         CloseTask();
         yield return new WaitForSeconds(0.7f);
         gameData.CurrentTaskNumber++;
-        UI.ActionButton.GetComponent<ActionButtonBehaviour>().ActivateTask();
+        Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask();
     }
     #endregion
 

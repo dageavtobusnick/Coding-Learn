@@ -74,7 +74,7 @@ public class TriggersBehaviour : MonoBehaviour
 
     private void ActivateButton(string buttonText, ActionButtonBehaviour.TriggerType triggerType)
     {
-        Canvas.GetComponent<ActionButtonBehaviour>().triggerType = triggerType;
+        Canvas.GetComponent<ActionButtonBehaviour>().CurrentTriggerType = triggerType;
         UI.ActionButton.gameObject.SetActive(true);
         UI.ActionButton.GetComponentInChildren<Text>().text = buttonText;
         StartCoroutine(UIAnimations.ShowActionButton_COR());

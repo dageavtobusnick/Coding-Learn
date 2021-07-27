@@ -91,6 +91,10 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip("Кнопка для перехода на предыдущую страницу")]
     public Button PreviousHandbookPageButton;
 
+    [Header("Мини-карта")]
+    [Tooltip("Мини-карта")]
+    public GameObject Minimap;
+
     [Header("Панель выхода в меню")]
     [Tooltip("Панель выхода в меню")]
     public GameObject ExitToMenuPanel;

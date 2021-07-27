@@ -19,7 +19,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     [Header ("Интерфейс")]
     public GameObject Canvas;
     [HideInInspector]
-    public TriggerType triggerType;
+    public TriggerType CurrentTriggerType;
 
     private RobotBehaviour robotBehaviour;
     private GameObject taskTriggers;
@@ -68,13 +68,14 @@ public class ActionButtonBehaviour : MonoBehaviour
 
     private IEnumerator MakeAction_COR()
     {
+        UI.Minimap.SetActive(false);
         if (UI.Pad.GetComponent<PadBehaviour>().IsPadCalled)
         {
             UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
             yield return new WaitForSeconds(0.667f);
         }
         UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = false;
-        switch (triggerType)
+        switch (CurrentTriggerType)
         {
             case TriggerType.Task:
                 ActivateTask();
@@ -165,12 +166,14 @@ public class ActionButtonBehaviour : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(2.5f);
         var currentTrigger = enterTriggers.transform.GetChild(triggerNumber - 1).gameObject;
-        var previousCamera = currentTrigger.GetComponent<SwitchSceneBehaviour>().PreviousCamera;
-        var nextCamera = currentTrigger.GetComponent<SwitchSceneBehaviour>().NextCamera;
+        var triggerBehaviour = currentTrigger.GetComponent<SwitchSceneBehaviour>();
+        var previousCamera = triggerBehaviour.PreviousCamera;
+        var nextCamera = triggerBehaviour.NextCamera;
+        UI.Minimap.SetActive(triggerBehaviour.IsMinimapShouldActive);
         previousCamera.enabled = false;
         nextCamera.enabled = true;
         gameData.CurrentSceneCamera = nextCamera;
-        var destinationTriggerNumber = currentTrigger.GetComponent<SwitchSceneBehaviour>().destinationTriggerNumber;
+        var destinationTriggerNumber = triggerBehaviour.destinationTriggerNumber;
         gameData.Player.transform.position = enterTriggers.transform.GetChild(destinationTriggerNumber - 1).position;
         currentTrigger.SetActive(true);
         currentTrigger.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");

@@ -38,7 +38,11 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             yield return StartCoroutine(UIAnimations.ShowTaskPanel_COR());
             UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
         }
-        else isTaskMessage = true;
+        else
+        {
+            UI.Minimap.SetActive(true);
+            isTaskMessage = true;
+        }
     }
 
     private IEnumerator GoToNextLevel_COR()
@@ -62,7 +66,8 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         if (gameData.SceneIndex == 0)
         {
             gameData.CurrentTaskNumber = 1;
-            Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask();
+            Canvas.GetComponent<ActionButtonBehaviour>().CurrentTriggerType = ActionButtonBehaviour.TriggerType.Task;
+            Canvas.GetComponent<ActionButtonBehaviour>().MakeAction();
         }
         else
         {
@@ -70,6 +75,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             UI.ExtendedTaskTitle.text = startMessage.Title;
             UI.ExtendedTaskDescription.text = startMessage.Description;
         }
+        UI.Minimap.SetActive(false);
         OpenTaskExtendedDescription_Special();
         isTaskMessage = gameData.SceneIndex == 0;
     }

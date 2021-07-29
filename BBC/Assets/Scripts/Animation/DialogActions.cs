@@ -41,6 +41,8 @@ public class DialogActions : MonoBehaviour
 
     public void ActivateTrigger_Task(int triggerNumber) => ActivateTrigger(triggersBehaviour.TaskTriggers.transform.GetChild(triggerNumber - 1).gameObject);
 
+    public void ChangeTarget(string target) => Canvas.GetComponent<TargetPanelBehaviour>().ChangeTarget(target);
+
     public void DeactivateDialogCamera() => gameData.CurrentDialogCamera.enabled = false;
 
     public void LeaveNPC() => player.GetComponent<VIDEDemoPlayer>().inTrigger.gameObject.SetActive(false);

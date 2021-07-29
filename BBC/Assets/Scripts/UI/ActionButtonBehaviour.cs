@@ -68,13 +68,13 @@ public class ActionButtonBehaviour : MonoBehaviour
 
     private IEnumerator MakeAction_COR()
     {
-        UI.Minimap.SetActive(false);
+        UI.HideUI();
         if (UI.Pad.GetComponent<PadBehaviour>().IsPadCalled)
         {
             UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
             yield return new WaitForSeconds(0.667f);
         }
-        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = false;
+        UI.ChangeCallAvailability(false);
         switch (CurrentTriggerType)
         {
             case TriggerType.Task:
@@ -138,7 +138,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         buttonText.text = "Сохранить игру";
         UI.ActionButton.interactable = true;
-        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
+        UI.ChangeCallAvailability(true);
     }
 
     private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber, bool hasActivateButton = true)
@@ -181,7 +181,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         yield return new WaitForSeconds(2f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         robotBehaviour.UnfreezePlayer();
-        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
+        UI.ChangeCallAvailability(true);
     }    
 
     private IEnumerator ActivateScenarioMoment_Level_3_COR(int triggerNumber)
@@ -232,7 +232,7 @@ public class ActionButtonBehaviour : MonoBehaviour
                 robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
                 break;
         }
-        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
+        UI.ChangeCallAvailability(true);
     }
 
     private void ActivateTrigger(GameObject triggersGroup, int childNumber)

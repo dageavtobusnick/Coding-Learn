@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 995274111535448178}
   - component: {fileID: 9012334225775076835}
   - component: {fileID: 7940463290574117358}
-  m_Layer: 10
+  m_Layer: 11
   m_Name: MinimapMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 654023354096703818}
   m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 1.937, z: 0}
+  m_LocalPosition: {x: 0, y: 101.937, z: 0}
   m_LocalScale: {x: 9, y: 12.2397, z: 9}
   m_Children: []
   m_Father: {fileID: 6751816953020871551}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6751816953020871551}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ExclamationMark_Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,6 +136,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6751816953020871551}
     m_Modifications:
+    - target: {fileID: 848874780211824211, guid: 3cd57e333e2770f4083dd0edc7272b1c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 5251586082328191478, guid: 3cd57e333e2770f4083dd0edc7272b1c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -180,9 +184,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6248035375390804443, guid: 3cd57e333e2770f4083dd0edc7272b1c, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 8873785126935841223, guid: 3cd57e333e2770f4083dd0edc7272b1c, type: 3}
       propertyPath: m_Name
       value: ExclamationMark
+      objectReference: {fileID: 0}
+    - target: {fileID: 8873785126935841223, guid: 3cd57e333e2770f4083dd0edc7272b1c, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3cd57e333e2770f4083dd0edc7272b1c, type: 3}

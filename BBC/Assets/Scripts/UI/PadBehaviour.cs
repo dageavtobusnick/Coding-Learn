@@ -137,8 +137,7 @@ public class PadBehaviour : MonoBehaviour
         UI.Pad.GetComponentInParent<Animator>().Play("SwitchToDevMode");
         Mode = PadMode.Development;
         yield return new WaitForSeconds(1.5f);
-        if (gameData.SceneIndex == 0)
-            UI.GetComponent<TrainingScript>().TryShowTraining();
+        UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.DevModeSwitching);
     }    
 
     private IEnumerator SwitchToHandbookMode_COR()
@@ -267,8 +266,7 @@ public class PadBehaviour : MonoBehaviour
             }
         }
         yield return new WaitForSeconds(0.667f);
-        if (gameData.SceneIndex == 1)
-            UI.GetComponent<TrainingScript>().TryShowTraining();
+        UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.PadCall);
     }
 
     private void Update()

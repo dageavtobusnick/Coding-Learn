@@ -44,8 +44,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             UI.ChangeCallAvailability(true);
             isTaskMessage = true;
         }
-        if (gameData.SceneIndex == 0 || gameData.SceneIndex == 1)
-            Canvas.GetComponent<TrainingScript>().TryShowTraining();
+        Canvas.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.ExtendedTaskClosing);
     }
 
     private IEnumerator GoToNextLevel_COR()

@@ -54,14 +54,14 @@ public class TaskPanelBehaviour : MonoBehaviour
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         gameData.IsTaskStarted = false;
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
-        UI.IDEButton.interactable = false;
         if (sceneIndex != 0)
         {
             yield return StartCoroutine(ReturnToScene_COR());
             UI.Minimap.SetActive(true);
+            UI.IDEButton.interactable = false;
         }
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
-        UI.Pad.GetComponent<PadBehaviour>().IsCallAvailable = true;
+        UI.ChangeCallAvailability(true);
     }
 
     private IEnumerator ReturnToScene_COR()

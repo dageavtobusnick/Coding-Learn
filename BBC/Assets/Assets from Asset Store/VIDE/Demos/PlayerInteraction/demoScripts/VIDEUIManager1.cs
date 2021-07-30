@@ -256,7 +256,7 @@ public class VIDEUIManager1 : MonoBehaviour
     //Called automatically because we subscribed to the OnEnd event
     void EndDialogue(VD.NodeData data)
     {
-        Canvas.GetComponentInChildren<PadBehaviour>().IsCallAvailable = true;
+        Canvas.GetComponent<InterfaceElements>().ChangeCallAvailability(true);
         Canvas.GetComponent<InterfaceElements>().Minimap.SetActive(true);
         CheckTasks();
         VD.OnActionNode -= ActionHandler;

@@ -84,8 +84,7 @@ public class TargetPanelBehaviour : MonoBehaviour
             if (timer == 0)
                 StartCoroutine(ShowTarget_COR());
             else timer = 5;
-            if (gameData.SceneIndex == 1)
-                UI.GetComponent<TrainingScript>().TryShowTraining();
+            UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.TargetCall);
         }
     }
 

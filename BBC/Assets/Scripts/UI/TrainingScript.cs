@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class TrainingScript : MonoBehaviour
 {
+    public enum PreviousAction
+    {
+        TargetCall,
+        PadCall,
+        ExtendedTaskClosing,
+        DevModeSwitching
+    }
+
     [Header("Èםעונפויס")]
     public GameObject Canvas;
 
@@ -53,26 +61,31 @@ public class TrainingScript : MonoBehaviour
     public void ShowTip_20() => ShowTip(20, "ShowAside");
     #endregion
 
-    public void TryShowTraining()
+    public void TryShowTraining(PreviousAction previousAction)
     {
-        switch(gameData.SceneIndex)
+        switch (previousAction)
         {
-            case 0:
-                if (gameData.CurrentTaskNumber == 1)
-                {
-                    if (UI.Pad.GetComponent<PadBehaviour>().Mode == PadBehaviour.PadMode.Normal)
-                        ShowTip_1();
-                    else ShowTip_5();
-                }
-                break;
-            case 1:
-                if (currentTipNumber == 10)
+            case PreviousAction.ExtendedTaskClosing:
+                if (gameData.SceneIndex == 0 && gameData.CurrentTaskNumber == 1)
+                    ShowTip_1();
+                else if (gameData.SceneIndex == 1 && currentTipNumber == 10)
                     ShowTip_11();
-                else if (currentTipNumber == 12)
+                break;
+
+            case PreviousAction.DevModeSwitching:
+                if (gameData.SceneIndex == 0 && gameData.CurrentTaskNumber == 1)
+                    ShowTip_5();
+                break;
+
+            case PreviousAction.PadCall:
+                if (currentTipNumber == 12)
                     ShowTip_13();
                 else if (currentTipNumber == 13)
                     ShowTip_14();
-                else if (currentTipNumber == 14)
+                break;
+
+            case PreviousAction.TargetCall:
+                if (currentTipNumber == 14)
                     CloseTraining();
                 break;
         }
@@ -96,6 +109,9 @@ public class TrainingScript : MonoBehaviour
                 UI.TipButton.gameObject.SetActive(false);
                 UI.TipButton.interactable = true;
                 UI.ExitDevModeButton.interactable = true;
+                break;
+            case 14:
+                gameData.Player.GetComponent<RobotBehaviour>().UnfreezePlayer();
                 break;
         }
     }
@@ -123,6 +139,13 @@ public class TrainingScript : MonoBehaviour
                 UI.TipButton.gameObject.SetActive(true);
                 UI.TipButton.interactable = false;
                 UI.ExitDevModeButton.interactable = false;
+                break;
+            case 11:
+                gameData.Player.GetComponent<RobotBehaviour>().FreezePlayer();
+                UI.TargetPanel.SetActive(false);
+                break;
+            case 14:
+                UI.TargetPanel.SetActive(true);
                 break;
         }
     }

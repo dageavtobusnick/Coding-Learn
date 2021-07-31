@@ -11,6 +11,9 @@ public class MenuScript : MonoBehaviour
     public GameObject Robot;
     public GameObject FireLight;
     public GameObject BlackScreen;
+    public GameObject LoadScreen;
+    public Image LoadBar;
+    public Text LoadBarText;
     public Button ContinueButton;
 
     public void GoTo_Settings() => StartCoroutine(GoTo_Settings_COR());
@@ -163,7 +166,7 @@ public class MenuScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         BlackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        SceneManager.LoadScene(PlayerPrefs.GetInt("SceneIndex"));
+        StartCoroutine(LoadLevelAsync(PlayerPrefs.GetInt("SceneIndex")));
     }
 
     private IEnumerator Start_Level_COR(int levelNumber)
@@ -184,7 +187,21 @@ public class MenuScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         BlackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        SceneManager.LoadScene(levelNumber);
+        StartCoroutine(LoadLevelAsync(levelNumber));
+    }
+
+    private IEnumerator LoadLevelAsync(int sceneIndex)
+    {
+        LoadScreen.GetComponent<Animator>().Play("AppearLoadScreen");
+        yield return new WaitForSeconds(0.75f);
+        LoadScreen.transform.GetChild(0).gameObject.SetActive(true);
+        var operation = SceneManager.LoadSceneAsync(sceneIndex);
+        while (!operation.isDone)
+        {
+            LoadBar.fillAmount = operation.progress;
+            LoadBarText.text = "Загрузка... " + (Mathf.Round(operation.progress * 100)) + "%";
+            yield return null;
+        }
     }
 
     private void Start()

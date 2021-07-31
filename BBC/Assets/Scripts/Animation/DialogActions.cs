@@ -9,17 +9,19 @@ public class DialogActions : MonoBehaviour
 
     private int sceneIndex;
     private GameData gameData;
+    private GameObject player;
+    private TriggersBehaviour triggersBehaviour;
 
     public void ActivateDialogCamera_Animated(int cameraNumber)
     {
         ActivateDialogCamera_Static(cameraNumber);
-        var characterName = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.alias;
+        var characterName = player.GetComponent<VIDEDemoPlayer>().inTrigger.alias;
         gameData.CurrentDialogCamera.GetComponent<Animator>().Play("MoveDialogCamera_" + characterName + "_" + cameraNumber);
     }
 
     public void ActivateDialogCamera_Static(int cameraNumber)
     {
-        var dialogCameras = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.parent.GetChild(2);
+        var dialogCameras = player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.parent.GetChild(2);
         var newDialogCamera = dialogCameras.GetChild(cameraNumber - 1).gameObject.GetComponent<Camera>();
         newDialogCamera.enabled = true;
         if (gameData.CurrentDialogCamera != null)
@@ -33,23 +35,17 @@ public class DialogActions : MonoBehaviour
         Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask(false);
     }
 
-    public void ActivateTrigger_NPC(int npcOrderNumber)
-    {
-        var npcTrigger = gameData.Player.GetComponent<TriggersBehaviour>().DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject;
-        npcTrigger.SetActive(true);
-        npcTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
-    }
+    public void ActivateTrigger_ChangeScene(int triggerNumber) => ActivateTrigger(triggersBehaviour.ChangeSceneTriggers.transform.GetChild(triggerNumber - 1).gameObject);
 
-    public void ActivateTrigger_Task(int triggerNumber)
-    {
-        var taskTrigger = Canvas.GetComponent<TriggersBehaviour>().TaskTriggers.transform.GetChild(triggerNumber - 1).gameObject;
-        taskTrigger.SetActive(true);
-        taskTrigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
-    }
+    public void ActivateTrigger_NPC(int npcOrderNumber) => ActivateTrigger(triggersBehaviour.DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject);
+
+    public void ActivateTrigger_Task(int triggerNumber) => ActivateTrigger(triggersBehaviour.TaskTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+
+    public void ChangeTarget(string target) => Canvas.GetComponent<TargetPanelBehaviour>().ChangeTarget(target);
 
     public void DeactivateDialogCamera() => gameData.CurrentDialogCamera.enabled = false;
 
-    public void LeaveNPC() => gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.gameObject.SetActive(false);
+    public void LeaveNPC() => player.GetComponent<VIDEDemoPlayer>().inTrigger.gameObject.SetActive(false);
 
     public void ShowNextPlace_NPC(int npcOrderNumber) => gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_NPC_" + npcOrderNumber);
 
@@ -57,7 +53,7 @@ public class DialogActions : MonoBehaviour
 
     public void ChangeDialogStartNode()
     {
-        var npc = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+        var npc = player.GetComponent<VIDEDemoPlayer>().inTrigger;
         switch (npc.alias)
         {
             case "Дровосек":
@@ -67,9 +63,17 @@ public class DialogActions : MonoBehaviour
         }
     } 
 
+    private void ActivateTrigger(GameObject trigger)
+    {
+        trigger.SetActive(true);
+        trigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+    }
+
     private void Start()
     {
         gameData = Canvas.GetComponent<GameData>();
+        player = gameData.Player;
+        triggersBehaviour = player.GetComponent<TriggersBehaviour>();
         sceneIndex = gameData.SceneIndex;
     }
 

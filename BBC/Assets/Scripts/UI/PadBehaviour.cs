@@ -24,21 +24,20 @@ public class PadBehaviour : MonoBehaviour
     public int firstThemeToLockNumber;
     [HideInInspector]
     public List<int> availableTipsCounts;
+    [HideInInspector]
+    public bool IsPadCalled;
+    [HideInInspector]
+    public bool IsCallAvailable;
 
     private InterfaceElements UI;
     private RobotBehaviour robotBehaviour;
     private GameData gameData;
     private int themeNumber;
     private int taskNumber;
-    private bool isPadCalled;
 
     public void ResetCode() => UI.CodeField.text = StartCode;
 
-    public void SwitchToDevMode()
-    {
-        UI.Pad.GetComponentInParent<Animator>().Play("SwitchToDevMode");
-        Mode = PadMode.Development;
-    }
+    public void SwitchToDevMode() => StartCoroutine(SwitchToDevMode_COR());
     
     public void SwitchToHandbookMode() => StartCoroutine(SwitchToHandbookMode_COR());
 
@@ -133,8 +132,18 @@ public class PadBehaviour : MonoBehaviour
         Mode = PadMode.Handbook_ProgrammingInfo;
     }
 
+    private IEnumerator SwitchToDevMode_COR()
+    {
+        UI.Pad.GetComponentInParent<Animator>().Play("SwitchToDevMode");
+        Mode = PadMode.Development;
+        yield return new WaitForSeconds(1.5f);
+        UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.DevModeSwitching);
+    }    
+
     private IEnumerator SwitchToHandbookMode_COR()
     {
+        if (Mode == PadMode.Normal)
+            UI.HideUI();
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         UI.PreviousHandbookPageButton.transform.parent.gameObject.SetActive(false);
         UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode");
@@ -171,6 +180,7 @@ public class PadBehaviour : MonoBehaviour
             yield return new WaitForSeconds(0.7f);
             UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
         }
+        else UI.ShowUI();
         Mode = PadMode.Normal;
     }
 
@@ -238,20 +248,25 @@ public class PadBehaviour : MonoBehaviour
         }
     }
 
-    private void CallPad()
+    private IEnumerator CallPad()
     {
-        if (!isPadCalled)
+        if (!IsPadCalled)
         {
             robotBehaviour.FreezePlayer();
-            UI.Pad.GetComponentInParent<Animator>().Play("MoveLeft_Pad");
+            UI.Pad.GetComponentInParent<Animator>().Play("MoveLeft_Pad"); 
+            IsPadCalled = !IsPadCalled;
         }
         else
         {
-            robotBehaviour.UnfreezePlayer();
-            UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+            if (Mode == PadMode.Normal)
+            {
+                robotBehaviour.UnfreezePlayer();
+                UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+                IsPadCalled = !IsPadCalled;
+            }
         }
-        isPadCalled = !isPadCalled;
-        
+        yield return new WaitForSeconds(0.667f);
+        UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.PadCall);
     }
 
     private void Update()
@@ -264,8 +279,8 @@ public class PadBehaviour : MonoBehaviour
         UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
         if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < availableTipsCounts.Count)
             UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
-        if (Input.GetKeyDown(KeyCode.P))
-            CallPad();
+        if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable)
+            StartCoroutine(CallPad());
     }
 
     private void Start()
@@ -274,7 +289,8 @@ public class PadBehaviour : MonoBehaviour
         gameData = Canvas.GetComponent<GameData>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
         Mode = PadMode.Normal;
-        isPadCalled = false;
+        IsPadCalled = false;
+        IsCallAvailable = true;
         UI.IDEButton.interactable = gameData.SceneIndex == 0;
         LockThemes();
         availableTipsCounts = new List<int>();

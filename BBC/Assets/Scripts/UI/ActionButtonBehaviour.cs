@@ -19,7 +19,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     [Header ("Интерфейс")]
     public GameObject Canvas;
     [HideInInspector]
-    public TriggerType triggerType;
+    public TriggerType CurrentTriggerType;
 
     private RobotBehaviour robotBehaviour;
     private GameObject taskTriggers;
@@ -30,30 +30,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     private int sceneIndex;
     private string otherColliderName;
 
-    public void MakeAction()
-    {
-        switch (triggerType)
-        {
-            case TriggerType.Task:
-                ActivateTask();
-                break;
-            case TriggerType.PositionChange:
-                ChangePosition();
-                break;
-            case TriggerType.ScenarioMoment:
-                ActivateScenarioMoment();
-                break;
-            case TriggerType.Save:
-                StartCoroutine(SaveGame_COR());
-                break;
-            case TriggerType.Dialog:
-                ActivateDialog();
-                break;
-            case TriggerType.ChangeScene:
-                StartCoroutine(ChangeScene_COR());
-                break;
-        }
-    }
+    public void MakeAction() => StartCoroutine(MakeAction_COR());
 
     public void ActivateTask(bool hasActivateButton = true)
     {
@@ -88,6 +65,38 @@ public class ActionButtonBehaviour : MonoBehaviour
     }
 
     public void ActivateDialog() => StartCoroutine(ActivateDialog_COR());
+
+    private IEnumerator MakeAction_COR()
+    {
+        UI.HideUI();
+        if (UI.Pad.GetComponent<PadBehaviour>().IsPadCalled)
+        {
+            UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+            yield return new WaitForSeconds(0.667f);
+        }
+        UI.ChangeCallAvailability(false);
+        switch (CurrentTriggerType)
+        {
+            case TriggerType.Task:
+                ActivateTask();
+                yield break;
+            case TriggerType.PositionChange:
+                ChangePosition();
+                yield break;
+            case TriggerType.ScenarioMoment:
+                ActivateScenarioMoment();
+                yield break;
+            case TriggerType.Save:
+                StartCoroutine(SaveGame_COR());
+                yield break;
+            case TriggerType.Dialog:
+                ActivateDialog();
+                yield break;
+            case TriggerType.ChangeScene:
+                StartCoroutine(ChangeScene_COR());
+                yield break;
+        }
+    }
 
     private IEnumerator ActivateDialog_COR()
     {
@@ -129,6 +138,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         buttonText.text = "Сохранить игру";
         UI.ActionButton.interactable = true;
+        UI.ChangeCallAvailability(true);
     }
 
     private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber, bool hasActivateButton = true)
@@ -156,12 +166,14 @@ public class ActionButtonBehaviour : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(2.5f);
         var currentTrigger = enterTriggers.transform.GetChild(triggerNumber - 1).gameObject;
-        var previousCamera = currentTrigger.GetComponent<SwitchSceneBehaviour>().PreviousCamera;
-        var nextCamera = currentTrigger.GetComponent<SwitchSceneBehaviour>().NextCamera;
+        var triggerBehaviour = currentTrigger.GetComponent<SwitchSceneBehaviour>();
+        var previousCamera = triggerBehaviour.PreviousCamera;
+        var nextCamera = triggerBehaviour.NextCamera;
+        UI.Minimap.SetActive(triggerBehaviour.IsMinimapShouldActive);
         previousCamera.enabled = false;
         nextCamera.enabled = true;
         gameData.CurrentSceneCamera = nextCamera;
-        var destinationTriggerNumber = currentTrigger.GetComponent<SwitchSceneBehaviour>().destinationTriggerNumber;
+        var destinationTriggerNumber = triggerBehaviour.destinationTriggerNumber;
         gameData.Player.transform.position = enterTriggers.transform.GetChild(destinationTriggerNumber - 1).position;
         currentTrigger.SetActive(true);
         currentTrigger.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
@@ -169,6 +181,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         yield return new WaitForSeconds(2f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
         robotBehaviour.UnfreezePlayer();
+        UI.ChangeCallAvailability(true);
     }    
 
     private IEnumerator ActivateScenarioMoment_Level_3_COR(int triggerNumber)
@@ -219,6 +232,7 @@ public class ActionButtonBehaviour : MonoBehaviour
                 robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
                 break;
         }
+        UI.ChangeCallAvailability(true);
     }
 
     private void ActivateTrigger(GameObject triggersGroup, int childNumber)

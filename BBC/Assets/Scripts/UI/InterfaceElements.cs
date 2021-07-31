@@ -9,6 +9,11 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip ("Кнопка выполнения действия (активация задания, смена сцены и т.д.)")]
     public Button ActionButton;
 
+    [Header("Панель обучения")]
+    public GameObject TrainingPanel;
+    [Tooltip("Фон для панели обучения")]
+    public GameObject TrainingPanelBackground;
+
     [Header ("Панель задания")]
     [Tooltip("Панель задания")]
     public GameObject TaskPanel;
@@ -44,6 +49,8 @@ public class InterfaceElements : MonoBehaviour
     public Text CoinsMenuCounter;
     [Tooltip("Кнопка перехода в режим разработки")]
     public Button IDEButton;
+    [Tooltip("Кнопка перехода в режим справочника")]
+    public Button HandbookButton;
 
     [Header("Планшет (режим разработки)")]
     [Tooltip("Планшет")]
@@ -60,6 +67,10 @@ public class InterfaceElements : MonoBehaviour
     public Button ResetButton;
     [Tooltip("Кнопка выключения планшета")]
     public Button PowerButton;
+    [Tooltip("Кнопка включения панели подсказок")]
+    public Button TipButton;
+    [Tooltip("Кнопка возврата в меню из режима разработки")]
+    public Button ExitDevModeButton;
 
     [Header("Планшет (панель подсказок)")]
     [Tooltip("Панель подсказок")]
@@ -91,6 +102,20 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip("Кнопка для перехода на предыдущую страницу")]
     public Button PreviousHandbookPageButton;
 
+    [Header("Мини-карта")]
+    [Tooltip("Мини-карта")]
+    public GameObject Minimap;
+
+    [Header("Панель текущей цели")]
+    [Tooltip("Панель текущей цели")]
+    public GameObject TargetPanel;
+    [Tooltip("Панель текущей цели")]
+    public GameObject TargetPanelBackground;
+    [Tooltip("Надпись Цель")]
+    public Text TargetLabel;
+    [Tooltip("Текстовое описание цели")]
+    public Text TargetText;
+
     [Header("Панель выхода в меню")]
     [Tooltip("Панель выхода в меню")]
     public GameObject ExitToMenuPanel;
@@ -98,4 +123,32 @@ public class InterfaceElements : MonoBehaviour
     [Header("Чёрный экран (контейнер)")]
     [Tooltip("Чёрный экран (контейнер)")]
     public GameObject BlackScreen;
+
+    private TargetPanelBehaviour targetPanelBehaviour;
+
+    public void ChangeCallAvailability(bool isCallAvailable)
+    {
+        targetPanelBehaviour.IsCallAvailable = isCallAvailable;
+        Pad.GetComponent<PadBehaviour>().IsCallAvailable = isCallAvailable;
+    }
+
+    public void HideUI()
+    {
+        if (targetPanelBehaviour.IsShown)
+            targetPanelBehaviour.HideTarget();
+        targetPanelBehaviour.IsCallAvailable = false;
+        Minimap.SetActive(false);
+    }
+
+    public void ShowUI()
+    {
+        targetPanelBehaviour.IsCallAvailable = true;
+        Minimap.SetActive(true);
+    }
+
+    private void Awake()
+    {
+        targetPanelBehaviour = gameObject.GetComponent<TargetPanelBehaviour>();
+        ChangeCallAvailability(false);
+    }
 }

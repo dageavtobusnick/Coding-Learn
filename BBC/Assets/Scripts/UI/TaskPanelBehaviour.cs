@@ -54,10 +54,14 @@ public class TaskPanelBehaviour : MonoBehaviour
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         gameData.IsTaskStarted = false;
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
-        UI.IDEButton.interactable = false;
         if (sceneIndex != 0)
+        {
             yield return StartCoroutine(ReturnToScene_COR());
+            UI.Minimap.SetActive(true);
+            UI.IDEButton.interactable = false;
+        }
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
+        UI.ChangeCallAvailability(true);
     }
 
     private IEnumerator ReturnToScene_COR()
@@ -68,7 +72,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         var isTaskCompleted = gameData.HasTasksCompleted[taskNumber - 1];
         if (!isTaskCompleted)
         {
-            if (Canvas.GetComponent<ActionButtonBehaviour>().triggerType == ActionButtonBehaviour.TriggerType.Dialog)
+            if (Canvas.GetComponent<ActionButtonBehaviour>().CurrentTriggerType == ActionButtonBehaviour.TriggerType.Dialog)
             {
                 var npcMark = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.GetChild(0).gameObject;
                 npcMark.SetActive(true);

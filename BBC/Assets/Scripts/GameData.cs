@@ -156,7 +156,7 @@ public class GameData : MonoBehaviour
         HandbookLetters = new List<HandbookLetter[]>();
         for (var i = 0; i <= 3; i++)
         {
-            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters/Handbook Letters Level " + SceneIndex);
+            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters/Handbook Letters Level " + i);
             HandbookLetters.Add(JsonHelper.FromJson<HandbookLetter>(handbookLettersFile.text));
         }
         if (SceneIndex > 0)

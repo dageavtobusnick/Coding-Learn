@@ -47,21 +47,39 @@ public class PadBehaviour : MonoBehaviour
 
     #region Выбор темы из главного меню справочника
 
-    public void ShowSubThemes_Theme_1() => StartCoroutine(ShowSubThemes_COR(1));
+    public void ShowSubThemes_Theme_1_1() => StartCoroutine(ShowSubThemes_COR(1));
 
-    public void ShowSubThemes_Theme_2() => StartCoroutine(ShowSubThemes_COR(2));
+    public void ShowSubThemes_Theme_1_2() => StartCoroutine(ShowSubThemes_COR(2));
 
-    public void ShowSubThemes_Theme_3() => StartCoroutine(ShowSubThemes_COR(3));
-    
+    public void ShowSubThemes_Theme_2() => StartCoroutine(ShowSubThemes_COR(3));
+
+    public void ShowSubThemes_Theme_3() => StartCoroutine(ShowSubThemes_COR(4));
+
+    public void ShowSubThemes_Theme_4() => StartCoroutine(ShowSubThemes_COR(5));
+
+    public void ShowSubThemes_Theme_5() => StartCoroutine(ShowSubThemes_COR(6));
+
     #endregion
 
     #region Выбор раздела в каждой из тем, представленных в справочнике
-    
+
     public void ShowProgrammingInfo_SubTheme_1() => StartCoroutine(ShowProgrammingInfo_COR(1));
 
     public void ShowProgrammingInfo_SubTheme_2() => StartCoroutine(ShowProgrammingInfo_COR(2));
 
     public void ShowProgrammingInfo_SubTheme_3() => StartCoroutine(ShowProgrammingInfo_COR(3));
+
+    public void ShowProgrammingInfo_SubTheme_4() => StartCoroutine(ShowProgrammingInfo_COR(4));
+
+    public void ShowProgrammingInfo_SubTheme_5() => StartCoroutine(ShowProgrammingInfo_COR(5));
+
+    public void ShowProgrammingInfo_SubTheme_6() => StartCoroutine(ShowProgrammingInfo_COR(6));
+
+    public void ShowProgrammingInfo_SubTheme_7() => StartCoroutine(ShowProgrammingInfo_COR(7));
+
+    public void ShowProgrammingInfo_SubTheme_8() => StartCoroutine(ShowProgrammingInfo_COR(8));
+
+    public void ShowProgrammingInfo_SubTheme_9() => StartCoroutine(ShowProgrammingInfo_COR(9));
 
     #endregion
 
@@ -127,8 +145,10 @@ public class PadBehaviour : MonoBehaviour
         UI.ProgrammingInfoTitle.text = handbookLetter.Title;
         UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleDown");
         yield return new WaitForSeconds(0.45f);
-        UI.ProgrammingInfo.GetComponentInParent<Animator>().Play("ScaleUp");
-        UI.ProgrammingInfoTitle.GetComponent<Animator>().Play("ScaleUp");
+        UI.ProgrammingInfoScrollBar.value = 1;
+        UI.InfoPanel_BlackScreen.GetComponent<Animator>().Play("ShowProgrammingInfo");
+        yield return new WaitForSeconds(1f);
+        UI.InfoPanel_BlackScreen.SetActive(false);
         Mode = PadMode.Handbook_ProgrammingInfo;
     }
 
@@ -146,13 +166,14 @@ public class PadBehaviour : MonoBehaviour
             UI.HideUI();
         UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         UI.PreviousHandbookPageButton.transform.parent.gameObject.SetActive(false);
-        UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode");
         if (gameData.IsTaskStarted)
         {
+            UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode");
             UI.TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
             yield return new WaitForSeconds(0.7f);
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().EraseTaskPanelBackground_COR());
         }
+        else UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode_NoLatency");
         Mode = PadMode.Handbook_MainThemes;
     }
 
@@ -166,13 +187,15 @@ public class PadBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToMenuFromHandbookMode_COR()
     {
-        UI.Pad.GetComponentInParent<Animator>().Play("ReturnToMenuFromHandbookMode");
+        if (gameData.IsTaskStarted)
+            UI.Pad.GetComponentInParent<Animator>().Play("ReturnToMenuFromHandbookMode");
+        else UI.Pad.GetComponentInParent<Animator>().Play("ReturnToMenuFromHandbookMode_NoLatency");
         yield return new WaitForSeconds(0.83f);
         UI.ThemeButtons.GetComponent<Animator>().Play("ScaleUp");
         for (var i = 0; i < UI.SubThemeButtons.transform.childCount; i++)
             UI.SubThemeButtons.transform.GetChild(i).gameObject.GetComponent<Animator>().Play("ScaleDown");
-        UI.ProgrammingInfo.GetComponentInParent<Animator>().Play("ScaleDown");
-        UI.ProgrammingInfoTitle.GetComponent<Animator>().Play("ScaleDown");
+        UI.InfoPanel_BlackScreen.SetActive(true);
+        UI.InfoPanel_BlackScreen.GetComponent<Animator>().Play("HideProgrammingInfo");
         if (gameData.IsTaskStarted)
         {
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().DrawTaskPanelBackground_COR());
@@ -196,9 +219,9 @@ public class PadBehaviour : MonoBehaviour
                 Mode = PadMode.Handbook_MainThemes;
                 break;
             case PadMode.Handbook_ProgrammingInfo:
-                UI.ProgrammingInfo.GetComponentInParent<Animator>().Play("ScaleDown");
-                UI.ProgrammingInfoTitle.GetComponent<Animator>().Play("ScaleDown");
-                yield return new WaitForSeconds(0.45f);
+                UI.InfoPanel_BlackScreen.SetActive(true);
+                UI.InfoPanel_BlackScreen.GetComponent<Animator>().Play("HideProgrammingInfo");
+                yield return new WaitForSeconds(1f);              
                 UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleUp");
                 Mode = PadMode.Handbook_SubThemes;
                 break;
@@ -213,16 +236,16 @@ public class PadBehaviour : MonoBehaviour
                 firstThemeToLockNumber = 1;
                 break;
             case 1:
-                firstThemeToLockNumber = 1;
-                break;
-            case 2:
                 firstThemeToLockNumber = 2;
                 break;
-            case 3:
+            case 2:
                 firstThemeToLockNumber = 3;
                 break;
+            case 3:
+                firstThemeToLockNumber = 4;
+                break;
             case 4:
-                firstThemeToLockNumber = 3; // потом поменять на 4
+                firstThemeToLockNumber = 5; // потом поменять на 4
                 break;
             default:
                 firstThemeToLockNumber = int.MaxValue;

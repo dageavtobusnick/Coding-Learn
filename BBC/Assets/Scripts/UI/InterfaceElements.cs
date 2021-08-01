@@ -95,12 +95,18 @@ public class InterfaceElements : MonoBehaviour
     public GameObject ThemeButtons;
     [Tooltip("Кнопки подразделов для каждого раздела")]
     public GameObject SubThemeButtons;
+    [Tooltip("Панель с информацией о программировании")]
+    public GameObject InfoPanel;
     [Tooltip("Поле для информации по программрованию")]
     public Text ProgrammingInfo;
     [Tooltip("Заголовок для раздела по программрованию")]
     public Text ProgrammingInfoTitle;
+    [Tooltip("Скроллбар раздела по программрованию")]
+    public Scrollbar ProgrammingInfoScrollBar;
     [Tooltip("Кнопка для перехода на предыдущую страницу")]
     public Button PreviousHandbookPageButton;
+    [Tooltip("Черный экран для анимированного перехода")]
+    public GameObject InfoPanel_BlackScreen;
 
     [Header("Мини-карта")]
     [Tooltip("Мини-карта")]

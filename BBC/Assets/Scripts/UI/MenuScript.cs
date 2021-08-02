@@ -44,7 +44,8 @@ public class MenuScript : MonoBehaviour
     public void Start_Level_4() => StartCoroutine(Start_Level_COR(4));
 
     public void Start_Level_5() => StartCoroutine(Start_Level_COR(5));
-
+    //LEADERSHIP
+    public void Start_LeaderShip() => StartCoroutine(Start_Level_COR(6));
     public void Exit() => Application.Quit();
 
     private IEnumerator GoTo_Settings_COR()

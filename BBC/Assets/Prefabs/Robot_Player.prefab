@@ -835,6 +835,7 @@ GameObject:
   - component: {fileID: 5437260875653983664}
   - component: {fileID: 5437260875653983662}
   - component: {fileID: 5437260875653983663}
+  - component: {fileID: 3184793717495467666}
   m_Layer: 0
   m_Name: Robot_Player
   m_TagString: Untagged
@@ -900,9 +901,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 2.14
-  m_Height: 6.04
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 2.6, z: 0}
+  m_Center: {x: 0, y: 3.52, z: 0}
 --- !u!95 &5437260875653983664
 Animator:
   serializedVersion: 3
@@ -957,6 +958,20 @@ MonoBehaviour:
   moveSpeed: 3
   rotateSpeed: 3
   freezeSpeed: 0
+--- !u!136 &3184793717495467666
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5166875775634873194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.11
+  m_Height: 2.71
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!1 &5573309977659864294
 GameObject:
   m_ObjectHideFlags: 0

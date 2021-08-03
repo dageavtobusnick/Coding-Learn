@@ -7,7 +7,7 @@ public class TargetPanelBehaviour : MonoBehaviour
 {
     [Header("Интерфейс")]
     public GameObject Canvas;
-    [HideInInspector]
+    [Header("Текст текущей цели")]
     public string TargetText;
     [HideInInspector]
     public string TargetLabelText;
@@ -93,7 +93,6 @@ public class TargetPanelBehaviour : MonoBehaviour
         UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
         TargetLabelText = "Цель:";
-        TargetText = "Исследуйте локацию";
         timer = 0;
         HideTarget();
         IsCallAvailable = false;

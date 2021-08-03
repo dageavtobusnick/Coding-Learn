@@ -46,6 +46,10 @@ public class MenuScript : MonoBehaviour
     public void Start_Level_5() => StartCoroutine(Start_Level_COR(5));
     //LEADERSHIP
     public void Start_LeaderShip() => StartCoroutine(Start_Level_COR(6));
+    //Authentication
+    public void Start_Authentication() => StartCoroutine(Start_Level_COR(7));
+    //Go main menu from Authentication
+    public void Go_Main_Menu() => StartCoroutine(Start_Level_COR(0));
     public void Exit() => Application.Quit();
 
     private IEnumerator GoTo_Settings_COR()

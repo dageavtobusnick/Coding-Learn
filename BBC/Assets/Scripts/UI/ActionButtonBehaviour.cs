@@ -38,7 +38,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
         gameData.IsTaskStarted = true;
         UI.IDEButton.interactable = true;
-        //robotBehaviour.FreezePlayer();
+        robotBehaviour.FreezePlayer();
         if (gameData.SceneIndex != 0)
             taskTriggers.transform.GetChild(currentTaskNumber - 1).gameObject.SetActive(false);
         StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber, hasActivateButton));
@@ -147,14 +147,8 @@ public class ActionButtonBehaviour : MonoBehaviour
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());
         if (currentTaskNumber <= Canvas.GetComponent<TaskPanelBehaviour>().tasksCount)
         {
-            var currentCamera = gameData.CurrentSceneCamera;
-            var currentCameraName = currentCamera.gameObject.name;
-            if (currentCameraName.StartsWith("SceneCamera"))
-            {
-                var currentCameraNumber = int.Parse(currentCameraName.Split('_')[1]);
-                currentCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber + "_SceneCamera_" + currentCameraNumber);
-                yield return new WaitForSeconds(2f);
-            }
+            gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber);
+            yield return new WaitForSeconds(2f);
         }
         Canvas.GetComponent<TaskPanelBehaviour>().ChangeTask();
     } 

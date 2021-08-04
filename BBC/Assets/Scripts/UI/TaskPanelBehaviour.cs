@@ -66,7 +66,7 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToScene_COR()
     {
-        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ReturnToScene_Task_" + taskNumber);
         yield return new WaitForSeconds(2f);
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
         var isTaskCompleted = gameData.HasTasksCompleted[taskNumber - 1];

@@ -18,47 +18,48 @@ public class TrainingScript : MonoBehaviour
     private InterfaceElements UI;
     private GameData gameData;
     private int currentTipNumber;
+    private const string pointerAnimationName = "ShowAside";
 
     #region Вызовы обучающих сообщений
-    public void ShowTip_1() => ShowTip(1, "ShowAside");
+    public void ShowTip_1() => ShowTip(1);
 
-    public void ShowTip_2() => ShowTip(2, "ShowAside");
+    public void ShowTip_2() => ShowTip(2);
 
-    public void ShowTip_3() => ShowTip(3, "ShowAside");
+    public void ShowTip_3() => ShowTip(3);
 
-    public void ShowTip_4() => ShowTip(4, "ShowAside");
+    public void ShowTip_4() => ShowTip(4);
 
-    public void ShowTip_5() => ShowTip(5, "ShowAside");
+    public void ShowTip_5() => ShowTip(5);
 
-    public void ShowTip_6() => ShowTip(6, "ShowAside");
+    public void ShowTip_6() => ShowTip(6);
 
-    public void ShowTip_7() => ShowTip(7, "ShowAside");
+    public void ShowTip_7() => ShowTip(7);
 
-    public void ShowTip_8() => ShowTip(8, "ShowAside");
+    public void ShowTip_8() => ShowTip(8);
 
-    public void ShowTip_9() => ShowTip(9, "ShowAside");
+    public void ShowTip_9() => ShowTip(9);
 
-    public void ShowTip_10() => ShowTip(10, "ShowAside");
+    public void ShowTip_10() => ShowTip(10);
 
-    public void ShowTip_11() => ShowTip(11, "ShowAside");
+    public void ShowTip_11() => ShowTip(11);
 
-    public void ShowTip_12() => ShowTip(12, "ShowAside");
+    public void ShowTip_12() => ShowTip(12);
 
-    public void ShowTip_13() => ShowTip(13, "ShowAside");
+    public void ShowTip_13() => ShowTip(13);
 
-    public void ShowTip_14() => ShowTip(14, "ShowAside");
+    public void ShowTip_14() => ShowTip(14);
 
-    public void ShowTip_15() => ShowTip(15, "ShowAside");
+    public void ShowTip_15() => ShowTip(15);
 
-    public void ShowTip_16() => ShowTip(16, "ShowAside");
+    public void ShowTip_16() => ShowTip(16);
 
-    public void ShowTip_17() => ShowTip(17, "ShowAside");
+    public void ShowTip_17() => ShowTip(17);
 
-    public void ShowTip_18() => ShowTip(18, "ShowAside");
+    public void ShowTip_18() => ShowTip(18);
 
-    public void ShowTip_19() => ShowTip(19, "ShowAside");
+    public void ShowTip_19() => ShowTip(19);
 
-    public void ShowTip_20() => ShowTip(20, "ShowAside");
+    public void ShowTip_20() => ShowTip(20);
     #endregion
 
     public void TryShowTraining(PreviousAction previousAction)
@@ -116,7 +117,7 @@ public class TrainingScript : MonoBehaviour
         }
     }
 
-    private void ShowTip(int tipNumber, string animationName)
+    private void ShowTip(int tipNumber)
     {
         currentTipNumber = tipNumber;
         UI.TrainingPanel.SetActive(true);
@@ -125,7 +126,7 @@ public class TrainingScript : MonoBehaviour
             UI.TrainingPanel.transform.GetChild(tipNumber - 2).gameObject.SetActive(false);
         var newTip = UI.TrainingPanel.transform.GetChild(tipNumber - 1).gameObject;
         newTip.SetActive(true);
-        newTip.GetComponentInChildren<Animator>().Play(animationName);
+        newTip.GetComponentInChildren<Animator>().Play(pointerAnimationName);
         switch (tipNumber)
         {
             case 1:

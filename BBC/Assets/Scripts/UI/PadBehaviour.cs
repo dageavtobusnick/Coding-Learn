@@ -16,14 +16,19 @@ public class PadBehaviour : MonoBehaviour
 
     [Header("Интерфейс")]
     public GameObject Canvas;
+    [Header("Стоимость одной подсказки")]
+    public int TipPrice = 3;
+    [Header("Стоимость нескольких подсказок")]
+    public int ManyTipsPrice = 8;
+    [Header("Первая заблокированная тема")]
+    [Tooltip("Начиная с этого номера, все темы в справочнике будут заблокированы")]
+    public int FirstThemeToLockNumber;
     [HideInInspector]
     public string StartCode;
     [HideInInspector]
-    public PadMode Mode;
+    public PadMode Mode;   
     [HideInInspector]
-    public int firstThemeToLockNumber;
-    [HideInInspector]
-    public List<int> availableTipsCounts;
+    public List<int> AvailableTipsCounts;
     [HideInInspector]
     public bool IsPadCalled;
     [HideInInspector]
@@ -85,11 +90,13 @@ public class PadBehaviour : MonoBehaviour
 
     public void ShowHelpPanel()
     {
-        if (availableTipsCounts[taskNumber - 1] == gameData.Tips[taskNumber - 1].Length)
+        taskNumber = gameData.CurrentTaskNumber;
+        UpdatePadData();
+        if (AvailableTipsCounts[taskNumber - 1] == gameData.Tips[taskNumber - 1].Length)
             UI.Tip.text = "";
         else
         {
-            var tipNumber = gameData.Tips[taskNumber - 1].Length - availableTipsCounts[taskNumber - 1] - 1;
+            var tipNumber = gameData.Tips[taskNumber - 1].Length - AvailableTipsCounts[taskNumber - 1] - 1;
             UI.Tip.text = gameData.Tips[taskNumber - 1][tipNumber].Tip;
         }
         UI.HelpPanel.GetComponent<Animator>().Play("ScaleUp"); 
@@ -101,9 +108,9 @@ public class PadBehaviour : MonoBehaviour
 
     public void UnlockProgrammingInfo(int chapterNumber)
     {
-        var buttonToUnlock = UI.SubThemeButtons.transform.GetChild(firstThemeToLockNumber - 2).GetChild(chapterNumber - 1).gameObject.GetComponent<Button>();
+        var buttonToUnlock = UI.SubThemeButtons.transform.GetChild(FirstThemeToLockNumber - 2).GetChild(chapterNumber - 1).gameObject.GetComponent<Button>();
         buttonToUnlock.interactable = true;
-        buttonToUnlock.GetComponentInChildren<Text>().text = gameData.HandbookLetters[firstThemeToLockNumber - 1][chapterNumber - 1].Title;
+        buttonToUnlock.GetComponentInChildren<Text>().text = gameData.HandbookLetters[FirstThemeToLockNumber - 1][chapterNumber - 1].Title;
     }
 
     public void ShowTip()
@@ -111,21 +118,24 @@ public class PadBehaviour : MonoBehaviour
         gameData.TipsCount--;
         if (UI.TipFiller.IsActive())
             UI.TipFiller.gameObject.SetActive(false);
-        var tipNumber = gameData.Tips[taskNumber - 1].Length - availableTipsCounts[taskNumber - 1];
+        var tipNumber = gameData.Tips[taskNumber - 1].Length - AvailableTipsCounts[taskNumber - 1];
         UI.Tip.text = gameData.Tips[taskNumber - 1][tipNumber].Tip;
-        availableTipsCounts[taskNumber - 1]--;
+        AvailableTipsCounts[taskNumber - 1]--;
+        UpdatePadData();
     }
 
     public void BuyTip()
     {
         gameData.TipsCount++;
         gameData.CoinsCount -= 3;
+        UpdatePadData();
     }
 
     public void BuyManyTips()
     {
         gameData.TipsCount += 3;
         gameData.CoinsCount -= 8;
+        UpdatePadData();
     }
 
     private IEnumerator ShowSubThemes_COR(int themeNumber)
@@ -230,41 +240,20 @@ public class PadBehaviour : MonoBehaviour
 
     private void LockThemes()
     {       
-        switch (gameData.SceneIndex)
-        {
-            case 0:
-                firstThemeToLockNumber = 1;
-                break;
-            case 1:
-                firstThemeToLockNumber = 2;
-                break;
-            case 2:
-                firstThemeToLockNumber = 3;
-                break;
-            case 3:
-                firstThemeToLockNumber = 4;
-                break;
-            case 4:
-                firstThemeToLockNumber = 5; // потом поменять на 4
-                break;
-            default:
-                firstThemeToLockNumber = int.MaxValue;
-                break;
-        }
-        for (var i = firstThemeToLockNumber; i < UI.ThemeButtons.transform.childCount; i++)
+        for (var i = FirstThemeToLockNumber; i < UI.ThemeButtons.transform.childCount; i++)
         {
             var themeButton = UI.ThemeButtons.transform.GetChild(i).gameObject.GetComponent<Button>();
             themeButton.interactable = false;
             themeButton.GetComponentInChildren<Text>().text = "???";
         }
-        var newProgrammingInfoButtons = UI.SubThemeButtons.transform.GetChild(firstThemeToLockNumber - 1).gameObject;
+        var newProgrammingInfoButtons = UI.SubThemeButtons.transform.GetChild(FirstThemeToLockNumber - 1).gameObject;
         for (var i = 0; i < newProgrammingInfoButtons.transform.childCount; i++)
         {
             var programmingInfoButton = newProgrammingInfoButtons.transform.GetChild(i).gameObject.GetComponent<Button>();
             programmingInfoButton.interactable = false;
             programmingInfoButton.GetComponentInChildren<Text>().text = "???";
         }
-        for (var i = 0; i < firstThemeToLockNumber - 1; i++)
+        for (var i = 0; i < FirstThemeToLockNumber - 1; i++)
         {
             for (var j = 0; j < UI.SubThemeButtons.transform.GetChild(i).childCount; j++)
                 UI.SubThemeButtons.transform.GetChild(i).GetChild(j).GetComponentInChildren<Text>().text = gameData.HandbookLetters[i][j].Title;
@@ -292,18 +281,22 @@ public class PadBehaviour : MonoBehaviour
         UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.PadCall);
     }
 
-    private void Update()
+    private void UpdatePadData()
     {
-        taskNumber = gameData.CurrentTaskNumber;
         UI.CoinsCounter.text = UI.CoinsMenuCounter.text = gameData.CoinsCount.ToString();
         UI.TipsCounter.text = UI.TipsMenuCounter.text = gameData.TipsCount.ToString();
-        UI.BuyTipButton.interactable = gameData.CoinsCount >= 3;
-        UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= 8;
-        UI.ShowTipButton.interactable = gameData.TipsCount > 0 && availableTipsCounts[taskNumber - 1] > 0;
-        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < availableTipsCounts.Count)
-            UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + availableTipsCounts[taskNumber - 1] + ")";
+        UI.BuyTipButton.interactable = gameData.CoinsCount >= TipPrice;
+        UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= ManyTipsPrice;
+        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < AvailableTipsCounts.Count)
+            UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + AvailableTipsCounts[taskNumber - 1] + ")";
+        UI.ShowTipButton.interactable = gameData.TipsCount > 0 && AvailableTipsCounts[taskNumber - 1] > 0;
+    }
+
+    private void Update()
+    {      
         if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable)
             StartCoroutine(CallPad());
+        UpdatePadData();
     }
 
     private void Start()
@@ -316,16 +309,17 @@ public class PadBehaviour : MonoBehaviour
         IsCallAvailable = true;
         UI.IDEButton.interactable = gameData.SceneIndex == 0;
         LockThemes();
-        availableTipsCounts = new List<int>();
+        UpdatePadData();
+        AvailableTipsCounts = new List<int>();
         if (gameData.SceneIndex > 0)
         {
             for (var i = 0; i < gameData.TaskTexts.Length; i++)
-                availableTipsCounts.Add(gameData.Tips[i].Length);
+                AvailableTipsCounts.Add(gameData.Tips[i].Length);
         }
         if (PlayerPrefs.HasKey("PositionX"))
         {
-            for (var i = 0; i < availableTipsCounts.Count; i++)
-                availableTipsCounts[i] = PlayerPrefs.GetInt("Available Tips Count (Task " + (i + 1) + ")");
+            for (var i = 0; i < AvailableTipsCounts.Count; i++)
+                AvailableTipsCounts[i] = PlayerPrefs.GetInt("Available Tips Count (Task " + (i + 1) + ")");
         }
         if (gameData.SceneIndex != 0 && gameData.SceneIndex != 4)
             Canvas.GetComponent<SaveLoad>().Save();

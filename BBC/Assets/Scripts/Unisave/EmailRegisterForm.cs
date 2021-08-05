@@ -117,8 +117,8 @@ namespace Scripts.Unisave
             if (response)
             {
                 chooseStatus.enabled = false;
-                var player = await OnFacet<GetPlayerDataFacet>.CallAsync<Tuple<string, int>>(
-                    nameof(GetPlayerDataFacet.GetPlayerData),
+                var player = await OnFacet<PlayerDataFacet>.CallAsync<Tuple<string, int>>(
+                    nameof(PlayerDataFacet.GetPlayerData),
                     emailField.text);
                 gameObject.GetComponent<PlayerPanelBehaviour>().PlayerName.text = player.Item1;
                 gameObject.GetComponent<PlayerPanelBehaviour>().PlayerScore.text = player.Item2.ToString();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Unisave.Entities;
 
 namespace Unisave.Examples.PlayerAuthentication.Backend
@@ -23,5 +24,7 @@ namespace Unisave.Examples.PlayerAuthentication.Backend
         public string nickname;
 
         public int totalScore;
+
+        public List<int> scoresPerLevel;
     }
 }

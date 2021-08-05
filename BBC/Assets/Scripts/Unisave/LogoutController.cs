@@ -38,6 +38,7 @@ namespace Scripts.Unisave
             {
                 Debug.Log("Logout successful!");
                 gameObject.GetComponent<PlayerPanelBehaviour>().ReturnToLoginAndRegistrationPanel_PlayerInfoPanel();
+                gameObject.GetComponent<MenuScript>().ChangeMainMenuButtonsAvailability(false);
             }
             else
                 Debug.Log("There was no player to logout.");

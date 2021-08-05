@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Unisave.Facades;
 using Unisave.Facets;
 using Unisave.Utils;
@@ -89,7 +90,8 @@ namespace Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication
                 email = email,
                 password = Hash.Make(password),
                 nickname = nickname,
-                totalScore = 0
+                totalScore = 0,
+                scoresPerLevel = new int[10].ToList()
             };
         
             // Add your own logic here,

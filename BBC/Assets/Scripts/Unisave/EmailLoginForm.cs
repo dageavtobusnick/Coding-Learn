@@ -68,11 +68,12 @@ namespace Scripts.Unisave
             if (response)
             {
                 statusText.enabled = false;
-                var player = await OnFacet<GetPlayerDataFacet>.CallAsync<Tuple<string, int>>(
-                    nameof(GetPlayerDataFacet.GetPlayerData),
+                var player = await OnFacet<PlayerDataFacet>.CallAsync<Tuple<string, int>>(
+                    nameof(PlayerDataFacet.GetPlayerData),
                     emailField.text);
                 playerPanelBehaviour.PlayerName.text = player.Item1;
                 playerPanelBehaviour.PlayerScore.text = player.Item2.ToString();
+                gameObject.GetComponent<MenuScript>().IsPlayerLoggedIn = true;
                 gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo();
             }
             else

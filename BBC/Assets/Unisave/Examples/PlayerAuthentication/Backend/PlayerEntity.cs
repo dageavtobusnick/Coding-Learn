@@ -19,5 +19,9 @@ namespace Unisave.Examples.PlayerAuthentication.Backend
         /// When was the last time the player has logged in
         /// </summary>
         public DateTime lastLoginAt = DateTime.UtcNow;
+
+        public string nickname;
+
+        public int totalScore;
     }
 }

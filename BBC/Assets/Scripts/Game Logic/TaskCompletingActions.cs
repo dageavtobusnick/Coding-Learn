@@ -48,9 +48,9 @@ public class TaskCompletingActions : MonoBehaviour
         robotBehaviour = player.GetComponent<RobotBehaviour>();
         if (sceneIndex != 0)
         {
-            taskTriggers = player.GetComponent<TriggersBehaviour>().TaskTriggers;
-            enterTriggers = player.GetComponent<TriggersBehaviour>().EnterTriggers;
-            scenarioTriggers = player.GetComponent<TriggersBehaviour>().ScenarioTriggers;
+            taskTriggers = player.GetComponentInChildren<TriggersBehaviour>().TaskTriggers;
+            enterTriggers = player.GetComponentInChildren<TriggersBehaviour>().EnterTriggers;
+            scenarioTriggers = player.GetComponentInChildren<TriggersBehaviour>().ScenarioTriggers;
         }
         SwitchObjectsToStartState();
     }
@@ -104,8 +104,13 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(1f);
         CloseTask();
         yield return new WaitForSeconds(0.7f);
-        gameData.CurrentTaskNumber++;
-        Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask();
+        if (gameData.CurrentTaskNumber == gameData.TaskTexts.Length)
+            Canvas.GetComponent<ActionButtonBehaviour>().FinishLevel();
+        else
+        {
+            gameData.CurrentTaskNumber++;
+            Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask();
+        }   
     }
     #endregion
 

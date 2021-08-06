@@ -7,7 +7,6 @@ public class DialogActions : MonoBehaviour
     [Header("Èםעונפויס")]
     public GameObject Canvas;
 
-    private int sceneIndex;
     private GameData gameData;
     private GameObject player;
     private TriggersBehaviour triggersBehaviour;
@@ -66,15 +65,14 @@ public class DialogActions : MonoBehaviour
     private void ActivateTrigger(GameObject trigger)
     {
         trigger.SetActive(true);
-        trigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+        trigger.transform.GetChild(0).gameObject.SetActive(true);
+        trigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
 
     private void Start()
     {
         gameData = Canvas.GetComponent<GameData>();
         player = gameData.Player;
-        triggersBehaviour = player.GetComponent<TriggersBehaviour>();
-        sceneIndex = gameData.SceneIndex;
+        triggersBehaviour = player.GetComponentInChildren<TriggersBehaviour>();
     }
-
 }

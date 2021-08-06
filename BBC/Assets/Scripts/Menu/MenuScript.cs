@@ -36,10 +36,6 @@ public class MenuScript : MonoBehaviour
 
     public void ReturnToMainMenuFrom_Levels() => StartCoroutine(ReturnToMainMenu_Levels_COR());
 
-    public void GoToURL_Financies() => Application.OpenURL("http://13.59.215.174/FiveRaccoons/");
-
-    public void GoToURL_VK_Group() => Application.OpenURL("https://vk.com/iritrtf_urfu");
-
     public void Continue() => StartCoroutine(Continue_COR());
 
     public void Start_Level_Training() => StartCoroutine(Start_Level_COR(SceneManager.sceneCountInBuildSettings - 1));
@@ -53,8 +49,6 @@ public class MenuScript : MonoBehaviour
     public void Start_Level_4() => StartCoroutine(Start_Level_COR(4));
 
     public void Start_Level_5() => StartCoroutine(Start_Level_COR(5));
-    
-    public void Go_Main_Menu() => StartCoroutine(Start_Level_COR(0));
 
     public void Exit() => Application.Quit();
 
@@ -226,10 +220,10 @@ public class MenuScript : MonoBehaviour
     {
         var response = await OnFacet<PlayerDataFacet>.CallAsync<PlayerEntity>(
             nameof(PlayerDataFacet.IsPlayerAuthorized));
-        if (response != null)
-            gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.nickname, response.totalScore);
-        else ChangeMainMenuButtonsAvailability(false);
         IsPlayerLoggedIn = response != null;
+        if (IsPlayerLoggedIn)
+            gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.nickname, response.totalScore);
+        else ChangeMainMenuButtonsAvailability(false);      
     }
 
     private void Start()

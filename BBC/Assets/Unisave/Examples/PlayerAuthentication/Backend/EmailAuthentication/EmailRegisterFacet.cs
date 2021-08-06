@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Unisave.Facades;
 using Unisave.Facets;
 using Unisave.Utils;
@@ -44,14 +45,37 @@ namespace Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication
             if (EmailAuthUtils.FindPlayer(email) != null)
                 return EmailRegisterResponse.EmailTaken;
     
-            var player = CreateNewPlayer(normalizedEmail, password);
+            /*var player = CreateNewPlayer(normalizedEmail, password);
             player.Save();
     
             Auth.Login(player);
         
-            PlayerHasRegistered(player);
+            PlayerHasRegistered(player);*/
     
             return EmailRegisterResponse.Ok;
+        }
+
+        public bool CheckNicknameUnique(string email, string password, string nickname)
+        {
+            var sameNicknamePlayer = DB.TakeAll<PlayerEntity>().Filter(entity => entity.nickname == nickname).First();
+            if (sameNicknamePlayer == null)
+            {
+                CreatePLayerAndLogin(email, password, nickname);
+                return true;
+            }
+            return false;   
+        }
+
+        public void CreatePLayerAndLogin(string email, string password, string nickname)
+        {
+            string normalizedEmail = EmailAuthUtils.NormalizeEmail(email);
+
+            var player = CreateNewPlayer(normalizedEmail, password, nickname);
+            player.Save();
+
+            Auth.Login(player);
+
+            PlayerHasRegistered(player);
         }
 
         /// <summary>
@@ -60,11 +84,14 @@ namespace Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication
         /// <param name="email">Player's email</param>
         /// <param name="password">Player's password (not hashed yet)</param>
         /// <returns>PlayerEntity representing the new player</returns>
-        public static PlayerEntity CreateNewPlayer(string email, string password)
+        public static PlayerEntity CreateNewPlayer(string email, string password, string nickname)
         {
             var player = new PlayerEntity {
                 email = email,
                 password = Hash.Make(password),
+                nickname = nickname,
+                totalScore = 0,
+                scoresPerLevel = new int[10].ToList()
             };
         
             // Add your own logic here,

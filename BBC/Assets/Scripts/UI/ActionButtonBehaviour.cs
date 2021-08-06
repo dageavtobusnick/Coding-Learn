@@ -145,7 +145,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     {
         if (hasActivateButton)
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());
-        if (currentTaskNumber <= Canvas.GetComponent<TaskPanelBehaviour>().tasksCount)
+        if (sceneIndex != 0 && currentTaskNumber <= Canvas.GetComponent<TaskPanelBehaviour>().tasksCount)
         {
             gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber);
             yield return new WaitForSeconds(2f);

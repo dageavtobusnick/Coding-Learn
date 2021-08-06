@@ -45,6 +45,7 @@ public class StartButtonBehaviour : MonoBehaviour
         if (result.Item1)
         {
             UI.ResultField.text = "<color=green>Задание выполнено!</color>";
+            gameData.TasksScores++;
             Canvas.GetComponent<TaskCompletingActions>().MakeActions(taskNumber);
             UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         }

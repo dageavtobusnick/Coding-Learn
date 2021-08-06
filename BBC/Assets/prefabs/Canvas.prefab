@@ -7008,6 +7008,8 @@ MonoBehaviour:
   ScenarioMessages: []
   StartMessages: []
   FinishMessages: []
+  TasksScores: 0
+  TimeInSeconds: 1800
   Player: {fileID: 0}
   CoinsCount: 0
   TipsCount: 0
@@ -7021,6 +7023,7 @@ MonoBehaviour:
   TaskItemsCount: 0
   HasTasksCompleted: 
   IsTaskStarted: 0
+  IsTimerStopped: 0
 --- !u!114 &1158166881534983422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13490,7 +13493,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.500946, y: 3871767.8}
+  m_AnchoredPosition: {x: 1.500946, y: 3873024.2}
   m_SizeDelta: {x: -10.528076, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1272377554876140285
@@ -18208,7 +18211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.007843138}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

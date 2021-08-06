@@ -66,6 +66,7 @@ public class DialogActions : MonoBehaviour
     private void ActivateTrigger(GameObject trigger)
     {
         trigger.SetActive(true);
+        trigger.transform.GetChild(0).gameObject.SetActive(true);
         trigger.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
     }
 

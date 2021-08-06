@@ -308,7 +308,7 @@ public class PadBehaviour : MonoBehaviour
         IsPadCalled = false;
         IsCallAvailable = true;
         UI.IDEButton.interactable = gameData.SceneIndex == 0;
-        LockThemes();
+        //LockThemes();
         UpdatePadData();
         AvailableTipsCounts = new List<int>();
         if (gameData.SceneIndex > 0)
@@ -321,7 +321,7 @@ public class PadBehaviour : MonoBehaviour
             for (var i = 0; i < AvailableTipsCounts.Count; i++)
                 AvailableTipsCounts[i] = PlayerPrefs.GetInt("Available Tips Count (Task " + (i + 1) + ")");
         }
-        if (gameData.SceneIndex != 0 && gameData.SceneIndex != 4)
+        if (gameData.SceneIndex != 0 && gameData.SceneIndex <= 4)
             Canvas.GetComponent<SaveLoad>().Save();
     }
 }

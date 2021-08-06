@@ -114,12 +114,6 @@ public class GameData : MonoBehaviour
     public Camera CurrentDialogCamera;
     [Header("Номер текущего задания")]
     public int CurrentTaskNumber;
-    [Header("Номер текущего триггера смены сцены")]
-    public int CurrentChangeSceneTriggerNumber;
-    [Header("Номер текущего сценарного триггера")]
-    public int CurrentScenarioTriggerNumber;
-    [Header("Номер текущего триггера сохранения")]
-    public int CurrentSaveTriggerNumber;
     [Header("Индекс сцены")]
     public int SceneIndex; 
     [HideInInspector]
@@ -149,7 +143,6 @@ public class GameData : MonoBehaviour
         SceneIndex = SceneManager.GetActiveScene().buildIndex;
         if (SceneIndex == SceneManager.sceneCountInBuildSettings - 1)
             SceneIndex = 0;
-        IsTaskStarted = SceneIndex == 0;
         GetDataFromFiles();
         HasTasksCompleted = new List<bool>();
         for (var i = 0; i <= TaskTexts.Length; i++)

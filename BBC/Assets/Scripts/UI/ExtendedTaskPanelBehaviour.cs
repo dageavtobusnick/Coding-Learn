@@ -9,7 +9,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     [Header ("Интерфейс")]
     public GameObject Canvas;
     [HideInInspector]
-    public bool isTaskMessage = true;
+    public bool isTaskMessage;
 
     private InterfaceElements UI;
     private InterfaceAnimations UIAnimations;
@@ -67,20 +67,19 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
         gameData = Canvas.GetComponent<GameData>();
         blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
-        if (gameData.SceneIndex == 0)
+        isTaskMessage = gameData.SceneIndex == 0;
+        if (isTaskMessage)
         {
             gameData.CurrentTaskNumber = 1;
-            Canvas.GetComponent<ActionButtonBehaviour>().CurrentTriggerType = ActionButtonBehaviour.TriggerType.Task;
-            Canvas.GetComponent<ActionButtonBehaviour>().MakeAction();
+            Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask(false);
         }
         else
         {
             var startMessage = gameData.StartMessages[gameData.SceneIndex - 1];
             UI.ExtendedTaskTitle.text = startMessage.Title;
             UI.ExtendedTaskDescription.text = startMessage.Description;
-        }
-        UI.Minimap.SetActive(false);
-        OpenTaskExtendedDescription_Special();
-        isTaskMessage = gameData.SceneIndex == 0;
+            UI.Minimap.SetActive(false);
+            OpenTaskExtendedDescription_Special();
+        }      
     }
 }

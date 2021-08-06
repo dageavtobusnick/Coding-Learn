@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unisave.Facades;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -93,6 +94,16 @@ public class GameData : MonoBehaviour
     public List<TipMessage[]> Tips;
     #endregion
 
+    #region Счётчики очков
+    [HideInInspector]
+    public int TasksScores;
+    [HideInInspector]
+    public int TimeInSeconds = 1800;
+
+    private int taskScoresCoefficient = 1000;
+    private int timeCoefficient = 10;
+    #endregion
+
     [Header("Игрок")]
     public GameObject Player;
     public int CoinsCount;
@@ -118,6 +129,19 @@ public class GameData : MonoBehaviour
     public List<bool> HasTasksCompleted;
     [HideInInspector]
     public bool IsTaskStarted;
+    [HideInInspector]
+    public bool IsTimerStopped;
+
+    public async void UpdatePlayerData()
+    {
+        var totalTasksScores = TasksScores * taskScoresCoefficient;
+        var totalTimeScores = TimeInSeconds * timeCoefficient;
+        var totalScore = totalTasksScores + totalTimeScores;
+        var response = await OnFacet<PlayerDataFacet>.CallAsync<bool>(
+            nameof(PlayerDataFacet.SendPlayerData),
+            SceneIndex,
+            totalScore);
+    }
 
     private void Awake()
     {
@@ -143,6 +167,11 @@ public class GameData : MonoBehaviour
                     gameObject.GetComponent<SaveLoad>().Load();
             }
         }
+    }
+
+    private void Start()
+    {
+        StartCoroutine(StartTimer());
     }
 
     private void GetDataFromFiles()
@@ -173,5 +202,14 @@ public class GameData : MonoBehaviour
         }
         if (SceneIndex == 3)
             ScenarioMessages = JsonHelper.FromJson<ScenarioMessage>(scenarioMessagesFile.text);
+    }
+
+    private IEnumerator StartTimer()
+    {
+        while (TimeInSeconds > 0 && !IsTimerStopped)
+        {
+            yield return new WaitForSeconds(1f);
+            TimeInSeconds--;
+        }
     }
 }

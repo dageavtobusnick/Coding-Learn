@@ -61,7 +61,7 @@ public class SaveLoad : MonoBehaviour
         for (var i = 0; i < gameData.HasTasksCompleted.Count; i++)
         {
             gameData.HasTasksCompleted[i] = PlayerPrefs.GetInt("Task " + (i + 1) + " completed") == 1;
-            var taskTriggers = gameData.Player.GetComponent<TriggersBehaviour>().TaskTriggers;
+            var taskTriggers = gameData.Player.GetComponentInChildren<TriggersBehaviour>().TaskTriggers;
             if (gameData.HasTasksCompleted[i])
                 taskTriggers.transform.GetChild(i).gameObject.SetActive(false);
         }

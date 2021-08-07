@@ -32,11 +32,14 @@ public class PlayerPanelBehaviour : MonoBehaviour
         gameObject.GetComponent<MenuScript>().ChangeMainMenuButtonsAvailability(true);
     }
 
-    public void ShowPlayerInfo_PostRegistration()
+    public IEnumerator ShowPlayerInfo_PostRegistration()
     {
+        gameObject.GetComponent<MenuScript>().IsPlayerLoggedIn = true;
         ChooseNicknamePanel.GetComponent<Animator>().Play("MoveChooseNicknamePanel_Right");
         PlayerInfoPanel.GetComponent<Animator>().Play("MovePlayerInfoPanel_Left");
+        yield return new WaitForSeconds(0.583f);
         gameObject.GetComponent<MenuScript>().ChangeMainMenuButtonsAvailability(true);
+        ChooseNicknamePanel.GetComponentInChildren<InputField>().text = "";
     }
 
     public void ShowPlayerInfo_PlayerAlreadyLoggedIn(string nickname, int totalScore)

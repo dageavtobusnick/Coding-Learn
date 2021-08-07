@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class ExtendedTaskPanelBehaviour : MonoBehaviour
 {
@@ -15,14 +14,15 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     private InterfaceAnimations UIAnimations;
     private GameObject blackScreen;
     private GameData gameData;
+    private LoadLevel levelLoader;
 
     public void OpenTaskExtendedDescription() => StartCoroutine(OpenTaskExtendedDescription_COR());
 
+    public void OpenTaskExtendedDescription_Special() => StartCoroutine(UIAnimations.ShowExtendedTaskPanel_COR());
+
     public void CloseTaskExtendedDescription() => StartCoroutine(CloseTaskExtendedDescription_COR());
 
-    public void GoToNextLevel() => StartCoroutine(GoToNextLevel_COR());
-
-    public void OpenTaskExtendedDescription_Special() => StartCoroutine(UIAnimations.ShowExtendedTaskPanel_COR());  
+    public void GoToNextLevel() => StartCoroutine(GoToNextLevel_COR());   
 
     private IEnumerator OpenTaskExtendedDescription_COR()
     {  
@@ -34,10 +34,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     {
         yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
         if (isTaskMessage)
-        {
             yield return StartCoroutine(UIAnimations.ShowTaskPanel_COR());
-            UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
-        }
         else
         {
             UI.Minimap.SetActive(true);
@@ -57,8 +54,8 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
         if (gameData.SceneIndex == 0)
-            SceneManager.LoadScene(2);
-        SceneManager.LoadScene(gameData.SceneIndex + 1);
+            StartCoroutine(levelLoader.LoadLevelAsync_COR(2));
+        StartCoroutine(levelLoader.LoadLevelAsync_COR(gameData.SceneIndex + 1));
     }
 
     private void Start()
@@ -66,12 +63,13 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         UI = Canvas.GetComponent<InterfaceElements>();
         UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
         gameData = Canvas.GetComponent<GameData>();
+        levelLoader = Canvas.GetComponent<LoadLevel>();
         blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
         isTaskMessage = gameData.SceneIndex == 0;
         if (isTaskMessage)
         {
             gameData.CurrentTaskNumber = 1;
-            Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask(false);
+            StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR(false));
         }
         else
         {

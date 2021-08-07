@@ -60,13 +60,6 @@ public class TaskCompletingActions : MonoBehaviour
         switch (sceneIndex)
         {
             case 3:
-                taskTriggers.transform.GetChild(1).gameObject.SetActive(false);
-                taskTriggers.transform.GetChild(2).gameObject.SetActive(false);
-                taskTriggers.transform.GetChild(4).gameObject.SetActive(false);
-                taskTriggers.transform.GetChild(7).gameObject.SetActive(false);
-                enterTriggers.transform.GetChild(0).gameObject.SetActive(false);
-                enterTriggers.transform.GetChild(2).gameObject.SetActive(false);
-                scenarioTriggers.transform.GetChild(1).gameObject.SetActive(false);
                 var boards = GameObject.Find("ScriptingBoards");
                 var stumps = GameObject.Find("ScriptingStumps");
                 var newBridge = GameObject.Find("NewBridge");
@@ -103,13 +96,13 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         CloseTask();
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(1f);
         if (gameData.CurrentTaskNumber == gameData.TaskTexts.Length)
             Canvas.GetComponent<ActionButtonBehaviour>().FinishLevel();
         else
         {
             gameData.CurrentTaskNumber++;
-            Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask();
+            StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR());
         }   
     }
     #endregion
@@ -288,7 +281,7 @@ public class TaskCompletingActions : MonoBehaviour
         ReturnToScene();
         yield return new WaitForSeconds(2f);
         taskTriggers.transform.GetChild(1).gameObject.SetActive(true);
-        taskTriggers.transform.GetChild(1).GetChild(0).GetChild(0).gameObject.GetComponent<Animator>().Play("RotateExclamationMark");
+        taskTriggers.transform.GetChild(1).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
 
     private IEnumerator MakeActions_Level_3_Task_2()
@@ -310,7 +303,7 @@ public class TaskCompletingActions : MonoBehaviour
         ReturnToScene();
         yield return new WaitForSeconds(2f);
         taskTriggers.transform.GetChild(2).gameObject.SetActive(true);
-        taskTriggers.transform.GetChild(2).GetChild(0).GetChild(0).gameObject.GetComponent<Animator>().Play("RotateExclamationMark");
+        taskTriggers.transform.GetChild(2).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
 
     private IEnumerator MakeActions_Level_3_Task_3()
@@ -363,7 +356,7 @@ public class TaskCompletingActions : MonoBehaviour
         ReturnToScene();
         yield return new WaitForSeconds(2f);
         taskTriggers.transform.GetChild(4).gameObject.SetActive(true);
-        taskTriggers.transform.GetChild(4).GetChild(0).GetChild(0).gameObject.GetComponent<Animator>().Play("RotateExclamationMark");
+        taskTriggers.transform.GetChild(4).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
 
     private IEnumerator MakeActions_Level_3_Task_5()
@@ -405,8 +398,7 @@ public class TaskCompletingActions : MonoBehaviour
         GameObject.Find("Key_MiniScene_1").SetActive(false);
         yield return new WaitForSeconds(2.5f);
         gameData.TaskItemsCount++;
-        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
-        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+        robotBehaviour.UnfreezePlayer();
         TurnOnScenarioTrigger2_Level_3();
     }
 
@@ -447,8 +439,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(4f);
 
         Canvas.GetComponent<GameData>().TaskItemsCount++;
-        robotBehaviour.currentMoveSpeed = robotBehaviour.moveSpeed;
-        robotBehaviour.currentRotateSpeed = robotBehaviour.rotateSpeed;
+        robotBehaviour.UnfreezePlayer();
         TurnOnScenarioTrigger2_Level_3();
     }
 
@@ -488,7 +479,7 @@ public class TaskCompletingActions : MonoBehaviour
             var scenarioTrigger2 = scenarioTriggers.transform.GetChild(1).gameObject;
             scenarioTrigger1.SetActive(false);
             scenarioTrigger2.SetActive(true);
-            scenarioTrigger2.transform.GetChild(0).GetChild(0).GetComponent<Animator>().Play("RotateExclamationMark");
+            scenarioTrigger2.transform.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
         }
     }
     #endregion

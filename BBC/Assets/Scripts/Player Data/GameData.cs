@@ -131,10 +131,11 @@ public class GameData : MonoBehaviour
         var totalTasksScores = TasksScores * taskScoresCoefficient;
         var totalTimeScores = TimeInSeconds * timeCoefficient;
         var totalScore = totalTasksScores + totalTimeScores;
-        var response = await OnFacet<PlayerDataFacet>.CallAsync<bool>(
+        var response = await OnFacet<PlayerDataFacet>.CallAsync<string>(
             nameof(PlayerDataFacet.SendPlayerData),
             SceneIndex,
             totalScore);
+        Debug.Log(response);
     }
 
     private void Awake()

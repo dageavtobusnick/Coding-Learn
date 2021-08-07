@@ -27,7 +27,7 @@ public class PlayerDataFacet : Facet
         return leaderboardData;
     }
 
-    public bool SendPlayerData(int levelNumber, int newScore)
+    public string SendPlayerData(int levelNumber, int newScore)
     {
         var player = Auth.GetPlayer<PlayerEntity>();
         if (newScore > player.scoresPerLevel[levelNumber])
@@ -36,6 +36,6 @@ public class PlayerDataFacet : Facet
             player.totalScore += newScore;
             player.Save();
         }
-        return true;
+        return string.Format("На счёт {0} начислено {1} очков!", player.nickname, newScore);
     }
 }

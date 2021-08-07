@@ -18,11 +18,13 @@ public class MenuScript : MonoBehaviour
     public Image LoadBar;
     public Text LoadBarText;
     public Button ContinueButton;
+    [Header("Авторизован ли пользователь")]
     [HideInInspector]
     public bool IsPlayerLoggedIn;
 
     private GameObject loginAndRegistrationPanel;
     private GameObject playerInfoPanel;
+    private LoadLevel levelLoader;
 
     public void GoTo_Settings() => StartCoroutine(GoTo_Settings_COR());
 
@@ -178,7 +180,7 @@ public class MenuScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         BlackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        StartCoroutine(LoadLevelAsync(PlayerPrefs.GetInt("SceneIndex")));
+        StartCoroutine(levelLoader.LoadLevelAsync_COR(PlayerPrefs.GetInt("SceneIndex")));
     }
 
     private IEnumerator Start_Level_COR(int levelNumber)
@@ -199,21 +201,7 @@ public class MenuScript : MonoBehaviour
         yield return new WaitForSeconds(5f);
         BlackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        StartCoroutine(LoadLevelAsync(levelNumber));
-    }
-
-    private IEnumerator LoadLevelAsync(int sceneIndex)
-    {
-        LoadScreen.GetComponent<Animator>().Play("AppearLoadScreen");
-        yield return new WaitForSeconds(0.75f);
-        LoadScreen.transform.GetChild(0).gameObject.SetActive(true);
-        var operation = SceneManager.LoadSceneAsync(sceneIndex);
-        while (!operation.isDone)
-        {
-            LoadBar.fillAmount = operation.progress;
-            LoadBarText.text = "Загрузка... " + (Mathf.Round(operation.progress * 100)) + "%";
-            yield return null;
-        }
+        StartCoroutine(levelLoader.LoadLevelAsync_COR(levelNumber));
     }
 
     private async void Awake()
@@ -228,6 +216,7 @@ public class MenuScript : MonoBehaviour
 
     private void Start()
     {
+        levelLoader = gameObject.GetComponent<LoadLevel>();
         loginAndRegistrationPanel = gameObject.GetComponent<PlayerPanelBehaviour>().LoginAndRegistrationPanel;
         playerInfoPanel = gameObject.GetComponent<PlayerPanelBehaviour>().PlayerInfoPanel;
         FireLight.GetComponent<Animator>().Play("Fire");

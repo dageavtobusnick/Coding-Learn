@@ -19,7 +19,7 @@ public class ActionButtonBehaviour : MonoBehaviour
 
     public void MakeAction() => StartCoroutine(MakeAction_COR());
 
-    public void ActivateTask(bool hasActivateButton = true)
+    public IEnumerator ActivateTask_COR(bool hasActivateButton = true)
     {
         var currentTaskNumber = gameData.CurrentTaskNumber;
         Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
@@ -27,8 +27,11 @@ public class ActionButtonBehaviour : MonoBehaviour
         UI.IDEButton.interactable = true;
         robotBehaviour.FreezePlayer();
         if (gameData.SceneIndex != 0)
+        {
             ActivatedTrigger.gameObject.SetActive(false);
-        StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber, hasActivateButton));
+            yield return StartCoroutine(TurnOnTaskCamera_COR(currentTaskNumber, hasActivateButton));
+        }
+        Canvas.GetComponent<TaskPanelBehaviour>().ShowTask();
     }
 
     public void ActivateScenarioMoment()
@@ -57,28 +60,34 @@ public class ActionButtonBehaviour : MonoBehaviour
         switch (ActivatedTrigger.TriggerPurpose)
         {
             case TriggerData.Purpose.Task:
-                ActivateTask();
+                StartCoroutine(ActivateTask_COR());
                 yield break;
+
             case TriggerData.Purpose.EnterToMiniScene:
                 StartCoroutine(EnterToMiniScene_COR());
                 yield break;
+
             case TriggerData.Purpose.ScriptMoment:
                 ActivateScenarioMoment();
                 yield break;
+
             case TriggerData.Purpose.SaveGame:
                 StartCoroutine(SaveGame_COR());
                 yield break;
+
             case TriggerData.Purpose.Dialog:
                 ActivateDialog();
                 yield break;
+
             case TriggerData.Purpose.ChangeLevel:
                 StartCoroutine(ChangeLevel_COR());
                 yield break;
+
             case TriggerData.Purpose.FinishLevel:
                 FinishLevel();
-                break;
+                yield break;
         }
-    }
+    }  
 
     private IEnumerator ActivateDialog_COR()
     {
@@ -115,16 +124,13 @@ public class ActionButtonBehaviour : MonoBehaviour
         UI.ChangeCallAvailability(true);
     }
 
-    private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber, bool hasActivateButton = true)
+    private IEnumerator TurnOnTaskCamera_COR(int currentTaskNumber, bool hasActivateButton)
     {
         if (hasActivateButton)
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());
-        if (gameData.SceneIndex != 0)
-        {
-            gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber);
-            yield return new WaitForSeconds(2f);
-        }
-        Canvas.GetComponent<TaskPanelBehaviour>().ChangeTask();
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber);
+        yield return new WaitForSeconds(2f);
+        
     } 
 
     private IEnumerator EnterToMiniScene_COR()

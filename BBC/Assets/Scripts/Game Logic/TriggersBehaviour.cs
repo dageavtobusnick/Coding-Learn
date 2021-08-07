@@ -33,6 +33,9 @@ public class TriggersBehaviour : MonoBehaviour
                     if(!gameData.HasTasksCompleted[triggerData.TriggerNumber - 1])
                         gameData.CurrentTaskNumber = triggerData.TaskNumber;
                     break;
+                case TriggerData.Purpose.Dialog:
+                    Canvas.GetComponentInChildren<DialogActions>().currentNPC = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+                    break;
             }
             Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger = triggerData;
             ActivateButton(triggerData.ActionButtonText);
@@ -43,15 +46,18 @@ public class TriggersBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (UI.ActionButton.IsActive())
+        if (UI.ActionButton.IsActive() && other.GetComponent<TriggerData>() != null)
             StartCoroutine(DeleteActionButton_COR());
     }
 
     private void ActivateButton(string buttonText)
-    {      
-        UI.ActionButton.gameObject.SetActive(true);
+    {
+        if (!UI.ActionButton.IsActive())
+        {
+            UI.ActionButton.gameObject.SetActive(true);     
+            StartCoroutine(UIAnimations.ShowActionButton_COR());
+        }
         UI.ActionButton.GetComponentInChildren<Text>().text = buttonText;
-        StartCoroutine(UIAnimations.ShowActionButton_COR());
     }
 
     private IEnumerator DeleteActionButton_COR()

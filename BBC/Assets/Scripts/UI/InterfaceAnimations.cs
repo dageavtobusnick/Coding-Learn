@@ -20,6 +20,7 @@ public class InterfaceAnimations : MonoBehaviour
         UI.TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
         PlayPadMoveAnimation("MoveLeft_Pad", "MoveLeft_Pad_DevMode");
         yield return new WaitForSeconds(0.7f);
+        UI.CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
     }
 
     public IEnumerator HideTaskPanel_COR()

@@ -225,7 +225,7 @@ public class MenuScript : MonoBehaviour
             gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.nickname, response.totalScore);
         else ChangeMainMenuButtonsAvailability(false);      
     }
-
+    
     private void Start()
     {
         loginAndRegistrationPanel = gameObject.GetComponent<PlayerPanelBehaviour>().LoginAndRegistrationPanel;

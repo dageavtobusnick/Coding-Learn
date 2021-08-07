@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TaskPanelBehaviour : MonoBehaviour
 {
@@ -18,7 +17,7 @@ public class TaskPanelBehaviour : MonoBehaviour
     private PadBehaviour padBehaviour;
     private RobotBehaviour robotBehaviour;
 
-    public void ChangeTask()
+    public void ShowTask()
     {
         var taskText = gameData.TaskTexts[taskNumber - 1];
         UI.ExtendedTaskTitle.text = taskText.Title;
@@ -30,7 +29,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         UI.ResultField.text = "";
         UI.OutputField.text = "";
         Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-        UI.StartButton.GetComponent<StartButtonBehaviour>().taskNumber = taskNumber;
+        UI.StartButton.GetComponent<StartButtonBehaviour>().TaskNumber = taskNumber;
     }
 
     public void CloseTask() => StartCoroutine(CloseTask_COR());
@@ -39,7 +38,6 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator CloseTask_COR()
     {
-        UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         gameData.IsTaskStarted = false;
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         if (sceneIndex != 0)
@@ -59,20 +57,12 @@ public class TaskPanelBehaviour : MonoBehaviour
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
         var isTaskCompleted = gameData.HasTasksCompleted[taskNumber - 1];
         if (!isTaskCompleted)
-        {
-            if (Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger.TriggerPurpose == TriggerData.Purpose.Dialog)
-            {
-                var npcMark = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.GetChild(0).gameObject;
-                npcMark.SetActive(true);
-                npcMark.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
+        {    
+            var activatedTrigger = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger;
+            activatedTrigger.gameObject.SetActive(true);
+            activatedTrigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
+            if (activatedTrigger.TriggerPurpose == TriggerData.Purpose.Dialog)
                 Canvas.GetComponentInChildren<DialogActions>().ChangeDialogStartNode();
-            }
-            else
-            {
-                var taskMark = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger;
-                taskMark.gameObject.SetActive(true);
-                taskMark.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
-            }          
             StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActionButton_COR());
         }
         robotBehaviour.UnfreezePlayer();

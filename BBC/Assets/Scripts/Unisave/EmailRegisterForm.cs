@@ -122,7 +122,7 @@ namespace Scripts.Unisave
                     emailField.text);
                 gameObject.GetComponent<PlayerPanelBehaviour>().PlayerName.text = player.Item1;
                 gameObject.GetComponent<PlayerPanelBehaviour>().PlayerScore.text = player.Item2.ToString();
-                gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PostRegistration();
+                StartCoroutine(gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PostRegistration());
             }
             else chooseStatus.text = "Игрок с таким никнеймом уже существует!";
         }

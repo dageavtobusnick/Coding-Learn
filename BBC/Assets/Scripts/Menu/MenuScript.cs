@@ -213,7 +213,7 @@ public class MenuScript : MonoBehaviour
             gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.nickname, response.totalScore);
         else ChangeMainMenuButtonsAvailability(false);      
     }
-
+    
     private void Start()
     {
         levelLoader = gameObject.GetComponent<LoadLevel>();

@@ -514,6 +514,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(10);
     }
 
     private IEnumerator MakeActions_Level_4_Task_5()
@@ -538,6 +539,67 @@ public class TaskCompletingActions : MonoBehaviour
     }
 
     private IEnumerator MakeActions_Level_4_Task_8()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+    }
+    #endregion
+    #region Действия для 5-го уровня
+    private IEnumerator MakeActions_Level_5_Task_1()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(1);
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_2()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(3);
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_3()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(4);
+
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_4()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_5()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_6()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_7()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        ReturnToScene();
+        yield return new WaitForSeconds(2f);
+    }
+
+    private IEnumerator MakeActions_Level_5_Task_8()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();

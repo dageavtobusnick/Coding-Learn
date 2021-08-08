@@ -13,10 +13,7 @@ public class MenuScript : MonoBehaviour
     public GameObject Robot;
     public GameObject FireLight;
     public GameObject BlackScreen;
-    public GameObject LoadScreen;
     public GameObject MainMenuButtons;
-    public Image LoadBar;
-    public Text LoadBarText;
     public Button ContinueButton;
     [Header("Авторизован ли пользователь")]
     [HideInInspector]
@@ -25,6 +22,9 @@ public class MenuScript : MonoBehaviour
     private GameObject loginAndRegistrationPanel;
     private GameObject playerInfoPanel;
     private LoadLevel levelLoader;
+    private GlobalMapBehaviour mapBehaviour;
+
+    #region Переходы между экранами меню
 
     public void GoTo_Settings() => StartCoroutine(GoTo_Settings_COR());
 
@@ -37,6 +37,12 @@ public class MenuScript : MonoBehaviour
     public void ReturnToMainMenuFrom_Stats() => StartCoroutine(ReturnToMainMenu_Stats_COR());
 
     public void ReturnToMainMenuFrom_Levels() => StartCoroutine(ReturnToMainMenu_Levels_COR());
+
+    public void Exit() => Application.Quit();
+
+    #endregion
+
+    #region Запуски уровней
 
     public void Continue() => StartCoroutine(Continue_COR());
 
@@ -52,7 +58,7 @@ public class MenuScript : MonoBehaviour
 
     public void Start_Level_5() => StartCoroutine(Start_Level_COR(5));
 
-    public void Exit() => Application.Quit();
+    #endregion
 
     public void ChangeMainMenuButtonsAvailability(bool areAvailable)
     {
@@ -89,14 +95,7 @@ public class MenuScript : MonoBehaviour
     private IEnumerator GoTo_Levels_COR()
     {
         yield return StartCoroutine(ChangeMenuChapter_COR(3));
-        for (var i = 1; i <= 7; i++)
-        {
-            GameObject.Find("LevelsBackground_Part_" + i).GetComponent<Animator>().Play("DrawChapter");
-            yield return new WaitForSeconds(0.15f);
-        }
-        GameObject.Find("LevelsBackground_BackToMenu").GetComponent<Animator>().Play("DrawChapter");
-        GameObject.Find("LevelsScrollArea").GetComponent<Animator>().Play("MoveLevelsDown");
-        GameObject.Find("BackToMainMenuButton_Levels").GetComponent<Animator>().Play("MoveBackToMenuButtonUp");
+        StartCoroutine(mapBehaviour.ShowGlobalMap_COR());
     }
 
     private IEnumerator ReturnToMainMenu_Settings_COR()
@@ -124,15 +123,7 @@ public class MenuScript : MonoBehaviour
 
     private IEnumerator ReturnToMainMenu_Levels_COR()
     {
-        GameObject.Find("LevelsBackground_BackToMenu").GetComponent<Animator>().Play("EraseChapter");
-        GameObject.Find("LevelsScrollArea").GetComponent<Animator>().Play("MoveLevelsUp");
-        GameObject.Find("BackToMainMenuButton_Levels").GetComponent<Animator>().Play("MoveBackToMenuButtonDown");
-        yield return new WaitForSeconds(0.5f);
-        for (var i = 7; i >= 1; i--)
-        {
-            GameObject.Find("LevelsBackground_Part_" + i).GetComponent<Animator>().Play("EraseChapter");
-            yield return new WaitForSeconds(0.15f);
-        }
+        yield return StartCoroutine(mapBehaviour.HideGlobalMap_COR());
         yield return StartCoroutine(ReturnToMainMenu_COR(3));
     }
 
@@ -186,15 +177,7 @@ public class MenuScript : MonoBehaviour
     private IEnumerator Start_Level_COR(int levelNumber)
     {
         PlayerPrefs.DeleteAll();
-        GameObject.Find("LevelsBackground_BackToMenu").GetComponent<Animator>().Play("EraseChapter");
-        GameObject.Find("LevelsScrollArea").GetComponent<Animator>().Play("MoveLevelsUp");
-        GameObject.Find("BackToMainMenuButton_Levels").GetComponent<Animator>().Play("MoveBackToMenuButtonDown");
-        yield return new WaitForSeconds(0.5f);
-        for (var i = 7; i >= 1; i--)
-        {
-            GameObject.Find("LevelsBackground_Part_" + i).GetComponent<Animator>().Play("EraseChapter");
-            yield return new WaitForSeconds(0.15f);
-        }
+        yield return StartCoroutine(mapBehaviour.HideGlobalMap_COR());
         MenuCamera.GetComponent<Animator>().Play("MoveBackCamera_3");
         yield return new WaitForSeconds(2f);
         Robot.GetComponent<Animator>().Play("Walk_MainMenu");
@@ -216,6 +199,7 @@ public class MenuScript : MonoBehaviour
     
     private void Start()
     {
+        mapBehaviour = gameObject.GetComponent<GlobalMapBehaviour>();
         levelLoader = gameObject.GetComponent<LoadLevel>();
         loginAndRegistrationPanel = gameObject.GetComponent<PlayerPanelBehaviour>().LoginAndRegistrationPanel;
         playerInfoPanel = gameObject.GetComponent<PlayerPanelBehaviour>().PlayerInfoPanel;

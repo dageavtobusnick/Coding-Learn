@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TaskPanelBehaviour : MonoBehaviour
 {
@@ -18,31 +17,19 @@ public class TaskPanelBehaviour : MonoBehaviour
     private PadBehaviour padBehaviour;
     private RobotBehaviour robotBehaviour;
 
-    public void ChangeTask()
+    public void ShowTask()
     {
-        if (taskNumber <= tasksCount)
-        {
-            var taskText = gameData.TaskTexts[taskNumber - 1];
-            UI.ExtendedTaskTitle.text = taskText.Title;
-            UI.ExtendedTaskDescription.text = taskText.ExtendedDescription;
-            UI.TaskTitle.text = taskText.Title;
-            UI.TaskDescription.text = taskText.Description;
-            padBehaviour.StartCode = taskText.StartCode;
-            UI.CodeField.text = taskText.StartCode;
-            UI.ResultField.text = "";
-            UI.OutputField.text = "";
-            Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-            UI.StartButton.GetComponent<StartButtonBehaviour>().taskNumber = taskNumber;
-        }
-        else
-        {
-            var finishMessage = gameData.FinishMessages[sceneIndex];
-            UI.CloseExtendedTaskButton.gameObject.SetActive(false);
-            UI.NextLevelButton.gameObject.SetActive(true);
-            Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-            UI.ExtendedTaskTitle.text = finishMessage.Title;
-            UI.ExtendedTaskDescription.text = finishMessage.Description;
-        }
+        var taskText = gameData.TaskTexts[taskNumber - 1];
+        UI.ExtendedTaskTitle.text = taskText.Title;
+        UI.ExtendedTaskDescription.text = taskText.ExtendedDescription;
+        UI.TaskTitle.text = taskText.Title;
+        UI.TaskDescription.text = taskText.Description;
+        padBehaviour.StartCode = taskText.StartCode;
+        UI.CodeField.text = taskText.StartCode;
+        UI.ResultField.text = "";
+        UI.OutputField.text = "";
+        Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
+        UI.StartButton.GetComponent<StartButtonBehaviour>().TaskNumber = taskNumber;
     }
 
     public void CloseTask() => StartCoroutine(CloseTask_COR());
@@ -51,7 +38,6 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator CloseTask_COR()
     {
-        UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         gameData.IsTaskStarted = false;
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
         if (sceneIndex != 0)
@@ -66,34 +52,26 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToScene_COR()
     {
-        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_" + taskNumber);
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ReturnToScene_Task_" + taskNumber);
         yield return new WaitForSeconds(2f);
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
         var isTaskCompleted = gameData.HasTasksCompleted[taskNumber - 1];
         if (!isTaskCompleted)
-        {
-            if (Canvas.GetComponent<ActionButtonBehaviour>().CurrentTriggerType == ActionButtonBehaviour.TriggerType.Dialog)
-            {
-                var npcMark = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger.transform.GetChild(0).gameObject;
-                npcMark.SetActive(true);
-                npcMark.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
+        {    
+            var activatedTrigger = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger;
+            activatedTrigger.gameObject.SetActive(true);
+            activatedTrigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
+            if (activatedTrigger.TriggerPurpose == TriggerData.Purpose.Dialog)
                 Canvas.GetComponentInChildren<DialogActions>().ChangeDialogStartNode();
-            }
-            else
-            {
-                var taskMark = gameData.Player.GetComponent<TriggersBehaviour>().TaskTriggers.transform.GetChild(taskNumber - 1);
-                taskMark.gameObject.SetActive(true);
-                taskMark.GetComponentInChildren<Animator>().Play("RotateExclamationMark");
-            }          
             StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActionButton_COR());
         }
         robotBehaviour.UnfreezePlayer();
     }
 
-    private void Start()
+    private void Awake()
     {
-        UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
+        UI = Canvas.GetComponent<InterfaceElements>();
         sceneIndex = gameData.SceneIndex;
         padBehaviour = UI.Pad.GetComponent<PadBehaviour>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();

@@ -24,7 +24,7 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &-6659099450044224405
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,12 +102,12 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &-5781758979226658227
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToScene_TaskCamera_3
+  m_Name: ReturnToScene_Task_3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -151,12 +151,12 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &-5034855733438345049
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToScene_TaskCamera_1
+  m_Name: ReturnToScene_Task_1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -178,7 +178,7 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1107 &-4469233768851917536
 AnimatorStateMachine:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -246,12 +246,12 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &-2856145426123132407
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToTask_1_SceneCamera_1
+  m_Name: MoveToTask_1
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -273,12 +273,12 @@ AnimatorState:
   m_TimeParameter: 
 --- !u!1102 &-2625751533166642925
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToScene_TaskCamera_4
+  m_Name: ReturnToScene_Task_4
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -410,12 +410,12 @@ AnimatorController:
     m_Controller: {fileID: 9100000}
 --- !u!1102 &1436652791478311713
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToTask_3_SceneCamera_3
+  m_Name: MoveToTask_3
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -459,12 +459,12 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &2404057554925270447
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToTask_2_SceneCamera_2
+  m_Name: MoveToTask_2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -552,12 +552,12 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &3620707790860464261
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToTask_4_SceneCamera_3
+  m_Name: MoveToTask_4
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -645,12 +645,12 @@ AnimatorStateTransition:
   m_CanTransitionToSelf: 1
 --- !u!1102 &5769388274744128899
 AnimatorState:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MoveToScene_TaskCamera_2
+  m_Name: ReturnToScene_Task_2
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

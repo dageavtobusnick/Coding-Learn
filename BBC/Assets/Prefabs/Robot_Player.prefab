@@ -575,6 +575,69 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &3177507996129204463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2907708150876673037}
+  - component: {fileID: 3223914239732821748}
+  - component: {fileID: 8456514028343709571}
+  m_Layer: 0
+  m_Name: TriggersBehaviour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2907708150876673037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177507996129204463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.96, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5548362757805031888}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3223914239732821748
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177507996129204463}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.62, y: 6.6, z: 1.91}
+  m_Center: {x: 0, y: 0, z: -0.01}
+--- !u!114 &8456514028343709571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3177507996129204463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 167d02fd95a2d974395c4c57f2e08ccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Canvas: {fileID: 0}
+  TaskTriggers: {fileID: 0}
+  EnterTriggers: {fileID: 0}
+  ChangeSceneTriggers: {fileID: 0}
+  ScenarioTriggers: {fileID: 0}
+  DialogCharacters: {fileID: 0}
 --- !u!1 &3595254023781625380
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,8 +745,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3902228412255067082}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: 9.06, z: 0}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
   m_LocalScale: {x: 21.066973, y: 21.066973, z: 21.066973}
   m_Children: []
   m_Father: {fileID: 5548362757805031888}
@@ -832,8 +895,8 @@ GameObject:
   - component: {fileID: 5548362757805031888}
   - component: {fileID: 5437260875653983666}
   - component: {fileID: 5437260875653983665}
+  - component: {fileID: 3184793717495467666}
   - component: {fileID: 5437260875653983664}
-  - component: {fileID: 5437260875653983662}
   - component: {fileID: 5437260875653983663}
   m_Layer: 0
   m_Name: Robot_Player
@@ -870,6 +933,7 @@ Transform:
   - {fileID: 1815437121021751401}
   - {fileID: 4042570010529066313}
   - {fileID: 5507340770222715384}
+  - {fileID: 2907708150876673037}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -887,7 +951,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 2
-  m_Constraints: 116
+  m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!136 &5437260875653983665
 CapsuleCollider:
@@ -900,9 +964,23 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 2.14
-  m_Height: 6.04
+  m_Height: 3
   m_Direction: 1
-  m_Center: {x: 0, y: 2.6, z: 0}
+  m_Center: {x: 0, y: 3.52, z: 0}
+--- !u!136 &3184793717495467666
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5166875775634873194}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.11
+  m_Height: 2.71
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.57, z: 0}
 --- !u!95 &5437260875653983664
 Animator:
   serializedVersion: 3
@@ -922,24 +1000,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &5437260875653983662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5166875775634873194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 167d02fd95a2d974395c4c57f2e08ccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Canvas: {fileID: 0}
-  TaskTriggers: {fileID: 0}
-  EnterTriggers: {fileID: 0}
-  ChangeSceneTriggers: {fileID: 0}
-  ScenarioTriggers: {fileID: 0}
-  DialogCharacters: {fileID: 0}
 --- !u!114 &5437260875653983663
 MonoBehaviour:
   m_ObjectHideFlags: 0

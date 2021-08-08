@@ -8,7 +8,7 @@ using RoslynCSharp;
 public class StartButtonBehaviour : MonoBehaviour
 {
     [Header ("Номер текущего задания")]
-    public int taskNumber;
+    public int TaskNumber;
     [Header("Интерфейс")]
     public GameObject Canvas;
 
@@ -21,7 +21,7 @@ public class StartButtonBehaviour : MonoBehaviour
     {
         try
         {
-            robotManagementCode = GetRobotManagementClass(gameData.Tests[taskNumber - 1].ExtraCode);
+            robotManagementCode = GetRobotManagementClass(gameData.Tests[TaskNumber - 1].ExtraCode);
             ScriptDomain domain = ScriptDomain.CreateDomain("MyDomain");
             ScriptType type = domain.CompileAndLoadMainSource(robotManagementCode);
             ScriptProxy proxy = type.CreateInstance(robot);
@@ -45,7 +45,8 @@ public class StartButtonBehaviour : MonoBehaviour
         if (result.Item1)
         {
             UI.ResultField.text = "<color=green>Задание выполнено!</color>";
-            Canvas.GetComponent<TaskCompletingActions>().MakeActions(taskNumber);
+            gameData.TasksScores++;
+            Canvas.GetComponent<TaskCompletingActions>().MakeActions(TaskNumber);
             UI.CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
         }
         else UI.ResultField.text = "Есть ошибки. Попробуй ещё раз!";
@@ -88,7 +89,7 @@ public class RobotManagementClass : MonoBehaviour
    UI.CodeField.text + @"
    public Tuple<bool, string> isTaskCompleted()
    {" +
-       gameData.Tests[taskNumber - 1].TestCode + @"
+       gameData.Tests[TaskNumber - 1].TestCode + @"
        var output = totalResult ? ""корректный"" : ""неправильный"";
        return Tuple.Create(totalResult, ""Выход: "" + output);
    }

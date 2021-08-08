@@ -22,6 +22,8 @@ public class TriggersBehaviour : MonoBehaviour
     private InterfaceAnimations UIAnimations;
     private GameData gameData;
 
+    public void DeleteActionButton() => StartCoroutine(DeleteActionButton_COR());
+
     private void OnTriggerEnter(Collider other)
     {
         var triggerData = other.gameObject.GetComponent<TriggerData>();

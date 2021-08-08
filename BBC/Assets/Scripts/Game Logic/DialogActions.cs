@@ -47,7 +47,11 @@ public class DialogActions : MonoBehaviour
 
     public void DeactivateDialogCamera() => gameData.CurrentDialogCamera.enabled = false;
 
-    public void LeaveNPC() => currentNPC.gameObject.SetActive(false);
+    public void LeaveNPC()
+    {
+        currentNPC.gameObject.SetActive(false);
+        triggersBehaviour.DeleteActionButton();
+    }
 
     public void ShowNextPlace_NPC(int npcOrderNumber) => gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_NPC_" + npcOrderNumber);
 

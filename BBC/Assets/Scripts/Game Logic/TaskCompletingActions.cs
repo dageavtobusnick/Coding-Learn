@@ -514,6 +514,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(10);
     }
 
     private IEnumerator MakeActions_Level_4_Task_5()
@@ -566,7 +567,8 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         ReturnToScene();
         yield return new WaitForSeconds(2f);
-        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(10);
+        Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(4);
+
     }
 
     private IEnumerator MakeActions_Level_5_Task_4()

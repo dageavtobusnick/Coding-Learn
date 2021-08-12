@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unisave.Facades;
@@ -98,10 +99,10 @@ public class GameData : MonoBehaviour
     [HideInInspector]
     public int TasksScores;
     [HideInInspector]
-    public int TimeInSeconds = 1800;
+    public int TimeInSeconds = 2000;
 
-    private int taskScoresCoefficient = 1000;
-    private int timeCoefficient = 10;
+    private int taskScoresCoefficient = 10;
+    private double timeCoefficient = 0.01;
     #endregion
 
     [Header("Игрок")]
@@ -129,7 +130,7 @@ public class GameData : MonoBehaviour
     public async void UpdatePlayerData()
     {
         var totalTasksScores = TasksScores * taskScoresCoefficient;
-        var totalTimeScores = TimeInSeconds * timeCoefficient;
+        var totalTimeScores = (int)(TimeInSeconds * timeCoefficient);
         var totalScore = totalTasksScores + totalTimeScores;
         var response = await OnFacet<PlayerDataFacet>.CallAsync<string>(
             nameof(PlayerDataFacet.SendPlayerData),

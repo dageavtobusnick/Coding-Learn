@@ -1,6 +1,6 @@
 using System;
-using Unisave.Examples.PlayerAuthentication.Backend;
-using Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication;
+using Backend;
+using Backend.EmailAuthentication;
 using Unisave.Facades;
 using UnityEngine;
 using UnityEngine.UI;

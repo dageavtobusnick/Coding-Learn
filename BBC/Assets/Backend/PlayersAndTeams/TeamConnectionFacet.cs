@@ -25,7 +25,8 @@ namespace Backend
         NullID,
         NullInviteCode,
         InvalidTeamID,
-        InvalidInviteCode
+        InvalidInviteCode,
+        PlayerExists
     }
 
     public class TeamConnectionFacet : Facet
@@ -41,7 +42,7 @@ namespace Backend
             if (teamID[0] != '@')
                 return CreatingTeamResponse.InvalidID;
             var sameIdTeam = DB.TakeAll<TeamEntity>().Filter(team => team.ID == teamID).First();
-            if (sameIdTeam != null)
+            if (sameIdTeam == null)
             {
                 var player = Auth.GetPlayer<PlayerEntity>();
                 var newTeam = new TeamEntity()
@@ -73,11 +74,13 @@ namespace Backend
                 return JoinTeamResponse.InvalidTeamID;
             if (teamToJoin.InviteCode != teamInviteCode)
                 return JoinTeamResponse.InvalidInviteCode;
-            var player = Auth.GetPlayer<PlayerEntity>();
-            player.Teams.Add(teamToJoin);
-            player.Save();
-            teamToJoin.Players.Add(player);
+            var currentPlayer = Auth.GetPlayer<PlayerEntity>();
+            if (teamToJoin.Players.Contains(currentPlayer))
+                return JoinTeamResponse.PlayerExists;
+            teamToJoin.Players.Add(currentPlayer);
             teamToJoin.Save();
+            currentPlayer.Teams.Add(teamToJoin);
+            currentPlayer.Save();           
             return JoinTeamResponse.OK;
         }
 

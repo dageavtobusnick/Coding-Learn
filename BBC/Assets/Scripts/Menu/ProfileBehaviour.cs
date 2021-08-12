@@ -180,6 +180,9 @@ public class ProfileBehaviour : MonoBehaviour
             case JoinTeamResponse.InvalidInviteCode:
                 JoinTeamStatus.text = "Неверный код!";
                 return;
+            case JoinTeamResponse.PlayerExists:
+                JoinTeamStatus.text = "Вы уже состоите в этой команде!";
+                return;
             case JoinTeamResponse.OK:
                 JoinTeamStatus.text = "Вы стали участником команды!";
                 break;

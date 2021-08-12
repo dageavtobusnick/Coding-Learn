@@ -179,15 +179,15 @@ public class MenuScript : MonoBehaviour
         StartCoroutine(levelLoader.LoadLevelAsync_COR(levelNumber));
     }
 
-    private async void Awake()
+    /*private async void Awake()
     {
-        /*var response = await OnFacet<PlayerDataFacet>.CallAsync<PlayerEntity>(
+        ChangeMainMenuButtonsAvailability(false);
+        var response = await OnFacet<PlayerDataFacet>.CallAsync<PlayerEntity>(
             nameof(PlayerDataFacet.GetAuthorizedPlayer));
         IsPlayerLoggedIn = response != null;
         if (IsPlayerLoggedIn)
-            gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.Nickname, response.TotalScore);
-        else ChangeMainMenuButtonsAvailability(false);    */  
-    }
+            gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.Nickname, response.TotalScore);  
+    }*/
     
     private void Start()
     {

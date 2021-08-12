@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using Unisave.Facades;
 using Unisave.Facets;
 using Unisave.Utils;
+using System.Collections.Generic;
 
 /*
  * EmailAuthentication template - v0.9.1
@@ -16,7 +18,7 @@ using Unisave.Utils;
  * registration (e.g. send validation email)
  */
 
-namespace Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication
+namespace Backend.EmailAuthentication
 {
     public class EmailRegisterFacet : Facet
     {
@@ -44,14 +46,37 @@ namespace Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication
             if (EmailAuthUtils.FindPlayer(email) != null)
                 return EmailRegisterResponse.EmailTaken;
     
-            var player = CreateNewPlayer(normalizedEmail, password);
+            /*var player = CreateNewPlayer(normalizedEmail, password);
             player.Save();
     
             Auth.Login(player);
         
-            PlayerHasRegistered(player);
+            PlayerHasRegistered(player);*/
     
             return EmailRegisterResponse.Ok;
+        }
+
+        public bool CheckNicknameUnique(string email, string password, string nickname)
+        {
+            var sameNicknamePlayer = DB.TakeAll<PlayerEntity>().Filter(entity => entity.Nickname == nickname).First();
+            if (sameNicknamePlayer == null)
+            {
+                CreatePLayerAndLogin(email, password, nickname);
+                return true;
+            }
+            return false;   
+        }
+
+        public void CreatePLayerAndLogin(string email, string password, string nickname)
+        {
+            string normalizedEmail = EmailAuthUtils.NormalizeEmail(email);
+
+            var player = CreateNewPlayer(normalizedEmail, password, nickname);
+            player.Save();
+
+            Auth.Login(player);
+
+            PlayerHasRegistered(player);
         }
 
         /// <summary>
@@ -60,11 +85,15 @@ namespace Unisave.Examples.PlayerAuthentication.Backend.EmailAuthentication
         /// <param name="email">Player's email</param>
         /// <param name="password">Player's password (not hashed yet)</param>
         /// <returns>PlayerEntity representing the new player</returns>
-        public static PlayerEntity CreateNewPlayer(string email, string password)
+        public static PlayerEntity CreateNewPlayer(string email, string password, string nickname)
         {
             var player = new PlayerEntity {
-                email = email,
-                password = Hash.Make(password),
+                Email = email,
+                Password = Hash.Make(password),
+                Nickname = nickname,
+                TotalScore = 0,
+                ScoresPerLevel = new int[10].ToList(),
+                Teams = new List<TeamEntity>()
             };
         
             // Add your own logic here,

@@ -4,21 +4,28 @@ using UnityEngine;
 using Unisave.Facades;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using Unisave.Examples.PlayerAuthentication.Backend;
+using Backend;
 
 public class MenuScript : MonoBehaviour
 {
-    [Header ("Для анимаций и переходов")]
-    public GameObject MenuCamera;
-    public GameObject Robot;
-    public GameObject FireLight;
-    public GameObject BlackScreen;
-    public GameObject MainMenuButtons;
-    public Button ContinueButton;
     [Header("Авторизован ли пользователь")]
     [HideInInspector]
     public bool IsPlayerLoggedIn;
 
+    [Header ("Для анимаций и переходов")]
+    [SerializeField]
+    private GameObject MenuCamera;
+    [SerializeField]
+    private GameObject Robot;
+    [SerializeField]
+    private GameObject FireLight;
+    [SerializeField]
+    private GameObject BlackScreen;
+    [SerializeField]
+    private GameObject MainMenuButtons;
+    [SerializeField]
+    private Button ContinueButton;
+    
     private GameObject loginAndRegistrationPanel;
     private GameObject playerInfoPanel;
     private LoadLevel levelLoader;
@@ -28,13 +35,13 @@ public class MenuScript : MonoBehaviour
 
     public void GoTo_Settings() => StartCoroutine(GoTo_Settings_COR());
 
-    public void GoTo_Stats() => StartCoroutine(GoTo_Stats_COR());
+    public void GoTo_Profile() => StartCoroutine(GoTo_Profile_COR());
 
     public void GoTo_Levels() => StartCoroutine(GoTo_Levels_COR());
 
     public void ReturnToMainMenuFrom_Settings() => StartCoroutine(ReturnToMainMenu_Settings_COR());
 
-    public void ReturnToMainMenuFrom_Stats() => StartCoroutine(ReturnToMainMenu_Stats_COR());
+    public void ReturnToMainMenuFrom_Profile() => StartCoroutine(ReturnToMainMenu_Profile_COR());
 
     public void ReturnToMainMenuFrom_Levels() => StartCoroutine(ReturnToMainMenu_Levels_COR());
 
@@ -42,23 +49,11 @@ public class MenuScript : MonoBehaviour
 
     #endregion
 
-    #region Запуски уровней
-
     public void Continue() => StartCoroutine(Continue_COR());
 
     public void Start_Level_Training() => StartCoroutine(Start_Level_COR(SceneManager.sceneCountInBuildSettings - 1));
 
-    public void Start_Level_1() => StartCoroutine(Start_Level_COR(1));
-
-    public void Start_Level_2() => StartCoroutine(Start_Level_COR(2));
-
-    public void Start_Level_3() => StartCoroutine(Start_Level_COR(3));
-
-    public void Start_Level_4() => StartCoroutine(Start_Level_COR(4));
-
-    public void Start_Level_5() => StartCoroutine(Start_Level_COR(5));
-
-    #endregion
+    public void Start_Level(int levelNumber) => StartCoroutine(Start_Level_COR(levelNumber));
 
     public void ChangeMainMenuButtonsAvailability(bool areAvailable)
     {
@@ -84,12 +79,11 @@ public class MenuScript : MonoBehaviour
         GameObject.Find("BackToMainMenuButton_Settings").GetComponent<Animator>().Play("MoveBackToMenuButtonUp");
     }
 
-    private IEnumerator GoTo_Stats_COR()
+    private IEnumerator GoTo_Profile_COR()
     {
         yield return StartCoroutine(ChangeMenuChapter_COR(2));
-        gameObject.GetComponent<PlayerPanelBehaviour>().UpdateLeaderboard();
-        GameObject.Find("StatsPanel").GetComponent<Animator>().Play("MoveStatsDown");
-        GameObject.Find("BackToMainMenuButton_Stats").GetComponent<Animator>().Play("MoveBackToMenuButtonUp");
+        gameObject.GetComponent<PlayerPanelBehaviour>().PlayerPanel.SetActive(false);
+        StartCoroutine(gameObject.GetComponent<ProfileBehaviour>().ShowProfileScreen_COR());
     }
 
     private IEnumerator GoTo_Levels_COR()
@@ -112,12 +106,10 @@ public class MenuScript : MonoBehaviour
         yield return StartCoroutine(ReturnToMainMenu_COR(1));
     }
 
-    private IEnumerator ReturnToMainMenu_Stats_COR()
+    private IEnumerator ReturnToMainMenu_Profile_COR()
     {
-        GameObject.Find("StatsPanel").GetComponent<Animator>().Play("MoveStatsUp");
-        GameObject.Find("BackToMainMenuButton_Stats").GetComponent<Animator>().Play("MoveBackToMenuButtonDown");
-        yield return new WaitForSeconds(0.583f);
-        gameObject.GetComponent<PlayerPanelBehaviour>().DeleteLeaderboard();
+        yield return StartCoroutine(gameObject.GetComponent<ProfileBehaviour>().HideProfileScreen_COR());
+        gameObject.GetComponent<PlayerPanelBehaviour>().PlayerPanel.SetActive(true);
         yield return StartCoroutine(ReturnToMainMenu_COR(2));
     }
 
@@ -189,12 +181,12 @@ public class MenuScript : MonoBehaviour
 
     private async void Awake()
     {
-        var response = await OnFacet<PlayerDataFacet>.CallAsync<PlayerEntity>(
-            nameof(PlayerDataFacet.IsPlayerAuthorized));
+        /*var response = await OnFacet<PlayerDataFacet>.CallAsync<PlayerEntity>(
+            nameof(PlayerDataFacet.GetAuthorizedPlayer));
         IsPlayerLoggedIn = response != null;
         if (IsPlayerLoggedIn)
-            gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.nickname, response.totalScore);
-        else ChangeMainMenuButtonsAvailability(false);      
+            gameObject.GetComponent<PlayerPanelBehaviour>().ShowPlayerInfo_PlayerAlreadyLoggedIn(response.Nickname, response.TotalScore);
+        else ChangeMainMenuButtonsAvailability(false);    */  
     }
     
     private void Start()

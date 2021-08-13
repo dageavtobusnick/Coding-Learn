@@ -20,47 +20,39 @@ public class TrainingScript : MonoBehaviour
     private int currentTipNumber;
     private const string pointerAnimationName = "ShowAside";
 
-    #region Вызовы обучающих сообщений
-    public void ShowTip_1() => ShowTip(1);
-
-    public void ShowTip_2() => ShowTip(2);
-
-    public void ShowTip_3() => ShowTip(3);
-
-    public void ShowTip_4() => ShowTip(4);
-
-    public void ShowTip_5() => ShowTip(5);
-
-    public void ShowTip_6() => ShowTip(6);
-
-    public void ShowTip_7() => ShowTip(7);
-
-    public void ShowTip_8() => ShowTip(8);
-
-    public void ShowTip_9() => ShowTip(9);
-
-    public void ShowTip_10() => ShowTip(10);
-
-    public void ShowTip_11() => ShowTip(11);
-
-    public void ShowTip_12() => ShowTip(12);
-
-    public void ShowTip_13() => ShowTip(13);
-
-    public void ShowTip_14() => ShowTip(14);
-
-    public void ShowTip_15() => ShowTip(15);
-
-    public void ShowTip_16() => ShowTip(16);
-
-    public void ShowTip_17() => ShowTip(17);
-
-    public void ShowTip_18() => ShowTip(18);
-
-    public void ShowTip_19() => ShowTip(19);
-
-    public void ShowTip_20() => ShowTip(20);
-    #endregion
+    public void ShowTip(int tipNumber)
+    {
+        currentTipNumber = tipNumber;
+        UI.TrainingPanel.SetActive(true);
+        UI.TrainingPanelBackground.SetActive(true);
+        if (tipNumber != 1)
+            UI.TrainingPanel.transform.GetChild(tipNumber - 2).gameObject.SetActive(false);
+        var newTip = UI.TrainingPanel.transform.GetChild(tipNumber - 1).gameObject;
+        newTip.SetActive(true);
+        newTip.GetComponentInChildren<Animator>().Play(pointerAnimationName);
+        switch (tipNumber)
+        {
+            case 1:
+                UI.TaskInfoButton.interactable = false;
+                UI.ShowIDEButton.interactable = false;
+                UI.ShowHandbookButton.interactable = false;
+                break;
+            case 5:
+                UI.StartButton.interactable = false;
+                UI.ResetButton.interactable = false;
+                UI.TipButton.gameObject.SetActive(true);
+                UI.TipButton.interactable = false;
+                UI.ExitDevModeButton.interactable = false;
+                break;
+            case 11:
+                gameData.Player.GetComponent<RobotBehaviour>().FreezePlayer();
+                UI.TargetPanel.SetActive(false);
+                break;
+            case 14:
+                UI.TargetPanel.SetActive(true);
+                break;
+        }
+    }
 
     public void TryShowTraining(PreviousAction previousAction)
     {
@@ -68,21 +60,21 @@ public class TrainingScript : MonoBehaviour
         {
             case PreviousAction.ExtendedTaskClosing:
                 if (gameData.SceneIndex == 0 && gameData.CurrentTaskNumber == 1)
-                    ShowTip_1();
+                    ShowTip(1);
                 else if (gameData.SceneIndex == 1 && currentTipNumber == 10)
-                    ShowTip_11();
+                    ShowTip(11);
                 break;
 
             case PreviousAction.DevModeSwitching:
                 if (gameData.SceneIndex == 0 && gameData.CurrentTaskNumber == 1)
-                    ShowTip_5();
+                    ShowTip(5);
                 break;
 
             case PreviousAction.PadCall:
                 if (currentTipNumber == 12)
-                    ShowTip_13();
+                    ShowTip(13);
                 else if (currentTipNumber == 13)
-                    ShowTip_14();
+                    ShowTip(14);
                 break;
 
             case PreviousAction.TargetCall:
@@ -101,8 +93,8 @@ public class TrainingScript : MonoBehaviour
         {
             case 4:
                 UI.TaskInfoButton.interactable = true;
-                UI.IDEButton.interactable = true;
-                UI.HandbookButton.interactable = true;
+                UI.ShowIDEButton.interactable = true;
+                UI.ShowHandbookButton.interactable = true;
                 break;
             case 10:
                 UI.StartButton.interactable = true;
@@ -113,40 +105,6 @@ public class TrainingScript : MonoBehaviour
                 break;
             case 14:
                 gameData.Player.GetComponent<RobotBehaviour>().UnfreezePlayer();
-                break;
-        }
-    }
-
-    private void ShowTip(int tipNumber)
-    {
-        currentTipNumber = tipNumber;
-        UI.TrainingPanel.SetActive(true);
-        UI.TrainingPanelBackground.SetActive(true);
-        if (tipNumber != 1)
-            UI.TrainingPanel.transform.GetChild(tipNumber - 2).gameObject.SetActive(false);
-        var newTip = UI.TrainingPanel.transform.GetChild(tipNumber - 1).gameObject;
-        newTip.SetActive(true);
-        newTip.GetComponentInChildren<Animator>().Play(pointerAnimationName);
-        switch (tipNumber)
-        {
-            case 1:
-                UI.TaskInfoButton.interactable = false;
-                UI.IDEButton.interactable = false;
-                UI.HandbookButton.interactable = false;
-                break;
-            case 5:
-                UI.StartButton.interactable = false;
-                UI.ResetButton.interactable = false;
-                UI.TipButton.gameObject.SetActive(true);
-                UI.TipButton.interactable = false;
-                UI.ExitDevModeButton.interactable = false;
-                break;
-            case 11:
-                gameData.Player.GetComponent<RobotBehaviour>().FreezePlayer();
-                UI.TargetPanel.SetActive(false);
-                break;
-            case 14:
-                UI.TargetPanel.SetActive(true);
                 break;
         }
     }

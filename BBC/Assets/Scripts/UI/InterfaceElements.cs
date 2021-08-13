@@ -48,9 +48,9 @@ public class InterfaceElements : MonoBehaviour
     [Tooltip("Счетчик монет в меню")]
     public Text CoinsMenuCounter;
     [Tooltip("Кнопка перехода в режим разработки")]
-    public Button IDEButton;
+    public Button ShowIDEButton;
     [Tooltip("Кнопка перехода в режим справочника")]
-    public Button HandbookButton;
+    public Button ShowHandbookButton;
 
     [Header("Планшет (режим разработки)")]
     [Tooltip("Планшет")]
@@ -91,10 +91,16 @@ public class InterfaceElements : MonoBehaviour
     public Text TipFiller;
 
     [Header("Планшет (режим справочника)")]
+    [Tooltip("Контейнер для кнопок справочника")]
+    public GameObject HandbookButtons;
     [Tooltip("Кнопки разделов по программированию")]
-    public GameObject ThemeButtons;
+    public GameObject ThemeButtonsContainer;
     [Tooltip("Кнопки подразделов для каждого раздела")]
     public GameObject SubThemeButtons;
+    [Tooltip("Префаб кнопки темы")]
+    public GameObject ThemeButtonPrefab;
+    [Tooltip("Префаб контейнера с кнопками подтем")]
+    public GameObject SubThemeButtonsContainerPrefab;
     [Tooltip("Панель с информацией о программировании")]
     public GameObject InfoPanel;
     [Tooltip("Поле для информации по программрованию")]
@@ -135,7 +141,7 @@ public class InterfaceElements : MonoBehaviour
     public void ChangeCallAvailability(bool isCallAvailable)
     {
         targetPanelBehaviour.IsCallAvailable = isCallAvailable;
-        Pad.GetComponent<PadBehaviour>().IsCallAvailable = isCallAvailable;
+        gameObject.GetComponent<PadBehaviour>().IsCallAvailable = isCallAvailable;
     }
 
     public void HideUI()

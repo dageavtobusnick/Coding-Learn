@@ -28,13 +28,16 @@ public class SaveLoad : MonoBehaviour
         PlayerPrefs.SetInt("TaskItemsCount", gameData.TaskItemsCount);
         PlayerPrefs.SetInt("SceneIndex", SceneManager.GetActiveScene().buildIndex);
 
-        var availableTipsCounts = Canvas.GetComponentInChildren<PadBehaviour>().AvailableTipsCounts;
+        var availableTipsCounts = Canvas.GetComponent<PadBehaviour>().AvailableTipsCounts;
         for (var i = 0; i < availableTipsCounts.Count; i++)
             PlayerPrefs.SetInt("Available Tips Count (Task " + (i + 1) + ")", availableTipsCounts[i]);
 
         var coins = GameObject.Find("Coins");
-        for (var i = 0; i < coins.transform.childCount; i++)
-            PlayerPrefs.SetInt("Coin " + i + " collected", coins.transform.GetChild(i).gameObject.activeInHierarchy ? 1 : 0);
+        if (coins != null)
+        {
+            for (var i = 0; i < coins.transform.childCount; i++)
+                PlayerPrefs.SetInt("Coin " + i + " collected", coins.transform.GetChild(i).gameObject.activeInHierarchy ? 1 : 0);
+        }
         Debug.Log("Сохранено!");
     }
 

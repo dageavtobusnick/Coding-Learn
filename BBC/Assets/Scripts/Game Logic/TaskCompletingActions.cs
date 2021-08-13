@@ -545,6 +545,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(2f);
     }
     #endregion
+
     #region Действия для 5-го уровня
     private IEnumerator MakeActions_Level_5_Task_1()
     {

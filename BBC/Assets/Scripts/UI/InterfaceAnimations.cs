@@ -99,7 +99,7 @@ public class InterfaceAnimations : MonoBehaviour
 
     private void PlayPadMoveAnimation(string normalAnimation, string devAnimation)
     {
-        var padMode = UI.Pad.GetComponent<PadBehaviour>().Mode;
+        var padMode = Canvas.GetComponent<PadBehaviour>().Mode;
         var padAnimator = UI.Pad.GetComponentInParent<Animator>();
         if (padMode == PadBehaviour.PadMode.Normal)
             padAnimator.Play(normalAnimation);

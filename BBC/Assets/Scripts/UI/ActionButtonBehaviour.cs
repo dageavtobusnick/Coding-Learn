@@ -24,7 +24,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         var currentTaskNumber = gameData.CurrentTaskNumber;
         Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
         gameData.IsTaskStarted = true;
-        UI.IDEButton.interactable = true;
+        UI.ShowIDEButton.interactable = true;
         robotBehaviour.FreezePlayer();
         if (gameData.SceneIndex != 0)
         {
@@ -51,7 +51,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     private IEnumerator MakeAction_COR()
     {
         UI.HideUI();
-        if (UI.Pad.GetComponent<PadBehaviour>().IsPadCalled)
+        if (Canvas.GetComponent<PadBehaviour>().IsPadCalled)
         {
             UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
             yield return new WaitForSeconds(0.667f);
@@ -228,11 +228,11 @@ public class ActionButtonBehaviour : MonoBehaviour
     {
         gameData = Canvas.GetComponent<GameData>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
+        UI = Canvas.GetComponent<InterfaceElements>();
     }
 
     private void Start()
-    {
-        UI = Canvas.GetComponent<InterfaceElements>();     
+    {            
         if (gameData.SceneIndex != 0)
         {
             taskTriggers = gameData.Player.GetComponentInChildren<TriggersBehaviour>().TaskTriggers;

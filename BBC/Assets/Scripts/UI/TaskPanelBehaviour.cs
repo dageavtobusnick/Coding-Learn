@@ -29,7 +29,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         UI.ResultField.text = "";
         UI.OutputField.text = "";
         Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-        UI.StartButton.GetComponent<StartButtonBehaviour>().TaskNumber = taskNumber;
+        Canvas.GetComponent<StartButtonBehaviour>().TaskNumber = taskNumber;
     }
 
     public void CloseTask() => StartCoroutine(CloseTask_COR());
@@ -44,7 +44,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         {
             yield return StartCoroutine(ReturnToScene_COR());
             UI.Minimap.SetActive(true);
-            UI.IDEButton.interactable = false;
+            UI.ShowIDEButton.interactable = false;
         }
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
         UI.ChangeCallAvailability(true);
@@ -73,7 +73,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         gameData = Canvas.GetComponent<GameData>();
         UI = Canvas.GetComponent<InterfaceElements>();
         sceneIndex = gameData.SceneIndex;
-        padBehaviour = UI.Pad.GetComponent<PadBehaviour>();
+        padBehaviour = Canvas.GetComponent<PadBehaviour>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
         UI.NextLevelButton.gameObject.SetActive(false);
         tasksCount = gameData.TaskTexts.Length;

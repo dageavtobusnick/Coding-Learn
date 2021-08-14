@@ -8,7 +8,6 @@ public class ActionButtonBehaviour : MonoBehaviour
 {
     [Header ("Интерфейс")]
     public GameObject Canvas;
-    [HideInInspector]
     public TriggerData ActivatedTrigger;
 
     private RobotBehaviour robotBehaviour;
@@ -22,7 +21,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     public IEnumerator ActivateTask_COR(bool hasActivateButton = true)
     {
         var currentTaskNumber = gameData.CurrentTaskNumber;
-        Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
+        Canvas.GetComponent<TaskPanelBehaviour>().TaskNumber = currentTaskNumber;
         gameData.IsTaskStarted = true;
         UI.ShowIDEButton.interactable = true;
         robotBehaviour.FreezePlayer();
@@ -177,7 +176,7 @@ public class ActionButtonBehaviour : MonoBehaviour
                 var message = gameData.ScenarioMessages[0];
                 UI.ExtendedTaskTitle.text = message.Title;
                 UI.ExtendedTaskDescription.text = message.Description;
-                Canvas.GetComponent<ExtendedTaskPanelBehaviour>().isTaskMessage = false;
+                Canvas.GetComponent<ExtendedTaskPanelBehaviour>().IsTaskMessage = false;
                 Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
                 ActivateTrigger(taskTriggers, 7);
                 ActivateTrigger(enterTriggers, 0);

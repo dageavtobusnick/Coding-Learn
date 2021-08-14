@@ -32,11 +32,11 @@ public class TriggersBehaviour : MonoBehaviour
             switch (triggerData.TriggerPurpose)
             {
                 case TriggerData.Purpose.Task:
-                    if(!gameData.HasTasksCompleted[triggerData.TriggerNumber - 1])
+                    if(!gameData.HasTasksCompleted[triggerData.TaskNumber - 1])
                         gameData.CurrentTaskNumber = triggerData.TaskNumber;
                     break;
                 case TriggerData.Purpose.Dialog:
-                    Canvas.GetComponentInChildren<DialogActions>().currentNPC = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+                    Canvas.GetComponentInChildren<DialogActions>().CurrentNPC = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
                     break;
             }
             Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger = triggerData;
@@ -74,6 +74,7 @@ public class TriggersBehaviour : MonoBehaviour
         yield return new WaitForSeconds(1f);
         coin.gameObject.SetActive(false);
         gameData.CoinsCount++;
+        Canvas.GetComponent<PadBehaviour>().UpdatePadData();
     }
 
     private void RotateMarks(GameObject triggers)

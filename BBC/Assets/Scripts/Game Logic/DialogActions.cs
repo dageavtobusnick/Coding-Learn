@@ -7,7 +7,7 @@ public class DialogActions : MonoBehaviour
     [Header("Интерфейс")]
     public GameObject Canvas;
     [HideInInspector]
-    public VIDE_Assign currentNPC;
+    public VIDE_Assign CurrentNPC;
 
     private GameData gameData;
     private TriggersBehaviour triggersBehaviour;
@@ -15,13 +15,13 @@ public class DialogActions : MonoBehaviour
     public void ActivateDialogCamera_Animated(int cameraNumber)
     {
         ActivateDialogCamera_Static(cameraNumber);
-        var characterName = currentNPC.alias;
+        var characterName = CurrentNPC.alias;
         gameData.CurrentDialogCamera.GetComponent<Animator>().Play("MoveDialogCamera_" + characterName + "_" + cameraNumber);
     }
 
     public void ActivateDialogCamera_Static(int cameraNumber)
     {
-        var dialogCameras = currentNPC.transform.parent.GetChild(2);
+        var dialogCameras = CurrentNPC.transform.parent.GetChild(2);
         var newDialogCamera = dialogCameras.GetChild(cameraNumber - 1).gameObject.GetComponent<Camera>();
         newDialogCamera.enabled = true;
         if (gameData.CurrentDialogCamera != null)
@@ -29,7 +29,7 @@ public class DialogActions : MonoBehaviour
         gameData.CurrentDialogCamera = newDialogCamera;
     }
 
-    public void ActivateNpcAnimation(string animationName) => currentNPC.gameObject.transform.parent.GetComponentInChildren<Animator>().Play(animationName);
+    public void ActivateNpcAnimation(string animationName) => CurrentNPC.gameObject.transform.parent.GetComponentInChildren<Animator>().Play(animationName);
 
     public void ActivateTask_PostDialog(int taskNumber)
     {
@@ -49,24 +49,13 @@ public class DialogActions : MonoBehaviour
 
     public void LeaveNPC()
     {
-        currentNPC.gameObject.SetActive(false);
+        CurrentNPC.gameObject.SetActive(false);
         triggersBehaviour.DeleteActionButton();
     }
 
     public void ShowNextPlace_NPC(int npcOrderNumber) => gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_NPC_" + npcOrderNumber);
 
     public void ShowNextPlace_TaskTrigger(int triggerNumber) => gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_TaskTrigger_" + triggerNumber);
-
-    public void ChangeDialogStartNode()
-    {
-        switch (currentNPC.alias)
-        {
-            case "Дровосек":
-                if (currentNPC.overrideStartNode == 5)
-                    currentNPC.overrideStartNode = 0;
-                break;
-        }
-    } 
 
     private void ActivateTrigger(GameObject trigger)
     {

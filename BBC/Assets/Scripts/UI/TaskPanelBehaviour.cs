@@ -5,13 +5,12 @@ using UnityEngine;
 public class TaskPanelBehaviour : MonoBehaviour
 {
     [Header ("Номер текущего задания")]
-    public int taskNumber;
+    public int TaskNumber;
     [HideInInspector]
-    public int tasksCount;
+    public int TasksCount;
     [Header ("Интерфейс")]
     public GameObject Canvas;
     
-    private int sceneIndex;
     private InterfaceElements UI;
     private GameData gameData;
     private PadBehaviour padBehaviour;
@@ -19,7 +18,7 @@ public class TaskPanelBehaviour : MonoBehaviour
 
     public void ShowTask()
     {
-        var taskText = gameData.TaskTexts[taskNumber - 1];
+        var taskText = gameData.TaskTexts[TaskNumber - 1];
         UI.ExtendedTaskTitle.text = taskText.Title;
         UI.ExtendedTaskDescription.text = taskText.ExtendedDescription;
         UI.TaskTitle.text = taskText.Title;
@@ -29,53 +28,45 @@ public class TaskPanelBehaviour : MonoBehaviour
         UI.ResultField.text = "";
         UI.OutputField.text = "";
         Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-        Canvas.GetComponent<StartButtonBehaviour>().TaskNumber = taskNumber;
+        Canvas.GetComponent<StartButtonBehaviour>().TaskNumber = TaskNumber;
     }
 
     public void CloseTask() => StartCoroutine(CloseTask_COR());
 
-    public void ReturnToScene() => StartCoroutine(ReturnToScene_COR());
-
-    private IEnumerator CloseTask_COR()
+    public IEnumerator ReturnToScene_COR()
     {
         gameData.IsTaskStarted = false;
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
-        if (sceneIndex != 0)
-        {
-            yield return StartCoroutine(ReturnToScene_COR());
-            UI.Minimap.SetActive(true);
-            UI.ShowIDEButton.interactable = false;
-        }
-        padBehaviour.Mode = PadBehaviour.PadMode.Normal;
-        UI.ChangeCallAvailability(true);
-    }
-
-    private IEnumerator ReturnToScene_COR()
-    {
-        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ReturnToScene_Task_" + taskNumber);
+        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ReturnToScene_Task_" + TaskNumber);
         yield return new WaitForSeconds(2f);
-        padBehaviour.Mode = PadBehaviour.PadMode.Normal;
-        var isTaskCompleted = gameData.HasTasksCompleted[taskNumber - 1];
+        var isTaskCompleted = gameData.HasTasksCompleted[TaskNumber - 1];
         if (!isTaskCompleted)
-        {    
+        {
             var activatedTrigger = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger;
             activatedTrigger.gameObject.SetActive(true);
             activatedTrigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
-            if (activatedTrigger.TriggerPurpose == TriggerData.Purpose.Dialog)
-                Canvas.GetComponentInChildren<DialogActions>().ChangeDialogStartNode();
             StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActionButton_COR());
         }
         robotBehaviour.UnfreezePlayer();
+        UI.Minimap.SetActive(true);
+        UI.ShowIDEButton.interactable = false;
+        UI.ChangeCallAvailability(true);
+        padBehaviour.Mode = PadBehaviour.PadMode.Normal;
+    }
+
+    private IEnumerator CloseTask_COR()
+    {     
+        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
+        if (gameData.SceneIndex != 0)
+            yield return StartCoroutine(ReturnToScene_COR());  
     }
 
     private void Awake()
     {
         gameData = Canvas.GetComponent<GameData>();
         UI = Canvas.GetComponent<InterfaceElements>();
-        sceneIndex = gameData.SceneIndex;
         padBehaviour = Canvas.GetComponent<PadBehaviour>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
         UI.NextLevelButton.gameObject.SetActive(false);
-        tasksCount = gameData.TaskTexts.Length;
+        TasksCount = gameData.TaskTexts.Length;
     }
 }

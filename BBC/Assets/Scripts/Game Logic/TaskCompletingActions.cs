@@ -34,9 +34,11 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(UIAnimations.HideTaskPanel_COR());
     }
 
-    private void CloseTask() => Canvas.GetComponent<TaskPanelBehaviour>().CloseTask();
-
-    private void ReturnToScene() => Canvas.GetComponent<TaskPanelBehaviour>().ReturnToScene();
+    private IEnumerator ReturnToScene_COR()
+    {
+        gameData.Player.GetComponentInChildren<TriggersBehaviour>().DeleteActionButton();
+        yield return StartCoroutine(Canvas.GetComponent<TaskPanelBehaviour>().ReturnToScene_COR());
+    }
 
     private void Start()
     {
@@ -79,24 +81,10 @@ public class TaskCompletingActions : MonoBehaviour
         }
     }
 
-    #region Пример
-    private IEnumerator MakeActions_Level_НомерУровня_Task_НомерЗадания()             // Шаблон для названия методов
-    {
-        GameObject.Find("Имя объекта").GetComponent<Animator>().Play("Имя анимации"); // Находим объект по имени как в Иерархии и запускаем анимацию (по имени из Animator Controller-а)
-        yield return new WaitForSeconds(2f);                                          // Ставим задержку, равную времени анимации в строчке выше, чтобы анимации проигрывали по очереди. Если надо одновременно - не ставим (задержка в секундах, тип float)
-        GameObject.Find("Имя объекта").GetComponent<Animator>().Play("Имя анимации");
-        yield return new WaitForSeconds(3f);
-        CloseTask();                                                                  // После проигрывания всех анимаций завершаем задание методом CloseTask
-                                                                                      // В данном примере будет проиграна некая анимация, через 2 секунды - другая анимация, а ещё через 3 секунды задание завершится
-    }
-    #endregion
-
     #region Действия для обучающего уровня
     private IEnumerator MakeActions_Level_Training()
     {
-        yield return new WaitForSeconds(1f);
-        CloseTask();
-        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         if (gameData.CurrentTaskNumber == gameData.TaskTexts.Length)
             Canvas.GetComponent<ActionButtonBehaviour>().FinishLevel();
         else
@@ -116,7 +104,7 @@ public class TaskCompletingActions : MonoBehaviour
             GameObject.Find("Flower_" + i).GetComponent<Animator>().Play("ToUp");
             yield return new WaitForSeconds(1.9f);
         }
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_1_Task_2()
@@ -126,7 +114,7 @@ public class TaskCompletingActions : MonoBehaviour
         mushroom.GetComponent<Animator>().Play("PickUp");
         yield return new WaitForSeconds(1.95f);
         mushroom.SetActive(false);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_1_Task_3()
@@ -139,7 +127,7 @@ public class TaskCompletingActions : MonoBehaviour
         }
         GameObject.Find("Flower_" + 11).GetComponent<Animator>().Play("Move_Flower_" + 11);
         yield return new WaitForSeconds(5f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_1_Task_4()
@@ -150,7 +138,7 @@ public class TaskCompletingActions : MonoBehaviour
             GameObject.Find("Rock_" + i).GetComponent<Animator>().Play("Rock_ToUp");
             yield return new WaitForSeconds(1.9f);
         }
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
     #endregion
 
@@ -160,7 +148,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("GreenLight_1").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_2()
@@ -187,7 +175,7 @@ public class TaskCompletingActions : MonoBehaviour
         GameObject.Find("ScriptingMemoryTree_3").GetComponent<Animator>().Play("ScaleBigTreeDown");
         GameObject.Find("ScriptingMemoryTree_4").GetComponent<Animator>().Play("ScaleSmallTreeDown");
         yield return new WaitForSeconds(2f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_3()
@@ -195,7 +183,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("GreenLight_2").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_4()
@@ -215,7 +203,7 @@ public class TaskCompletingActions : MonoBehaviour
                 yield return new WaitForSeconds(3f);
             }
         }
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_5()
@@ -231,7 +219,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(4f);
         GameObject.Find("GreenLight_3").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_6()
@@ -242,7 +230,7 @@ public class TaskCompletingActions : MonoBehaviour
             GameObject.Find("BridgeFence_" + i).GetComponent<Animator>().Play("Move_BridgeFence_" + i);
             yield return new WaitForSeconds(2.7f);
         }
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_7()
@@ -250,7 +238,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
         GameObject.Find("GreenLight_5").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_2_Task_8()
@@ -261,7 +249,7 @@ public class TaskCompletingActions : MonoBehaviour
         GameObject.Find("RedLight_5").GetComponent<Animator>().Play("LightTurnOn");
         GameObject.Find("GreenLight_4").GetComponent<Animator>().Play("LightTurnOn");
         yield return new WaitForSeconds(4f);
-        CloseTask();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
     #endregion
 
@@ -278,8 +266,7 @@ public class TaskCompletingActions : MonoBehaviour
             box.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
         }
         yield return new WaitForSeconds(0.5f);
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         taskTriggers.transform.GetChild(1).gameObject.SetActive(true);
         taskTriggers.transform.GetChild(1).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
@@ -300,8 +287,7 @@ public class TaskCompletingActions : MonoBehaviour
         GameObject.Find("Hatchet").GetComponent<Animator>().Play("PickUpAxe");
         yield return new WaitForSeconds(2f);
         GameObject.Find("Hatchet").SetActive(false);
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         taskTriggers.transform.GetChild(2).gameObject.SetActive(true);
         taskTriggers.transform.GetChild(2).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
@@ -325,7 +311,7 @@ public class TaskCompletingActions : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
-        ReturnToScene();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_3_Task_4()
@@ -353,8 +339,7 @@ public class TaskCompletingActions : MonoBehaviour
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(1.4f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         taskTriggers.transform.GetChild(4).gameObject.SetActive(true);
         taskTriggers.transform.GetChild(4).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
     }
@@ -385,7 +370,7 @@ public class TaskCompletingActions : MonoBehaviour
         yield return new WaitForSeconds(1f);
         newBridge.GetComponent<Animator>().Play("GetBridgeDown");
         yield return new WaitForSeconds(1.5f);
-        ReturnToScene();
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_3_Task_6()
@@ -466,7 +451,7 @@ public class TaskCompletingActions : MonoBehaviour
         key.GetComponent<Animator>().Play("PickUpKey_3");
         yield return new WaitForSeconds(2f);
         key.SetActive(false);
-        ReturnToScene();
+        yield return StartCoroutine(ReturnToScene_COR());
         gameData.TaskItemsCount++;
         TurnOnScenarioTrigger2_Level_3();
     }
@@ -488,61 +473,53 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_4_Task_1()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(11);
     }
 
     private IEnumerator MakeActions_Level_4_Task_2()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(3);
     }
 
     private IEnumerator MakeActions_Level_4_Task_3()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(10);
     }
 
     private IEnumerator MakeActions_Level_4_Task_4()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(10);
     }
 
     private IEnumerator MakeActions_Level_4_Task_5()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_4_Task_6()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_4_Task_7()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_4_Task_8()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
     #endregion
 
@@ -550,24 +527,21 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_5_Task_1()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(1);
     }
 
     private IEnumerator MakeActions_Level_5_Task_2()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(3);
     }
 
     private IEnumerator MakeActions_Level_5_Task_3()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
         Canvas.GetComponentInChildren<DialogActions>().ActivateTrigger_NPC(4);
 
     }
@@ -575,36 +549,31 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_5_Task_4()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_5_Task_5()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_5_Task_6()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_5_Task_7()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
 
     private IEnumerator MakeActions_Level_5_Task_8()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        ReturnToScene();
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(ReturnToScene_COR());
     }
     #endregion
 }

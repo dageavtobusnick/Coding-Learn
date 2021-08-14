@@ -8,7 +8,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     [Header ("Интерфейс")]
     public GameObject Canvas;
     [HideInInspector]
-    public bool isTaskMessage;
+    public bool IsTaskMessage;
 
     private InterfaceElements UI;
     private InterfaceAnimations UIAnimations;
@@ -33,13 +33,13 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
     private IEnumerator CloseTaskExtendedDescription_COR()
     {
         yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
-        if (isTaskMessage)
+        if (IsTaskMessage)
             yield return StartCoroutine(UIAnimations.ShowTaskPanel_COR());
         else
         {
             UI.Minimap.SetActive(true);
             UI.ChangeCallAvailability(true);
-            isTaskMessage = true;
+            IsTaskMessage = true;
         }
         Canvas.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.ExtendedTaskClosing);
     }
@@ -65,8 +65,8 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         gameData = Canvas.GetComponent<GameData>();
         levelLoader = Canvas.GetComponent<LoadLevel>();
         blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
-        isTaskMessage = gameData.SceneIndex == 0;
-        if (isTaskMessage)
+        IsTaskMessage = gameData.SceneIndex == 0;
+        if (IsTaskMessage)
         {
             gameData.CurrentTaskNumber = 1;
             StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR(false));

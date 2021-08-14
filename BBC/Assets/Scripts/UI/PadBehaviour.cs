@@ -92,15 +92,26 @@ public class PadBehaviour : MonoBehaviour
     public void BuyTip()
     {
         gameData.TipsCount++;
-        gameData.CoinsCount -= 3;
+        gameData.CoinsCount -= TipPrice;
         UpdatePadData();
     }
 
     public void BuyManyTips()
     {
         gameData.TipsCount += 3;
-        gameData.CoinsCount -= 8;
+        gameData.CoinsCount -= ManyTipsPrice;
         UpdatePadData();
+    }
+
+    public void UpdatePadData()
+    {
+        UI.CoinsCounter.text = UI.CoinsMenuCounter.text = gameData.CoinsCount.ToString();
+        UI.TipsCounter.text = UI.TipsMenuCounter.text = gameData.TipsCount.ToString();
+        UI.BuyTipButton.interactable = gameData.CoinsCount >= TipPrice;
+        UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= ManyTipsPrice;
+        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < AvailableTipsCounts.Count)
+            UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + AvailableTipsCounts[taskNumber - 1] + ")";
+        UI.ShowTipButton.interactable = gameData.TipsCount > 0 && AvailableTipsCounts[taskNumber - 1] > 0;
     }
 
     private IEnumerator OpenSubThemesList_COR(int themeNumber)
@@ -277,24 +288,12 @@ public class PadBehaviour : MonoBehaviour
         }
         yield return new WaitForSeconds(0.667f);
         UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.PadCall);
-    }
-
-    private void UpdatePadData()
-    {
-        UI.CoinsCounter.text = UI.CoinsMenuCounter.text = gameData.CoinsCount.ToString();
-        UI.TipsCounter.text = UI.TipsMenuCounter.text = gameData.TipsCount.ToString();
-        UI.BuyTipButton.interactable = gameData.CoinsCount >= TipPrice;
-        UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= ManyTipsPrice;
-        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < AvailableTipsCounts.Count)
-            UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + AvailableTipsCounts[taskNumber - 1] + ")";
-        UI.ShowTipButton.interactable = gameData.TipsCount > 0 && AvailableTipsCounts[taskNumber - 1] > 0;
-    }
+    }   
 
     private void Update()
     {      
         if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable)
             StartCoroutine(CallPad());
-        UpdatePadData();
     }
 
     private void Start()

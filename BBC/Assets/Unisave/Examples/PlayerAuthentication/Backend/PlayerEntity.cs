@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Unisave.Entities;
 
 namespace Unisave.Examples.PlayerAuthentication.Backend
@@ -20,11 +19,5 @@ namespace Unisave.Examples.PlayerAuthentication.Backend
         /// When was the last time the player has logged in
         /// </summary>
         public DateTime lastLoginAt = DateTime.UtcNow;
-
-        public string nickname;
-
-        public int totalScore;
-
-        public List<int> scoresPerLevel;
     }
 }

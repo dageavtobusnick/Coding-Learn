@@ -8,7 +8,6 @@ public class ActionButtonBehaviour : MonoBehaviour
 {
     [Header ("Интерфейс")]
     public GameObject Canvas;
-    [HideInInspector]
     public TriggerData ActivatedTrigger;
 
     private RobotBehaviour robotBehaviour;
@@ -22,9 +21,9 @@ public class ActionButtonBehaviour : MonoBehaviour
     public IEnumerator ActivateTask_COR(bool hasActivateButton = true)
     {
         var currentTaskNumber = gameData.CurrentTaskNumber;
-        Canvas.GetComponent<TaskPanelBehaviour>().taskNumber = currentTaskNumber;
+        Canvas.GetComponent<TaskPanelBehaviour>().TaskNumber = currentTaskNumber;
         gameData.IsTaskStarted = true;
-        UI.IDEButton.interactable = true;
+        UI.ShowIDEButton.interactable = true;
         robotBehaviour.FreezePlayer();
         if (gameData.SceneIndex != 0)
         {
@@ -51,7 +50,7 @@ public class ActionButtonBehaviour : MonoBehaviour
     private IEnumerator MakeAction_COR()
     {
         UI.HideUI();
-        if (UI.Pad.GetComponent<PadBehaviour>().IsPadCalled)
+        if (Canvas.GetComponent<PadBehaviour>().IsPadCalled)
         {
             UI.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
             yield return new WaitForSeconds(0.667f);
@@ -177,7 +176,7 @@ public class ActionButtonBehaviour : MonoBehaviour
                 var message = gameData.ScenarioMessages[0];
                 UI.ExtendedTaskTitle.text = message.Title;
                 UI.ExtendedTaskDescription.text = message.Description;
-                Canvas.GetComponent<ExtendedTaskPanelBehaviour>().isTaskMessage = false;
+                Canvas.GetComponent<ExtendedTaskPanelBehaviour>().IsTaskMessage = false;
                 Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
                 ActivateTrigger(taskTriggers, 7);
                 ActivateTrigger(enterTriggers, 0);
@@ -228,11 +227,11 @@ public class ActionButtonBehaviour : MonoBehaviour
     {
         gameData = Canvas.GetComponent<GameData>();
         robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
+        UI = Canvas.GetComponent<InterfaceElements>();
     }
 
     private void Start()
-    {
-        UI = Canvas.GetComponent<InterfaceElements>();     
+    {            
         if (gameData.SceneIndex != 0)
         {
             taskTriggers = gameData.Player.GetComponentInChildren<TriggersBehaviour>().TaskTriggers;

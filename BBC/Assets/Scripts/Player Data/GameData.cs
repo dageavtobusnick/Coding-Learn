@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Backend;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unisave.Facades;
@@ -7,16 +8,32 @@ using UnityEngine.SceneManagement;
 
 public class GameData : MonoBehaviour
 {
-    #region Сериализуемые классы
-    [Serializable]
-    public class TaskText
+    #region Сериализуемые классы  
+    public class Letter
     {
-        public int ID;
         public string Title;
         public string Description;
+    }
+
+    [Serializable]
+    public class TaskText : Letter
+    {
+        public int ID;
         public string ExtendedDescription;
         public string StartCode;
     }
+
+    [Serializable]
+    public class LevelMessage : Letter
+    {
+        public int LevelNumber;
+    }
+
+    [Serializable]
+    public class ScenarioMessage : Letter { }
+
+    [Serializable]
+    public class HandbookLetter : Letter { }
 
     [Serializable]
     public class Test
@@ -27,31 +44,15 @@ public class GameData : MonoBehaviour
     }
 
     [Serializable]
-    public class Message
-    {
-        public int LevelNumber;
-        public string Title;
-        public string Description;
-    }
-
-    [Serializable]
-    public class ScenarioMessage
-    {
-        public string Title;
-        public string Description;
-    }
-
-    [Serializable]
-    public class HandbookLetter
-    {
-        public string Title;
-        public string Description;
-    }
-
-    [Serializable]
     public class TipMessage
     {
         public string Tip;
+    }
+
+    [Serializable]
+    public class ThemeTitle
+    {
+        public string Title;
     }
 
     public static class JsonHelper
@@ -85,23 +86,25 @@ public class GameData : MonoBehaviour
     [HideInInspector]
     public ScenarioMessage[] ScenarioMessages;
     [HideInInspector]
-    public Message[] StartMessages;
+    public LevelMessage[] StartMessages;
     [HideInInspector]
-    public Message[] FinishMessages;
+    public LevelMessage[] FinishMessages;
     [HideInInspector]
     public List<HandbookLetter[]> HandbookLetters;
     [HideInInspector]
     public List<TipMessage[]> Tips;
+    [HideInInspector]
+    public ThemeTitle[] ThemeTitles;
     #endregion
 
     #region Счётчики очков
     [HideInInspector]
     public int TasksScores;
     [HideInInspector]
-    public int TimeInSeconds = 1800;
+    public int TimeInSeconds = 2000;
 
-    private int taskScoresCoefficient = 1000;
-    private int timeCoefficient = 10;
+    private int taskScoresCoefficient = 10;
+    private double timeCoefficient = 0.01;
     #endregion
 
     [Header("Игрок")]
@@ -129,7 +132,7 @@ public class GameData : MonoBehaviour
     public async void UpdatePlayerData()
     {
         var totalTasksScores = TasksScores * taskScoresCoefficient;
-        var totalTimeScores = TimeInSeconds * timeCoefficient;
+        var totalTimeScores = (int)(TimeInSeconds * timeCoefficient);
         var totalScore = totalTasksScores + totalTimeScores;
         var response = await OnFacet<PlayerDataFacet>.CallAsync<string>(
             nameof(PlayerDataFacet.SendPlayerData),
@@ -175,14 +178,16 @@ public class GameData : MonoBehaviour
         var scenarioMessagesFile = Resources.Load<TextAsset>("Scenario Messages Level " + SceneIndex);
         var startMessagesFile = Resources.Load<TextAsset>("Start Messages");
         var finishMessagesFile = Resources.Load<TextAsset>("Finish Messages");
+        var themeTitles = Resources.Load<TextAsset>("Handbook Files/Theme Titles");
         TaskTexts = JsonHelper.FromJson<TaskText>(tasksFile.text);
         Tests = JsonHelper.FromJson<Test>(testsFile.text);
-        StartMessages = JsonHelper.FromJson<Message>(startMessagesFile.text);
-        FinishMessages = JsonHelper.FromJson<Message>(finishMessagesFile.text);
+        StartMessages = JsonHelper.FromJson<LevelMessage>(startMessagesFile.text);
+        FinishMessages = JsonHelper.FromJson<LevelMessage>(finishMessagesFile.text);
+        ThemeTitles = JsonHelper.FromJson<ThemeTitle>(themeTitles.text);
         HandbookLetters = new List<HandbookLetter[]>();
-        for (var i = 0; i <= 3; i++)
+        for (var i = 0; i < SceneManager.sceneCountInBuildSettings - 1; i++)
         {
-            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Letters/Handbook Letters Level " + i);
+            var handbookLettersFile = Resources.Load<TextAsset>("Handbook Files/Handbook Letters Level " + i);
             HandbookLetters.Add(JsonHelper.FromJson<HandbookLetter>(handbookLettersFile.text));
         }
         if (SceneIndex > 0)

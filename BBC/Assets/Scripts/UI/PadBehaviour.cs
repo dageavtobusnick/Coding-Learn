@@ -16,13 +16,12 @@ public class PadBehaviour : MonoBehaviour
 
     [Header("Интерфейс")]
     public GameObject Canvas;
+    [Header("Количество доступных тем в справочнике")]
+    public int AvailableThemesCount;
     [Header("Стоимость одной подсказки")]
     public int TipPrice = 3;
     [Header("Стоимость нескольких подсказок")]
     public int ManyTipsPrice = 8;
-    [Header("Первая заблокированная тема")]
-    [Tooltip("Начиная с этого номера, все темы в справочнике будут заблокированы")]
-    public int FirstThemeToLockNumber;
     [HideInInspector]
     public string StartCode;
     [HideInInspector]
@@ -50,43 +49,9 @@ public class PadBehaviour : MonoBehaviour
 
     public void ReturnToMenuFromHandbookMode() => StartCoroutine(ReturnToMenuFromHandbookMode_COR());
 
-    #region Выбор темы из главного меню справочника
+    public void OpenSubThemesList(int mainThemeNumber) => StartCoroutine(OpenSubThemesList_COR(mainThemeNumber));
 
-    public void ShowSubThemes_Theme_1_1() => StartCoroutine(ShowSubThemes_COR(1));
-
-    public void ShowSubThemes_Theme_1_2() => StartCoroutine(ShowSubThemes_COR(2));
-
-    public void ShowSubThemes_Theme_2() => StartCoroutine(ShowSubThemes_COR(3));
-
-    public void ShowSubThemes_Theme_3() => StartCoroutine(ShowSubThemes_COR(4));
-
-    public void ShowSubThemes_Theme_4() => StartCoroutine(ShowSubThemes_COR(5));
-
-    public void ShowSubThemes_Theme_5() => StartCoroutine(ShowSubThemes_COR(6));
-
-    #endregion
-
-    #region Выбор раздела в каждой из тем, представленных в справочнике
-
-    public void ShowProgrammingInfo_SubTheme_1() => StartCoroutine(ShowProgrammingInfo_COR(1));
-
-    public void ShowProgrammingInfo_SubTheme_2() => StartCoroutine(ShowProgrammingInfo_COR(2));
-
-    public void ShowProgrammingInfo_SubTheme_3() => StartCoroutine(ShowProgrammingInfo_COR(3));
-
-    public void ShowProgrammingInfo_SubTheme_4() => StartCoroutine(ShowProgrammingInfo_COR(4));
-
-    public void ShowProgrammingInfo_SubTheme_5() => StartCoroutine(ShowProgrammingInfo_COR(5));
-
-    public void ShowProgrammingInfo_SubTheme_6() => StartCoroutine(ShowProgrammingInfo_COR(6));
-
-    public void ShowProgrammingInfo_SubTheme_7() => StartCoroutine(ShowProgrammingInfo_COR(7));
-
-    public void ShowProgrammingInfo_SubTheme_8() => StartCoroutine(ShowProgrammingInfo_COR(8));
-
-    public void ShowProgrammingInfo_SubTheme_9() => StartCoroutine(ShowProgrammingInfo_COR(9));
-
-    #endregion
+    public void OpenSubTheme(int subThemeNumber) => StartCoroutine(OpenSubTheme_COR(subThemeNumber));
 
     public void ShowHelpPanel()
     {
@@ -108,9 +73,9 @@ public class PadBehaviour : MonoBehaviour
 
     public void UnlockProgrammingInfo(int chapterNumber)
     {
-        var buttonToUnlock = UI.SubThemeButtons.transform.GetChild(FirstThemeToLockNumber - 2).GetChild(chapterNumber - 1).gameObject.GetComponent<Button>();
+        var buttonToUnlock = UI.SubThemeButtons.transform.GetChild(AvailableThemesCount - 1).GetChild(chapterNumber - 1).gameObject.GetComponent<Button>();
         buttonToUnlock.interactable = true;
-        buttonToUnlock.GetComponentInChildren<Text>().text = gameData.HandbookLetters[FirstThemeToLockNumber - 1][chapterNumber - 1].Title;
+        buttonToUnlock.GetComponentInChildren<Text>().text = gameData.HandbookLetters[AvailableThemesCount - 1][chapterNumber - 1].Title;
     }
 
     public void ShowTip()
@@ -127,34 +92,45 @@ public class PadBehaviour : MonoBehaviour
     public void BuyTip()
     {
         gameData.TipsCount++;
-        gameData.CoinsCount -= 3;
+        gameData.CoinsCount -= TipPrice;
         UpdatePadData();
     }
 
     public void BuyManyTips()
     {
         gameData.TipsCount += 3;
-        gameData.CoinsCount -= 8;
+        gameData.CoinsCount -= ManyTipsPrice;
         UpdatePadData();
     }
 
-    private IEnumerator ShowSubThemes_COR(int themeNumber)
+    public void UpdatePadData()
     {
-        UI.ThemeButtons.GetComponent<Animator>().Play("ScaleDown");
-        yield return new WaitForSeconds(0.45f);
-        UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleUp");
-        UI.PreviousHandbookPageButton.transform.parent.gameObject.SetActive(true);
+        UI.CoinsCounter.text = UI.CoinsMenuCounter.text = gameData.CoinsCount.ToString();
+        UI.TipsCounter.text = UI.TipsMenuCounter.text = gameData.TipsCount.ToString();
+        UI.BuyTipButton.interactable = gameData.CoinsCount >= TipPrice;
+        UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= ManyTipsPrice;
+        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < AvailableTipsCounts.Count)
+            UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + AvailableTipsCounts[taskNumber - 1] + ")";
+        UI.ShowTipButton.interactable = gameData.TipsCount > 0 && AvailableTipsCounts[taskNumber - 1] > 0;
+    }
+
+    private IEnumerator OpenSubThemesList_COR(int themeNumber)
+    {
         this.themeNumber = themeNumber;
+        UI.ThemeButtonsContainer.GetComponent<Animator>().Play("MoveButtons_MiddleToLeft");
+        yield return new WaitForSeconds(0.583f);
+        UI.PreviousHandbookPageButton.transform.parent.gameObject.SetActive(true);
+        yield return StartCoroutine(MoveSubThemeButtons_COR(true, "MoveButtons_RightToMiddle"));    
         Mode = PadMode.Handbook_SubThemes;
     }
 
-    private IEnumerator ShowProgrammingInfo_COR(int subThemeNumber)
+    private IEnumerator OpenSubTheme_COR(int subThemeNumber)
     {
         var handbookLetter = gameData.HandbookLetters[themeNumber - 1][subThemeNumber - 1];
         UI.ProgrammingInfo.text = handbookLetter.Description;
         UI.ProgrammingInfoTitle.text = handbookLetter.Title;
-        UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleDown");
-        yield return new WaitForSeconds(0.45f);
+        yield return StartCoroutine(MoveSubThemeButtons_COR(false, "MoveButtons_MiddleToLeft"));
+        UI.HandbookButtons.SetActive(false);
         UI.ProgrammingInfoScrollBar.value = 1;
         UI.InfoPanel_BlackScreen.GetComponent<Animator>().Play("ShowProgrammingInfo");
         yield return new WaitForSeconds(1f);
@@ -183,8 +159,15 @@ public class PadBehaviour : MonoBehaviour
             yield return new WaitForSeconds(0.7f);
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().EraseTaskPanelBackground_COR());
         }
-        else UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode_NoLatency");
+        else
+        {
+            UI.Pad.transform.parent.parent.gameObject.GetComponent<Animator>().Play("SwitchToHandbookMode_NoLatency");
+            yield return new WaitForSeconds(1.5f);
+        }
         Mode = PadMode.Handbook_MainThemes;
+        if (UI.ThemeButtonsContainer.GetComponentInChildren<Scrollbar>() != null)
+            UI.ThemeButtonsContainer.GetComponentInChildren<Scrollbar>().value = 1;
+        UI.ThemeButtonsContainer.GetComponent<Animator>().Play("MoveButtons_LeftToMiddle");
     }
 
     private IEnumerator ReturnToMenuFromDevMode_COR()
@@ -201,9 +184,9 @@ public class PadBehaviour : MonoBehaviour
             UI.Pad.GetComponentInParent<Animator>().Play("ReturnToMenuFromHandbookMode");
         else UI.Pad.GetComponentInParent<Animator>().Play("ReturnToMenuFromHandbookMode_NoLatency");
         yield return new WaitForSeconds(0.83f);
-        UI.ThemeButtons.GetComponent<Animator>().Play("ScaleUp");
+        UI.HandbookButtons.SetActive(true);
         for (var i = 0; i < UI.SubThemeButtons.transform.childCount; i++)
-            UI.SubThemeButtons.transform.GetChild(i).gameObject.GetComponent<Animator>().Play("ScaleDown");
+            UI.SubThemeButtons.transform.GetChild(i).gameObject.SetActive(false);
         UI.InfoPanel_BlackScreen.SetActive(true);
         UI.InfoPanel_BlackScreen.GetComponent<Animator>().Play("HideProgrammingInfo");
         if (gameData.IsTaskStarted)
@@ -222,41 +205,67 @@ public class PadBehaviour : MonoBehaviour
         switch (Mode)
         {
             case PadMode.Handbook_SubThemes:
-                UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleDown");
-                yield return new WaitForSeconds(0.45f);
-                UI.ThemeButtons.GetComponent<Animator>().Play("ScaleUp");
+                yield return StartCoroutine(MoveSubThemeButtons_COR(false, "MoveButtons_MiddleToRight"));
+                UI.ThemeButtonsContainer.GetComponent<Animator>().Play("MoveButtons_LeftToMiddle");
                 UI.PreviousHandbookPageButton.transform.parent.gameObject.SetActive(false);
                 Mode = PadMode.Handbook_MainThemes;
                 break;
             case PadMode.Handbook_ProgrammingInfo:
                 UI.InfoPanel_BlackScreen.SetActive(true);
                 UI.InfoPanel_BlackScreen.GetComponent<Animator>().Play("HideProgrammingInfo");
-                yield return new WaitForSeconds(1f);              
-                UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject.GetComponent<Animator>().Play("ScaleUp");
+                yield return new WaitForSeconds(1f);
+                UI.HandbookButtons.SetActive(true);
+                yield return StartCoroutine(MoveSubThemeButtons_COR(true, "MoveButtons_LeftToMiddle"));
                 Mode = PadMode.Handbook_SubThemes;
                 break;
         }
     }  
 
-    private void LockThemes()
-    {       
-        for (var i = FirstThemeToLockNumber; i < UI.ThemeButtons.transform.childCount; i++)
+    private IEnumerator MoveSubThemeButtons_COR(bool willBeShown, string animation)
+    {
+        var subThemesList = UI.SubThemeButtons.transform.GetChild(themeNumber - 1).gameObject;
+        if (willBeShown)
         {
-            var themeButton = UI.ThemeButtons.transform.GetChild(i).gameObject.GetComponent<Button>();
-            themeButton.interactable = false;
-            themeButton.GetComponentInChildren<Text>().text = "???";
+            subThemesList.SetActive(true);
+            subThemesList.GetComponent<Animator>().Play(animation);
+            yield return new WaitForSeconds(0.583f);
         }
-        var newProgrammingInfoButtons = UI.SubThemeButtons.transform.GetChild(FirstThemeToLockNumber - 1).gameObject;
-        for (var i = 0; i < newProgrammingInfoButtons.transform.childCount; i++)
+        else
         {
-            var programmingInfoButton = newProgrammingInfoButtons.transform.GetChild(i).gameObject.GetComponent<Button>();
-            programmingInfoButton.interactable = false;
-            programmingInfoButton.GetComponentInChildren<Text>().text = "???";
+            subThemesList.GetComponent<Animator>().Play(animation);
+            yield return new WaitForSeconds(0.583f);
+            subThemesList.SetActive(false);
         }
-        for (var i = 0; i < FirstThemeToLockNumber - 1; i++)
+    }
+
+    private void FillHandbook()
+    {
+        var themeButtons = UI.ThemeButtonsContainer.transform.GetChild(0).GetChild(0);
+        var subThemeButtons = UI.SubThemeButtons;
+        var themeButtonPrefab = UI.ThemeButtonPrefab;
+        var subThemeButtonsContainerPrefab = UI.SubThemeButtonsContainerPrefab;
+        for (var i = 0; i < AvailableThemesCount; i++)
         {
-            for (var j = 0; j < UI.SubThemeButtons.transform.GetChild(i).childCount; j++)
-                UI.SubThemeButtons.transform.GetChild(i).GetChild(j).GetComponentInChildren<Text>().text = gameData.HandbookLetters[i][j].Title;
+            var themeButton = Instantiate(themeButtonPrefab, themeButtons);
+            var themeNumber = i + 1;
+            themeButton.GetComponentInChildren<Text>().text = gameData.ThemeTitles[i].Title;
+            themeButton.GetComponent<Button>().onClick.AddListener(() => OpenSubThemesList(themeNumber));
+
+            var subThemeContainer = Instantiate(subThemeButtonsContainerPrefab, subThemeButtons.transform);
+            var parentPosition = subThemeButtons.transform.position;
+            for (var j = 0; j < gameData.HandbookLetters[i].Length; j++)
+            {
+                var subThemeButton = Instantiate(themeButtonPrefab, subThemeContainer.transform.GetChild(0).GetChild(0));
+                var subThemeNumber = j + 1;
+                if (i == AvailableThemesCount - 1)
+                {
+                    subThemeButton.GetComponentInChildren<Text>().text = "???";
+                    subThemeButton.GetComponent<Button>().interactable = false;
+                }
+                else subThemeButton.GetComponentInChildren<Text>().text = gameData.HandbookLetters[i][j].Title;
+                subThemeButton.GetComponent<Button>().onClick.AddListener(() => OpenSubTheme(subThemeNumber));
+            }
+            subThemeContainer.SetActive(false);
         }
     }
 
@@ -279,24 +288,12 @@ public class PadBehaviour : MonoBehaviour
         }
         yield return new WaitForSeconds(0.667f);
         UI.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.PadCall);
-    }
-
-    private void UpdatePadData()
-    {
-        UI.CoinsCounter.text = UI.CoinsMenuCounter.text = gameData.CoinsCount.ToString();
-        UI.TipsCounter.text = UI.TipsMenuCounter.text = gameData.TipsCount.ToString();
-        UI.BuyTipButton.interactable = gameData.CoinsCount >= TipPrice;
-        UI.BuyManyTipsButton.interactable = gameData.CoinsCount >= ManyTipsPrice;
-        if (gameData.SceneIndex > 0 && taskNumber > 0 && taskNumber < AvailableTipsCounts.Count)
-            UI.ShowTipButton.GetComponentInChildren<Text>().text = "Получить подсказку (Осталось: " + AvailableTipsCounts[taskNumber - 1] + ")";
-        UI.ShowTipButton.interactable = gameData.TipsCount > 0 && AvailableTipsCounts[taskNumber - 1] > 0;
-    }
+    }   
 
     private void Update()
     {      
         if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable)
             StartCoroutine(CallPad());
-        UpdatePadData();
     }
 
     private void Start()
@@ -307,8 +304,8 @@ public class PadBehaviour : MonoBehaviour
         Mode = PadMode.Normal;
         IsPadCalled = false;
         IsCallAvailable = true;
-        UI.IDEButton.interactable = gameData.SceneIndex == 0;
-        //LockThemes();
+        UI.ShowIDEButton.interactable = gameData.SceneIndex == 0;
+        FillHandbook();
         UpdatePadData();
         AvailableTipsCounts = new List<int>();
         if (gameData.SceneIndex > 0)

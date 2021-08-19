@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 8b8d94137a7d18842b64a922bbe22938
 ModelImporter:
-  serializedVersion: 21100
+  serializedVersion: 25
   internalIDToNameTable:
   - first:
       1: 100000
@@ -362,7 +362,7 @@ ModelImporter:
     second: //RootNode
   externalObjects: {}
   materials:
-    materialImportMode: 0
+    importMaterials: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 0
@@ -391,7 +391,7 @@ ModelImporter:
     - serializedVersion: 16
       name: kobold_elite_mask_born01
       takeName: Take 001
-      internalID: 0
+      internalID: 7400002
       firstFrame: 0
       lastFrame: 25
       wrapMode: 0
@@ -424,18 +424,15 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
-    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
-    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
-    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
@@ -445,9 +442,6 @@ ModelImporter:
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
-    secondaryUVMarginMethod: 0
-    secondaryUVMinLightmapResolution: 40
-    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -473,6 +467,7 @@ ModelImporter:
   - 27f7b59017a194a4aace83b2a8ca4206
   - d091c57a5d018c14883b4d40aba9e4a9
   importAnimation: 1
+  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -490,11 +485,8 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
-  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

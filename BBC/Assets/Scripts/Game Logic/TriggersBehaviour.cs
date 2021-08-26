@@ -15,6 +15,8 @@ public class TriggersBehaviour : MonoBehaviour
     public GameObject ChangeSceneTriggers;
     [Header("Триггеры активации сценарного момента")]
     public GameObject ScenarioTriggers;
+    [Header("Триггер завершения уровня")]
+    public GameObject FinishTrigger;
     [Header("Диалоговые персонажи с триггерами")]
     public GameObject DialogCharacters;
 
@@ -24,6 +26,26 @@ public class TriggersBehaviour : MonoBehaviour
 
     public void DeleteActionButton() => StartCoroutine(DeleteActionButton_COR());
 
+    public void ActivateTrigger_Any(GameObject trigger) => ActivateTrigger(trigger);
+
+    public void ActivateTrigger_Task(int triggerNumber) => ActivateTrigger(TaskTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+
+    public void ActivateTrigger_ScriptMoment(int triggerNumber) => ActivateTrigger(ScenarioTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+
+    public void ActivateTrigger_EnterToMiniScene(int triggerNumber) => ActivateTrigger(EnterTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+
+    public void ActivateTrigger_ChangeScene(int triggerNumber) => ActivateTrigger(ChangeSceneTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+
+    public void ActivateTrigger_Dialogue(int npcOrderNumber) => ActivateTrigger(DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject);
+
+    public void ActivateTrigger_Finish() => ActivateTrigger(FinishTrigger);
+
+    private void ActivateTrigger(GameObject trigger)
+    {
+        trigger.SetActive(true);
+        trigger.GetComponent<TargetWaypointBehaviour>().Waypoint.gameObject.SetActive(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         var triggerData = other.gameObject.GetComponent<TriggerData>();
@@ -32,8 +54,8 @@ public class TriggersBehaviour : MonoBehaviour
             switch (triggerData.TriggerPurpose)
             {
                 case TriggerData.Purpose.Task:
-                    if(!gameData.HasTasksCompleted[triggerData.TaskNumber - 1])
-                        gameData.CurrentTaskNumber = triggerData.TaskNumber;
+                    if(!gameData.HasTasksCompleted[triggerData.Task_TaskNumber - 1])
+                        gameData.CurrentTaskNumber = triggerData.Task_TaskNumber;
                     break;
                 case TriggerData.Purpose.Dialog:
                     Canvas.GetComponentInChildren<DialogActions>().CurrentNPC = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
@@ -76,30 +98,6 @@ public class TriggersBehaviour : MonoBehaviour
         gameData.CoinsCount++;
         Canvas.GetComponent<PadBehaviour>().UpdatePadData();
     }
-
-    private void RotateMarks(GameObject triggers)
-    {
-        if (triggers != null)
-        {
-            for (var i = 0; i < triggers.transform.childCount; i++)
-            {
-                var currentChild = triggers.transform.GetChild(i);
-                currentChild.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
-            }
-        }
-    }
-
-    private void ActivateNpcMarks()
-    {
-        if (DialogCharacters != null)
-        {
-            for (var i = 0; i < DialogCharacters.transform.childCount; i++)
-            {
-                if (DialogCharacters.transform.GetChild(i).childCount > 1)
-                    DialogCharacters.transform.GetChild(i).GetChild(1).GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
-            }
-        }
-    }
     
     void Start()
     {
@@ -107,9 +105,5 @@ public class TriggersBehaviour : MonoBehaviour
         UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
         gameData = Canvas.GetComponent<GameData>();
         UI.ActionButton.gameObject.SetActive(false);
-        RotateMarks(TaskTriggers);
-        RotateMarks(EnterTriggers);
-        RotateMarks(ScenarioTriggers);
-        ActivateNpcMarks();
     } 
 }

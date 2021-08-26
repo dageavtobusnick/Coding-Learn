@@ -34,7 +34,7 @@ public class PadBehaviour : MonoBehaviour
     public bool IsCallAvailable;
 
     private InterfaceElements UI;
-    private RobotBehaviour robotBehaviour;
+    private PlayerBehaviour robotBehaviour;
     private GameData gameData;
     private int themeNumber;
     private int taskNumber;
@@ -300,7 +300,7 @@ public class PadBehaviour : MonoBehaviour
     {
         UI = Canvas.GetComponent<InterfaceElements>();
         gameData = Canvas.GetComponent<GameData>();
-        robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
+        robotBehaviour = gameData.Player.GetComponent<PlayerBehaviour>();
         Mode = PadMode.Normal;
         IsPadCalled = false;
         IsCallAvailable = true;

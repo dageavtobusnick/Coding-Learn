@@ -7,37 +7,45 @@ using UnityEditor;
 public class TriggerComponentEditor : Editor
 {
     private TriggerData component;
-    private SerializedProperty compPurpose;
-    private SerializedProperty compTriggerNumber;
-    private SerializedProperty compTaskNumber;
-    private SerializedProperty compNextLevelIndex;
-    private SerializedProperty compActionButtonText;
+    private SerializedProperty purpose;
+    private SerializedProperty actionButtonText;
+    private SerializedProperty scriptMoment_TriggerNumber;
+    private SerializedProperty task_TaskNumber;
+    private SerializedProperty changeLevel_NextLevelIndex;
+    private SerializedProperty enterToMiniScene_DestinationTrigger;
+    private SerializedProperty enterToMiniScene_IsMinimapShouldActive;
 
     private void OnEnable()
     {
         component = target as TriggerData;
-        compPurpose = serializedObject.FindProperty("TriggerPurpose");
-        compTriggerNumber = serializedObject.FindProperty("TriggerNumber");
-        compTaskNumber = serializedObject.FindProperty("TaskNumber");
-        compNextLevelIndex = serializedObject.FindProperty("NextLevelIndex");
-        compActionButtonText = serializedObject.FindProperty("ActionButtonText");
+        purpose = serializedObject.FindProperty("TriggerPurpose");
+        actionButtonText = serializedObject.FindProperty("ActionButtonText");
+        scriptMoment_TriggerNumber = serializedObject.FindProperty("ScriptMoment_TriggerNumber");
+        task_TaskNumber = serializedObject.FindProperty("Task_TaskNumber");
+        changeLevel_NextLevelIndex = serializedObject.FindProperty("ChangeLevel_NextLevelIndex");
+        enterToMiniScene_DestinationTrigger = serializedObject.FindProperty("EnterToMiniScene_DestinationTrigger");
+        enterToMiniScene_IsMinimapShouldActive = serializedObject.FindProperty("EnterToMiniScene_IsMinimapShouldActive");
     }
 
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        EditorGUILayout.PropertyField(compPurpose);
-        EditorGUILayout.PropertyField(compActionButtonText);
+        EditorGUILayout.PropertyField(purpose);
+        EditorGUILayout.PropertyField(actionButtonText);
         switch (component.TriggerPurpose)
         {
             case TriggerData.Purpose.Task:
-                EditorGUILayout.PropertyField(compTaskNumber);
+                EditorGUILayout.PropertyField(task_TaskNumber, new GUIContent("Task Number"));
                 break;
             case TriggerData.Purpose.ChangeLevel:
-                EditorGUILayout.PropertyField(compNextLevelIndex);
+                EditorGUILayout.PropertyField(changeLevel_NextLevelIndex, new GUIContent("Next Level Index"));
                 break;
             case TriggerData.Purpose.ScriptMoment:
-                EditorGUILayout.PropertyField(compTriggerNumber);
+                EditorGUILayout.PropertyField(scriptMoment_TriggerNumber, new GUIContent("Trigger Number"));
+                break;
+            case TriggerData.Purpose.EnterToMiniScene:
+                EditorGUILayout.PropertyField(enterToMiniScene_DestinationTrigger, new GUIContent("Destination Trigger"));
+                EditorGUILayout.PropertyField(enterToMiniScene_IsMinimapShouldActive, new GUIContent("Is Minimap Will Be Active"));
                 break;
         }
         serializedObject.ApplyModifiedProperties();

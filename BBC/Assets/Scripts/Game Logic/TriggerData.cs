@@ -17,14 +17,20 @@ public class TriggerData : MonoBehaviour
 
     [Tooltip("Для чего триггер предназначен")]
     public Purpose TriggerPurpose;
-    [Tooltip("Номер триггера")]
-    public int TriggerNumber;
-    [Tooltip("Номер задания")]
-    public int TaskNumber;
     [Tooltip("Текст для кнопки взаимодействия")]
     public string ActionButtonText;
-    [Tooltip("Индекс уровня, на который переходим")]
-    public int NextLevelIndex;
 
-    public static readonly string MarkerAnimation = "RotateExclamationMark";
+    [Tooltip("Номер триггера")]
+    public int ScriptMoment_TriggerNumber;
+
+    [Tooltip("Номер задания")]
+    public int Task_TaskNumber;
+    
+    [Tooltip("Индекс уровня, на который переходим")]
+    public int ChangeLevel_NextLevelIndex;
+
+    [Tooltip("Триггер, к которому переместится игрок")]
+    public GameObject EnterToMiniScene_DestinationTrigger;
+    [Tooltip("Должна ли мини-карта быть активной")]
+    public bool EnterToMiniScene_IsMinimapShouldActive;
 }

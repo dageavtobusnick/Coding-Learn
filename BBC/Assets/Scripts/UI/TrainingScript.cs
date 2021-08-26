@@ -45,11 +45,11 @@ public class TrainingScript : MonoBehaviour
                 UI.ExitDevModeButton.interactable = false;
                 break;
             case 11:
-                gameData.Player.GetComponent<RobotBehaviour>().FreezePlayer();
-                UI.TargetPanel.SetActive(false);
+                gameData.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
+                Canvas.GetComponent<TargetPanelBehaviour>().IsCallAvailable = false;
                 break;
             case 14:
-                UI.TargetPanel.SetActive(true);
+                Canvas.GetComponent<TargetPanelBehaviour>().IsCallAvailable = true;
                 break;
         }
     }
@@ -104,7 +104,7 @@ public class TrainingScript : MonoBehaviour
                 UI.ExitDevModeButton.interactable = true;
                 break;
             case 14:
-                gameData.Player.GetComponent<RobotBehaviour>().UnfreezePlayer();
+                gameData.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
                 break;
         }
     }

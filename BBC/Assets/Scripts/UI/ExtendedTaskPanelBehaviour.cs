@@ -39,7 +39,10 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         {
             UI.Minimap.SetActive(true);
             UI.ChangeCallAvailability(true);
+            gameData.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
             IsTaskMessage = true;
+            if (gameData.SceneIndex != 1)
+                Canvas.GetComponent<TargetPanelBehaviour>().ShowTarget();
         }
         Canvas.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.ExtendedTaskClosing);
     }
@@ -77,6 +80,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             UI.ExtendedTaskTitle.text = startMessage.Title;
             UI.ExtendedTaskDescription.text = startMessage.Description;
             UI.Minimap.SetActive(false);
+            gameData.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
             OpenTaskExtendedDescription_Special();
         }      
     }

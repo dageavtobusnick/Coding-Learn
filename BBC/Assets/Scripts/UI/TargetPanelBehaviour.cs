@@ -16,9 +16,10 @@ public class TargetPanelBehaviour : MonoBehaviour
     [HideInInspector]
     public bool IsCallAvailable;
 
-    private GameData gameData;
     private InterfaceElements UI;
-    private int timer;  
+    private int timer;
+
+    public void ShowTarget() => StartCoroutine(ShowTarget_COR());
 
     public void ChangeTarget(string newTargetText)
     {
@@ -28,7 +29,7 @@ public class TargetPanelBehaviour : MonoBehaviour
 
     public void HideTarget()
     {
-        for (var i = 0; i < 2; i++)
+        for (var i = 0; i < 3; i++)
         {
             var background = UI.TargetPanelBackground.transform.GetChild(i).gameObject;
             background.GetComponent<Image>().fillAmount = 0f;
@@ -45,7 +46,7 @@ public class TargetPanelBehaviour : MonoBehaviour
     {
         IsShown = true;
         timer = 5;
-        for (var i = 0; i < 2; i++)
+        for (var i = 0; i < 3; i++)
         {
             var background = UI.TargetPanelBackground.transform.GetChild(i);
             background.gameObject.SetActive(true);
@@ -91,8 +92,7 @@ public class TargetPanelBehaviour : MonoBehaviour
     private void Start()
     {
         UI = Canvas.GetComponent<InterfaceElements>();
-        gameData = Canvas.GetComponent<GameData>();
-        TargetLabelText = "Цель:";
+        TargetLabelText = UI.TargetLabel.text;
         timer = 0;
         HideTarget();
         IsCallAvailable = false;

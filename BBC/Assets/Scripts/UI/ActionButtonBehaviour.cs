@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Playables;
 
 public class ActionButtonBehaviour : MonoBehaviour
 {
     [Header ("Интерфейс")]
     public GameObject Canvas;
     public TriggerData ActivatedTrigger;
+    public bool IsPressed;
 
-    private RobotBehaviour robotBehaviour;
-    private GameObject taskTriggers;
-    private GameObject enterTriggers;
+    private PlayerBehaviour robotBehaviour;
+    private TriggersBehaviour triggersBehaviour;
     private InterfaceElements UI;
     private GameData gameData;
 
@@ -38,9 +39,10 @@ public class ActionButtonBehaviour : MonoBehaviour
         switch (gameData.SceneIndex)
         {
             case 3:
-                StartCoroutine(ActivateScenarioMoment_Level_3_COR(ActivatedTrigger.TriggerNumber));
+                StartCoroutine(ActivateScenarioMoment_Level_3_COR(ActivatedTrigger.ScriptMoment_TriggerNumber));
                 break;
         }
+        ActivatedTrigger.gameObject.SetActive(false);
     }
 
     public void ActivateDialog() => StartCoroutine(ActivateDialog_COR());
@@ -56,6 +58,7 @@ public class ActionButtonBehaviour : MonoBehaviour
             yield return new WaitForSeconds(0.667f);
         }
         UI.ChangeCallAvailability(false);
+        ActivatedTrigger.GetComponent<TargetWaypointBehaviour>().Waypoint.gameObject.SetActive(false);
         switch (ActivatedTrigger.TriggerPurpose)
         {
             case TriggerData.Purpose.Task:
@@ -102,7 +105,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         UI.BlackScreen.GetComponentInChildren<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        SceneManager.LoadScene(ActivatedTrigger.NextLevelIndex);
+        SceneManager.LoadScene(ActivatedTrigger.ChangeLevel_NextLevelIndex);
     }
 
     private IEnumerator SaveGame_COR()
@@ -127,9 +130,9 @@ public class ActionButtonBehaviour : MonoBehaviour
     {
         if (hasActivateButton)
             yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());
-        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToTask_" + currentTaskNumber);
-        yield return new WaitForSeconds(2f);
-        
+        gameData.CurrentSceneCamera.GetComponent<PlayableDirector>().playableAsset = Resources.Load<PlayableAsset>("Timelines/Tasks/Level " + gameData.SceneIndex + "/MoveToTask_" + currentTaskNumber);
+        gameData.CurrentSceneCamera.GetComponent<PlayableDirector>().Play();
+        yield return new WaitForSeconds(2f);    
     } 
 
     private IEnumerator EnterToMiniScene_COR()
@@ -140,14 +143,9 @@ public class ActionButtonBehaviour : MonoBehaviour
         UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(2.5f);
-        var triggerBehaviour = ActivatedTrigger.GetComponent<SwitchSceneBehaviour>();
-        triggerBehaviour.PreviousCamera.enabled = false;
-        triggerBehaviour.NextCamera.enabled = true;
-        gameData.CurrentSceneCamera = triggerBehaviour.NextCamera;
-        UI.Minimap.SetActive(triggerBehaviour.IsMinimapShouldActive);   
-        gameData.Player.transform.position = triggerBehaviour.DestinationTrigger.transform.position;
+        UI.Minimap.SetActive(ActivatedTrigger.EnterToMiniScene_IsMinimapShouldActive);   
+        gameData.Player.transform.position = ActivatedTrigger.EnterToMiniScene_DestinationTrigger.transform.position;
         ActivatedTrigger.gameObject.SetActive(true);
-        ActivatedTrigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
         blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
         yield return new WaitForSeconds(2f);
         UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
@@ -169,7 +167,6 @@ public class ActionButtonBehaviour : MonoBehaviour
     private IEnumerator ActivateScenarioMoment_Level_3_COR(int triggerNumber)
     {
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());
-        ActivatedTrigger.gameObject.SetActive(false);
         switch (triggerNumber)
         {
             case 1:
@@ -178,64 +175,42 @@ public class ActionButtonBehaviour : MonoBehaviour
                 UI.ExtendedTaskDescription.text = message.Description;
                 Canvas.GetComponent<ExtendedTaskPanelBehaviour>().IsTaskMessage = false;
                 Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-                ActivateTrigger(taskTriggers, 7);
-                ActivateTrigger(enterTriggers, 0);
-                ActivateTrigger(enterTriggers, 2);
+                Canvas.GetComponent<TargetPanelBehaviour>().TargetText = "Найти ключи, чтобы открыть ворота (0/3)";
+                triggersBehaviour.ActivateTrigger_Task(8);
+                triggersBehaviour.ActivateTrigger_EnterToMiniScene(1);
+                triggersBehaviour.ActivateTrigger_EnterToMiniScene(3);
                 break;
             case 2:
-                gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToTask_9_SceneCamera_14");
-                yield return new WaitForSeconds(2f);
-                var gatesKeys = GameObject.Find("GatesKeys");
-                for (var i = 0; i < gatesKeys.transform.childCount; i++)
-                {
-                    var key = gatesKeys.transform.GetChild(i).gameObject;
-                    key.SetActive(true);
-                    key.GetComponentInChildren<Animator>().Play("TurnKey");
-                }
-                yield return new WaitForSeconds(3f);
-                for (var i = 0; i < gatesKeys.transform.childCount; i++)
-                {
-                    var key = gatesKeys.transform.GetChild(i).gameObject;
-                    key.SetActive(false);
-                }
-                var blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
-                UI.BlackScreen.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-                blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
-                yield return new WaitForSeconds(1.5f);
-                GameObject.Find("LeftGate").GetComponent<Animator>().Play("OpenLeftGate");
-                GameObject.Find("RightGate").GetComponent<Animator>().Play("OpenRightGate");
-                yield return new WaitForSeconds(2f);
-                blackScreen.GetComponent<Animator>().Play("HideBlackScreen");
-                yield return new WaitForSeconds(1.4f);
-                UI.BlackScreen.transform.localScale = new Vector3(0, 0, 0);
-                gameData.CurrentSceneCamera.GetComponent<Animator>().Play("MoveToScene_TaskCamera_9");
-                yield return new WaitForSeconds(2f);
+                var playableDirector = gameData.CurrentSceneCamera.GetComponent<PlayableDirector>();
+                playableDirector.playableAsset = Resources.Load<PlayableAsset>("Timelines/Cutscenes/Level 3/OpenGates");
+                playableDirector.Play();
+                yield return new WaitForSeconds((float)playableDirector.playableAsset.duration);
                 robotBehaviour.UnfreezePlayer();
+                triggersBehaviour.ActivateTrigger_Finish();
                 break;
         }
         UI.ChangeCallAvailability(true);
     } 
 
-    private void ActivateTrigger(GameObject triggersGroup, int childNumber)
+    private void Update()
     {
-        var childTrigger = triggersGroup.transform.GetChild(childNumber).gameObject;
-        childTrigger.SetActive(true);
-        childTrigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            if (UI.ActionButton.IsActive() && !IsPressed)
+            {
+                IsPressed = true;
+                StartCoroutine(MakeAction_COR());
+            }
+            else if (gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger)
+                Canvas.GetComponent<VIDEUIManager1>().Interact(gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger);
+        }     
     }
 
     private void Awake()
     {
         gameData = Canvas.GetComponent<GameData>();
-        robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
+        robotBehaviour = gameData.Player.GetComponent<PlayerBehaviour>();
+        triggersBehaviour = gameData.Player.GetComponentInChildren<TriggersBehaviour>();
         UI = Canvas.GetComponent<InterfaceElements>();
-    }
-
-    private void Start()
-    {            
-        if (gameData.SceneIndex != 0)
-        {
-            taskTriggers = gameData.Player.GetComponentInChildren<TriggersBehaviour>().TaskTriggers;
-            enterTriggers = gameData.Player.GetComponentInChildren<TriggersBehaviour>().EnterTriggers;
-        }
     }
 }

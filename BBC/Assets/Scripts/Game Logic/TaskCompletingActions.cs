@@ -10,11 +10,9 @@ public class TaskCompletingActions : MonoBehaviour
 
     private int sceneIndex;
     private GameObject player;
-    private PlayerBehaviour robotBehaviour;
     private TargetPanelBehaviour targetPanelBehaviour;
     private TriggersBehaviour triggersBehaviour;
     private GameData gameData;
-    private InterfaceElements UI;
     private InterfaceAnimations UIAnimations;
 
     public void MakeActions(int taskNumber)
@@ -43,11 +41,9 @@ public class TaskCompletingActions : MonoBehaviour
     private void Start()
     {
         gameData = Canvas.GetComponent<GameData>();
-        UI = Canvas.GetComponent<InterfaceElements>();
         UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
         sceneIndex = gameData.SceneIndex;
         player = gameData.Player;
-        robotBehaviour = player.GetComponent<PlayerBehaviour>();
         targetPanelBehaviour = Canvas.GetComponent<TargetPanelBehaviour>();
         triggersBehaviour = player.GetComponentInChildren<TriggersBehaviour>();
     }

@@ -94,9 +94,10 @@ public class ActionButtonBehaviour : MonoBehaviour
     private IEnumerator ActivateDialog_COR()
     {
         ActivatedTrigger.transform.GetChild(0).gameObject.SetActive(false);
-        var dialogue = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+        var dialogueNPC = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+        Canvas.GetComponentInChildren<DialogActions>().CurrentNPC = dialogueNPC;
         yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideActionButton_COR());      
-        Canvas.GetComponent<VIDEUIManager1>().Interact(dialogue);
+        Canvas.GetComponent<VIDEUIManager1>().Interact(dialogueNPC);
     }
 
     private IEnumerator ChangeLevel_COR()

@@ -58,7 +58,7 @@ public class TriggersBehaviour : MonoBehaviour
                         gameData.CurrentTaskNumber = triggerData.Task_TaskNumber;
                     break;
                 case TriggerData.Purpose.Dialog:
-                    Canvas.GetComponentInChildren<DialogActions>().CurrentNPC = gameData.Player.GetComponent<VIDEDemoPlayer>().inTrigger;
+                    
                     break;
             }
             Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger = triggerData;

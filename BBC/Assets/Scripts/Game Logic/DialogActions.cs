@@ -6,7 +6,6 @@ public class DialogActions : MonoBehaviour
 {
     [Header("Èםעונפויס")]
     public GameObject Canvas;
-    [HideInInspector]
     public VIDE_Assign CurrentNPC;
 
     private GameData gameData;

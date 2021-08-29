@@ -3180,7 +3180,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1589827355762751132, guid: e5d541a921ae4ce4d9b3c1225c20705f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4023749.2
+      value: 4024278.8
       objectReference: {fileID: 0}
     - target: {fileID: 1637176788377948572, guid: e5d541a921ae4ce4d9b3c1225c20705f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -11055,6 +11055,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4727892468099654, guid: d15996e92cb4c6b47bbc09309fe0ab5a, type: 3}
   m_PrefabInstance: {fileID: 1592165479}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1601896023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1601896025}
+  - component: {fileID: 1601896024}
+  m_Layer: 0
+  m_Name: Sound&Music
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1601896024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601896023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b6baeac6a6c6244bf6cb8dc5d42c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds: []
+  musics: []
+--- !u!4 &1601896025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601896023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1604423853 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1491004259460544, guid: d15996e92cb4c6b47bbc09309fe0ab5a, type: 3}
@@ -13827,7 +13872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8394234615565099052, guid: b3511338dcd981442ac3a37f660f8e43, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.94072515
+      value: 0.9407251
       objectReference: {fileID: 0}
     - target: {fileID: 8394234615565099052, guid: b3511338dcd981442ac3a37f660f8e43, type: 3}
       propertyPath: m_LocalRotation.z

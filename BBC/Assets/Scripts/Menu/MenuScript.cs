@@ -13,19 +13,12 @@ public class MenuScript : MonoBehaviour
     public bool IsPlayerLoggedIn;
 
     [Header ("Для анимаций и переходов")]
-    [SerializeField]
-    private GameObject MenuCamera;
-    [SerializeField]
-    private GameObject Robot;
-    [SerializeField]
-    private GameObject FireLight;
-    [SerializeField]
-    private GameObject BlackScreen;
-    [SerializeField]
-    private GameObject MainMenuButtons;
-    [SerializeField]
-    private Button ContinueButton;
-    
+    [SerializeField] private GameObject MenuCamera;
+    [SerializeField] private GameObject Robot;
+    [SerializeField] private GameObject FireLight;
+    [SerializeField] private GameObject BlackScreen;
+    [SerializeField] private GameObject MainMenuButtons;
+    [SerializeField] private Button ContinueButton;
     private GameObject loginAndRegistrationPanel;
     private GameObject playerInfoPanel;
     private LoadLevel levelLoader;

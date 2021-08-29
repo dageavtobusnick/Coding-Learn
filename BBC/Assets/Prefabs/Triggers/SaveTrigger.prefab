@@ -59,10 +59,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TriggerPurpose: 5
-  TriggerNumber: 1
-  ActionButtonText: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438\u0433\u0440\u0443"
-  NextLevelTitle: 
-  NextLevelIndex: 0
+  ActionButtonText: "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0438\u0433\u0440\u0443
+    (E)"
+  ScriptMoment_TriggerNumber: 0
+  Task_TaskNumber: 0
+  ChangeLevel_NextLevelIndex: 0
+  EnterToMiniScene_DestinationTrigger: {fileID: 0}
+  EnterToMiniScene_IsMinimapShouldActive: 0
 --- !u!1001 &2203641798071293140
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -137,6 +140,10 @@ PrefabInstance:
     - target: {fileID: 2078595181160091480, guid: 8175fd35f045d5947b8c94758e968a04, type: 3}
       propertyPath: m_Layer
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2078595181160091486, guid: 8175fd35f045d5947b8c94758e968a04, type: 3}
+      propertyPath: m_Range
+      value: 1.1925507
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8175fd35f045d5947b8c94758e968a04, type: 3}

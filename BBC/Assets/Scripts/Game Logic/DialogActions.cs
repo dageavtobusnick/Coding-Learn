@@ -6,7 +6,6 @@ public class DialogActions : MonoBehaviour
 {
     [Header("Èםעונפויס")]
     public GameObject Canvas;
-    [HideInInspector]
     public VIDE_Assign CurrentNPC;
 
     private GameData gameData;
@@ -37,11 +36,11 @@ public class DialogActions : MonoBehaviour
         StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR(false));
     }
 
-    public void ActivateTrigger_ChangeScene(int triggerNumber) => ActivateTrigger(triggersBehaviour.ChangeSceneTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+    public void ActivateTrigger_ChangeScene(int triggerNumber) => triggersBehaviour.ActivateTrigger_ChangeScene(triggerNumber);
 
-    public void ActivateTrigger_NPC(int npcOrderNumber) => ActivateTrigger(triggersBehaviour.DialogCharacters.transform.GetChild(npcOrderNumber - 1).GetChild(1).gameObject);
+    public void ActivateTrigger_NPC(int npcOrderNumber) => triggersBehaviour.ActivateTrigger_Dialogue(npcOrderNumber);
 
-    public void ActivateTrigger_Task(int triggerNumber) => ActivateTrigger(triggersBehaviour.TaskTriggers.transform.GetChild(triggerNumber - 1).gameObject);
+    public void ActivateTrigger_Task(int triggerNumber) => triggersBehaviour.ActivateTrigger_Task(triggerNumber);
 
     public void ChangeTarget(string target) => Canvas.GetComponent<TargetPanelBehaviour>().ChangeTarget(target);
 
@@ -51,17 +50,7 @@ public class DialogActions : MonoBehaviour
     {
         CurrentNPC.gameObject.SetActive(false);
         triggersBehaviour.DeleteActionButton();
-    }
-
-    public void ShowNextPlace_NPC(int npcOrderNumber) => gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_NPC_" + npcOrderNumber);
-
-    public void ShowNextPlace_TaskTrigger(int triggerNumber) => gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ShowNextPlace_TaskTrigger_" + triggerNumber);
-
-    private void ActivateTrigger(GameObject trigger)
-    {
-        trigger.SetActive(true);
-        trigger.transform.GetChild(0).gameObject.SetActive(true);
-        trigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
+        Canvas.GetComponent<ActionButtonBehaviour>().IsPressed = false;
     }
 
     private void Start()

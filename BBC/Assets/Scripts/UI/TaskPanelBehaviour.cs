@@ -1,20 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class TaskPanelBehaviour : MonoBehaviour
 {
     [Header ("Номер текущего задания")]
     public int TaskNumber;
-    [HideInInspector]
-    public int TasksCount;
     [Header ("Интерфейс")]
     public GameObject Canvas;
     
     private InterfaceElements UI;
     private GameData gameData;
     private PadBehaviour padBehaviour;
-    private RobotBehaviour robotBehaviour;
+    private PlayerBehaviour robotBehaviour;
 
     public void ShowTask()
     {
@@ -36,20 +35,21 @@ public class TaskPanelBehaviour : MonoBehaviour
     public IEnumerator ReturnToScene_COR()
     {
         gameData.IsTaskStarted = false;
-        gameData.CurrentSceneCamera.GetComponent<Animator>().Play("ReturnToScene_Task_" + TaskNumber);
+        gameData.CurrentSceneCamera.GetComponent<PlayableDirector>().playableAsset = Resources.Load<PlayableAsset>("Timelines/Tasks/Level " + gameData.SceneIndex + "/ReturnToScene_Task_" + TaskNumber);
+        gameData.CurrentSceneCamera.GetComponent<PlayableDirector>().Play();
         yield return new WaitForSeconds(2f);
         var isTaskCompleted = gameData.HasTasksCompleted[TaskNumber - 1];
         if (!isTaskCompleted)
         {
-            var activatedTrigger = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger;
-            activatedTrigger.gameObject.SetActive(true);
-            activatedTrigger.GetComponentInChildren<Animator>().Play(TriggerData.MarkerAnimation);
+            var activatedTrigger = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger.gameObject;
+            gameData.Player.GetComponentInChildren<TriggersBehaviour>().ActivateTrigger_Any(activatedTrigger);
             StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActionButton_COR());
         }
         robotBehaviour.UnfreezePlayer();
         UI.Minimap.SetActive(true);
         UI.ShowIDEButton.interactable = false;
         UI.ChangeCallAvailability(true);
+        Canvas.GetComponent<ActionButtonBehaviour>().IsPressed = false;
         padBehaviour.Mode = PadBehaviour.PadMode.Normal;
     }
 
@@ -65,8 +65,7 @@ public class TaskPanelBehaviour : MonoBehaviour
         gameData = Canvas.GetComponent<GameData>();
         UI = Canvas.GetComponent<InterfaceElements>();
         padBehaviour = Canvas.GetComponent<PadBehaviour>();
-        robotBehaviour = gameData.Player.GetComponent<RobotBehaviour>();
+        robotBehaviour = gameData.Player.GetComponent<PlayerBehaviour>();
         UI.NextLevelButton.gameObject.SetActive(false);
-        TasksCount = gameData.TaskTexts.Length;
     }
 }

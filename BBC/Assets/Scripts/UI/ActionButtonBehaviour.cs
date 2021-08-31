@@ -102,7 +102,7 @@ public class ActionButtonBehaviour : MonoBehaviour
 
     private IEnumerator ChangeLevel_COR()
     {
-        //Canvas.GetComponent<SaveLoad>().Save_NextLevel();
+        Canvas.GetComponent<SaveLoad>().Save_NextLevel();
         UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         UI.BlackScreen.GetComponentInChildren<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
@@ -195,7 +195,7 @@ public class ActionButtonBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && ActivatedTrigger.gameObject.activeInHierarchy)
         {
             if (UI.ActionButton.IsActive() && !IsPressed)
             {

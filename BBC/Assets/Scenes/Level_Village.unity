@@ -12908,7 +12908,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_5
+      value: DialogTrigger_4_5
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -17865,7 +17865,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_1
+      value: DialogTrigger_4_1
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -18669,7 +18669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_3
+      value: DialogTrigger_4_3
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -43353,7 +43353,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8394234616564253281, guid: b3511338dcd981442ac3a37f660f8e43, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.21409848
+      value: 0.21409851
       objectReference: {fileID: 0}
     - target: {fileID: 8394234616987058121, guid: b3511338dcd981442ac3a37f660f8e43, type: 3}
       propertyPath: m_LocalRotation.w
@@ -44494,7 +44494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_4
+      value: DialogTrigger_4_4
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -45086,7 +45086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1589827355762751132, guid: e5d541a921ae4ce4d9b3c1225c20705f, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 9355545
+      value: 9373378
       objectReference: {fileID: 0}
     - target: {fileID: 1637176788377948572, guid: e5d541a921ae4ce4d9b3c1225c20705f, type: 3}
       propertyPath: m_AnchorMax.y
@@ -46602,7 +46602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_6
+      value: DialogTrigger_4_6
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -74824,63 +74824,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1445805849, guid: 3829793f2a57ae64d84072fdd0870512, type: 3}
   m_PrefabInstance: {fileID: 654510648}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1661445722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1661445721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b8b99d8a12e39e4b94d2d7162c7c978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diags:
-  - Blacksmith
-  - Carpenter
-  - Charlie
-  - CommentModifier
-  - Cook
-  - CrazyCap
-  - Cube_Test
-  - Dealer_bonfire
-  - Dealer_Mine
-  - DEMO_Condition
-  - demo_Narration
-  - Example3Dialogue
-  - Example4_dialogue
-  - Farmer
-  - Item_LookUp
-  - Laura
-  - lumberjack
-  - Lumberjack_last_version
-  - Miner
-  - MrCube
-  - NPCOnly
-  - Old_Men
-  - QuestChartDemo
-  - Skeleton
-  - Son_Miller
-  - Talkingtothewall
-  - TriggeredDude
-  - Witch
-  assignedIndex: 16
-  assignedID: 90523
-  assignedDialogue: lumberjack
-  interactionCount: 0
-  alias: 
-  overrideStartNode: -1
-  defaultNPCSprite: {fileID: 0}
-  defaultPlayerSprite: {fileID: 0}
-  targetManager: {fileID: 0}
-  preload: 0
-  notuptodate: 0
-  startp: 0
-  loadtag: 
-  langs: []
-  S_playerDiags: []
-  S_actionNodes: []
 --- !u!64 &1661445723
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -88013,7 +87956,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_8
+      value: DialogTrigger_4_8
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -95084,7 +95027,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger_7
+      value: DialogTrigger_4_7
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_IsActive
@@ -97772,7 +97715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Name
-      value: DialogTrigger
+      value: DialogTrigger_4_2
       objectReference: {fileID: 0}
     - target: {fileID: 2627486710344836123, guid: 6d191d0dca3b9ed46806fa8c620a71d1, type: 3}
       propertyPath: m_Layer

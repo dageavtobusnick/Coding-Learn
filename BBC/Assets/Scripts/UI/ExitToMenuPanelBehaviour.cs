@@ -10,6 +10,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private InterfaceElements UI;
     private GameObject blackScreenContent;
+    private PlayerBehaviour playerBehaviour;
     private bool isPressed = false;
 
     public void ReturnToGame() => StartCoroutine(ReturnToGame_COR());
@@ -21,10 +22,12 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
         UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
         yield return new WaitForSeconds(0.75f);
         isPressed = false;
+        playerBehaviour.UnfreezePlayer();
     }
 
     private IEnumerator ExitToMenu_COR()
     {
+        Canvas.GetComponent<SaveLoad>().DeleteSavedDialogueData();
         UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
         yield return new WaitForSeconds(0.75f);
         UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
@@ -39,6 +42,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
         {
             UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelUp");
             isPressed = true;
+            playerBehaviour.FreezePlayer();
         }
     }
 
@@ -46,5 +50,6 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
     {
         UI = Canvas.GetComponent<InterfaceElements>();
         blackScreenContent = UI.BlackScreen.transform.GetChild(0).gameObject;
+        playerBehaviour = Canvas.GetComponent<GameData>().Player.GetComponent<PlayerBehaviour>();
     }
 }

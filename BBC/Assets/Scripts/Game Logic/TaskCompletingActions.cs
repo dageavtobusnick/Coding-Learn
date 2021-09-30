@@ -1,51 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Playables;
 
 public class TaskCompletingActions : MonoBehaviour
 {
-    [Header("Интерфейс")]
-    public GameObject Canvas;
+    public UnityEvent<string> OnTargetChanged;
 
     private int sceneIndex;
-    private GameObject player;
-    private TargetPanelBehaviour targetPanelBehaviour;
     private TriggersBehaviour triggersBehaviour;
-    private GameData gameData;
-    private InterfaceAnimations UIAnimations;
+    private GameManager gameManager;
 
-    public void MakeActions(int taskNumber)
+    public void MakeActions()
     {
-        if (!gameData.HasTasksCompleted[taskNumber - 1])
+        var taskNumber = gameManager.CurrentTaskNumber;
+        if (!gameManager.HasTasksCompleted[taskNumber - 1])
         {
             if (sceneIndex == 0)
                 StartCoroutine(MakeActions_Level_Training());
             else StartCoroutine("MakeActions_Level_" + sceneIndex + "_Task_" + taskNumber);
-            gameData.HasTasksCompleted[taskNumber - 1] = true;
+            gameManager.HasTasksCompleted[taskNumber - 1] = true;
         }
     }
 
     private IEnumerator WaitAndHideTaskPanel_COR()
     {
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(UIAnimations.HideTaskPanel_COR());
+        yield return StartCoroutine(UIManager.Instance.TaskPanelBehaviour.HideTaskPanel_COR());
     }
 
     private IEnumerator ReturnToScene_COR()
     {
-        gameData.Player.GetComponentInChildren<TriggersBehaviour>().DeleteActionButton();
-        yield return StartCoroutine(Canvas.GetComponent<TaskPanelBehaviour>().ReturnToScene_COR());
+        yield return StartCoroutine(UIManager.Instance.ActionButtonBehaviour.DeleteActionButton_COR());
+        yield return StartCoroutine(UIManager.Instance.TaskPanelBehaviour.ReturnToScene_COR());
     }
 
     private void Start()
     {
-        gameData = Canvas.GetComponent<GameData>();
-        UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
-        sceneIndex = gameData.SceneIndex;
-        player = gameData.Player;
-        targetPanelBehaviour = Canvas.GetComponent<TargetPanelBehaviour>();
-        triggersBehaviour = player.GetComponentInChildren<TriggersBehaviour>();
+        gameManager = GameManager.Instance;
+        sceneIndex = gameManager.SceneIndex;
+        triggersBehaviour = gameManager.Player.GetComponentInChildren<TriggersBehaviour>();
     }
 
     private void ActivateTrigger_Task(int triggerNumber) => triggersBehaviour.ActivateTrigger_Task(triggerNumber);
@@ -66,12 +61,12 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_Training()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        if (gameData.CurrentTaskNumber == gameData.TaskTexts.Length)
-            Canvas.GetComponent<ActionButtonBehaviour>().FinishLevel();
+        if (gameManager.CurrentTaskNumber == gameManager.TaskTexts.Length)
+            UIManager.Instance.ActionButtonBehaviour.FinishLevel();
         else
         {
-            gameData.CurrentTaskNumber++;
-            StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR());
+            gameManager.CurrentTaskNumber++;
+            StartCoroutine(UIManager.Instance.ActionButtonBehaviour.ActivateTask_COR());
         }   
     }
     #endregion
@@ -81,7 +76,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_1"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Пройти подготовку (1/4)");
+        OnTargetChanged.Invoke("Пройти подготовку (1/4)");
         ActivateTrigger_Task(2);
     }
 
@@ -89,7 +84,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_2"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Пройти подготовку (2/4)");
+        OnTargetChanged.Invoke("Пройти подготовку (2/4)");
         ActivateTrigger_Task(3);
     }
 
@@ -97,7 +92,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_3"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Пройти подготовку (3/4)");
+        OnTargetChanged.Invoke("Пройти подготовку (3/4)");
         ActivateTrigger_Task(4);
     }
 
@@ -105,7 +100,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_4"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Завершить подготовку)");
+        OnTargetChanged.Invoke("Завершить подготовку)");
         ActivateTrigger_Finish();
     }
     #endregion
@@ -115,7 +110,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_1"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Двигаться вглубь леса");
+        OnTargetChanged.Invoke("Двигаться вглубь леса");
         ActivateTrigger_Task(2);
     }
 
@@ -123,7 +118,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_2"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Вернуться к развилке и двигаться другим путём");
+        OnTargetChanged.Invoke("Вернуться к развилке и двигаться другим путём");
         ActivateTrigger_Task(3);
     }
 
@@ -131,7 +126,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_3"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Продолжить путь по левой тропе");
+        OnTargetChanged.Invoke("Продолжить путь по левой тропе");
         ActivateTrigger_Task(4);
     }
 
@@ -139,7 +134,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_4"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Вернуться к развилке и двигаться другим путём");
+        OnTargetChanged.Invoke("Вернуться к развилке и двигаться другим путём");
         ActivateTrigger_Task(5);
     }
 
@@ -147,7 +142,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_5"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Двигаться вглубь леса");
+        OnTargetChanged.Invoke("Двигаться вглубь леса");
         ActivateTrigger_Task(6);
     }
 
@@ -155,7 +150,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_6"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Пересечь реку и продолжить движение");
+        OnTargetChanged.Invoke("Пересечь реку и продолжить движение");
         ActivateTrigger_Task(7);
     }
 
@@ -163,7 +158,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_7"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Двигаться по правой тропе");
+        OnTargetChanged.Invoke("Двигаться по правой тропе");
         ActivateTrigger_Task(8);
     }
 
@@ -171,7 +166,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_8"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Покинуть лес");
+        OnTargetChanged.Invoke("Покинуть лес");
         ActivateTrigger_Finish();
     }
     #endregion
@@ -195,7 +190,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_3"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Двигаться к поселению");
+        OnTargetChanged.Invoke("Двигаться к поселению");
         ActivateTrigger_Task(4);
     }
 
@@ -203,7 +198,7 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_4"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Починить мост");
+        OnTargetChanged.Invoke("Починить мост");
         ActivateTrigger_Task(5);
     }
 
@@ -211,14 +206,14 @@ public class TaskCompletingActions : MonoBehaviour
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_5"));
         yield return StartCoroutine(ReturnToScene_COR());
-        targetPanelBehaviour.ChangeTarget("Двигаться к поселению");
+        OnTargetChanged.Invoke("Двигаться к поселению");
         ActivateTrigger_ScriptMoment(1);
     }
 
     private IEnumerator MakeActions_Level_3_Task_6()
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_6"));
-        gameData.TaskItemsCount++;
+        gameManager.TaskItemsCount++;
         yield return StartCoroutine(ReturnToScene_COR());
         TurnOnScenarioTrigger2_Level_3();
     }
@@ -226,7 +221,7 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_3_Task_7()
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_7"));
-        gameData.TaskItemsCount++;
+        gameManager.TaskItemsCount++;
         yield return StartCoroutine(ReturnToScene_COR());
         TurnOnScenarioTrigger2_Level_3();
     }
@@ -234,19 +229,19 @@ public class TaskCompletingActions : MonoBehaviour
     private IEnumerator MakeActions_Level_3_Task_8()
     {
         yield return StartCoroutine(PlayPostTaskAnimation_COR("AnimatedItems_Task_8"));
-        gameData.TaskItemsCount++;
+        gameManager.TaskItemsCount++;
         yield return StartCoroutine(ReturnToScene_COR());
         TurnOnScenarioTrigger2_Level_3();
     }
 
     private void TurnOnScenarioTrigger2_Level_3()
     {
-        if (gameData.TaskItemsCount == 3)
+        if (gameManager.TaskItemsCount == 3)
         {
             triggersBehaviour.ActivateTrigger_ScriptMoment(2);
-            targetPanelBehaviour.ChangeTarget("Открыть ворота и покинуть поселение");
+            OnTargetChanged.Invoke("Открыть ворота и покинуть поселение");
         }
-        else targetPanelBehaviour.ChangeTarget("Найти ключи, чтобы открыть ворота (" + gameData.TaskItemsCount + "/3)");
+        else OnTargetChanged.Invoke("Найти ключи, чтобы открыть ворота (" + gameManager.TaskItemsCount + "/3)");
     }
     #endregion
 

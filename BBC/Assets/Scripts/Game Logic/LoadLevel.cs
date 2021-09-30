@@ -8,10 +8,8 @@ public class LoadLevel : MonoBehaviour
 {
     public GameObject LoadScreen;
 
-    [SerializeField]
-    private Image LoadBar;
-    [SerializeField]
-    private Text LoadBarText;
+    [SerializeField] private Image LoadBar;
+    [SerializeField] private Text LoadBarText;
 
     public IEnumerator LoadLevelAsync_COR(int sceneIndex)
     {

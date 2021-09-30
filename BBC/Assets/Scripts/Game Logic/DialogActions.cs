@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class DialogActions : MonoBehaviour
 {
-    [Header("Èםעונפויס")]
-    public GameObject Canvas;
     public VIDE_Assign CurrentNPC;
 
-    private GameData gameData;
+    private GameManager gameManager;
+    private UIManager uiManager;
     private TriggersBehaviour triggersBehaviour;
+
+    public void StartDialog(VIDE_Assign currentNPC)
+    {
+        CurrentNPC = currentNPC;
+        gameObject.GetComponent<VIDEUIManager1>().Interact(CurrentNPC);
+    }
 
     public void ActivateDialogCamera_Animated(int cameraNumber)
     {
         ActivateDialogCamera_Static(cameraNumber);
         var characterName = CurrentNPC.alias;
-        gameData.CurrentDialogCamera.GetComponent<Animator>().Play("MoveDialogCamera_" + characterName + "_" + cameraNumber);
+        gameManager.CurrentDialogCamera.GetComponent<Animator>().Play("MoveDialogCamera_" + characterName + "_" + cameraNumber);
     }
 
     public void ActivateDialogCamera_Static(int cameraNumber)
@@ -23,17 +28,17 @@ public class DialogActions : MonoBehaviour
         var dialogCameras = CurrentNPC.transform.parent.GetChild(2);
         var newDialogCamera = dialogCameras.GetChild(cameraNumber - 1).gameObject.GetComponent<Camera>();
         newDialogCamera.enabled = true;
-        if (gameData.CurrentDialogCamera != null)
-            gameData.CurrentDialogCamera.enabled = false;
-        gameData.CurrentDialogCamera = newDialogCamera;
+        if (gameManager.CurrentDialogCamera != null)
+            gameManager.CurrentDialogCamera.enabled = false;
+        gameManager.CurrentDialogCamera = newDialogCamera;
     }
 
     public void ActivateNpcAnimation(string animationName) => CurrentNPC.gameObject.transform.parent.GetComponentInChildren<Animator>().Play(animationName);
 
     public void ActivateTask_PostDialog(int taskNumber)
     {
-        gameData.CurrentTaskNumber = taskNumber;
-        StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR(false));
+        gameManager.CurrentTaskNumber = taskNumber;
+        StartCoroutine(uiManager.ActionButtonBehaviour.ActivateTask_COR(false));
     }
 
     public void ActivateTrigger_ChangeScene(int triggerNumber) => triggersBehaviour.ActivateTrigger_ChangeScene(triggerNumber);
@@ -42,20 +47,21 @@ public class DialogActions : MonoBehaviour
 
     public void ActivateTrigger_Task(int triggerNumber) => triggersBehaviour.ActivateTrigger_Task(triggerNumber);
 
-    public void ChangeTarget(string target) => Canvas.GetComponent<TargetPanelBehaviour>().ChangeTarget(target);
+    public void ChangeTarget(string target) => uiManager.TargetPanelBehaviour.ChangeTarget(target);
 
-    public void DeactivateDialogCamera() => gameData.CurrentDialogCamera.enabled = false;
+    public void DeactivateDialogCamera() => gameManager.CurrentDialogCamera.enabled = false;
 
     public void LeaveNPC()
     {
         CurrentNPC.gameObject.SetActive(false);
-        triggersBehaviour.DeleteActionButton();
-        Canvas.GetComponent<ActionButtonBehaviour>().IsPressed = false;
+        StartCoroutine(uiManager.ActionButtonBehaviour.DeleteActionButton_COR());
+        uiManager.ActionButtonBehaviour.IsPressed = false;
     }
 
     private void Start()
     {
-        gameData = Canvas.GetComponent<GameData>();
-        triggersBehaviour = gameData.Player.GetComponentInChildren<TriggersBehaviour>();
+        gameManager = GameManager.Instance;
+        uiManager = UIManager.Instance;
+        triggersBehaviour = gameManager.Player.GetComponentInChildren<TriggersBehaviour>();
     }
 }

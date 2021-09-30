@@ -5,10 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class ExitToMenuPanelBehaviour : MonoBehaviour
 {
-    [Header("Интерфейс")]
-    public GameObject Canvas;
+    [Header("Панель выхода в меню")]
+    public GameObject ExitToMenuPanel;
+    public GameObject BlackScreen;
 
-    private InterfaceElements UI;
     private GameObject blackScreenContent;
     private PlayerBehaviour playerBehaviour;
     private bool isPressed = false;
@@ -19,7 +19,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private IEnumerator ReturnToGame_COR()
     {
-        UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
+        ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
         yield return new WaitForSeconds(0.75f);
         isPressed = false;
         playerBehaviour.UnfreezePlayer();
@@ -27,10 +27,10 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private IEnumerator ExitToMenu_COR()
     {
-        Canvas.GetComponent<SaveLoad>().DeleteSavedDialogueData();
-        UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
+        SaveManager.DeleteSavedDialogueData();
+        ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelDown");
         yield return new WaitForSeconds(0.75f);
-        UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
+        BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         blackScreenContent.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
         SceneManager.LoadScene(0);
@@ -40,7 +40,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape) && !isPressed)
         {
-            UI.ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelUp");
+            ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelUp");
             isPressed = true;
             playerBehaviour.FreezePlayer();
         }
@@ -48,8 +48,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private void Start()
     {
-        UI = Canvas.GetComponent<InterfaceElements>();
-        blackScreenContent = UI.BlackScreen.transform.GetChild(0).gameObject;
-        playerBehaviour = Canvas.GetComponent<GameData>().Player.GetComponent<PlayerBehaviour>();
+        blackScreenContent = BlackScreen.transform.GetChild(0).gameObject;
+        playerBehaviour = GameManager.Instance.Player.GetComponent<PlayerBehaviour>();
     }
 }

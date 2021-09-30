@@ -40,7 +40,6 @@ public class VIDEUIManager1 : MonoBehaviour
 
     //Reference to the player script
     public VIDEDemoPlayer player;
-    public Canvas Canvas;
 
     //We'll be using this to store references of the current player choices
     private List<Text> currentChoices = new List<Text>();
@@ -256,8 +255,8 @@ public class VIDEUIManager1 : MonoBehaviour
     //Called automatically because we subscribed to the OnEnd event
     void EndDialogue(VD.NodeData data)
     {
-        Canvas.GetComponent<InterfaceElements>().ChangeCallAvailability(true);
-        Canvas.GetComponent<InterfaceElements>().Minimap.SetActive(true);
+        UIManager.Instance.ChangeCallAvailability(true);
+        UIManager.Instance.Minimap.SetActive(true);
         CheckTasks();
         VD.OnActionNode -= ActionHandler;
         VD.OnNodeChange -= UpdateUI;

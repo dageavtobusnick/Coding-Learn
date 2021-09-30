@@ -2,70 +2,119 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class TaskPanelBehaviour : MonoBehaviour
 {
-    [Header ("Номер текущего задания")]
-    public int TaskNumber;
-    [Header ("Интерфейс")]
-    public GameObject Canvas;
-    
-    private InterfaceElements UI;
-    private GameData gameData;
-    private PadBehaviour padBehaviour;
-    private PlayerBehaviour robotBehaviour;
+    [Header("Панель задания")]
+    [Tooltip("Панель задания")]
+    public GameObject TaskPanel;
+    [Tooltip("Название задания")]
+    public Text TaskTitle;
+    [Tooltip("Описание задания")]
+    public Text TaskDescription;
+    [Tooltip("Скроллбар для прокрутки задания")]
+    public Scrollbar TaskDescriptionScrollbar;
+    [Tooltip("Кнопка для получения полной доп. информации о задании")]
+    public Button TaskInfoButton;
+    [Tooltip("Кнопка для закрытия задания")]
+    public Button CloseTaskButton;
+    [Header("Задний фон UI-элементов")]
+    public GameObject TaskPanelBackground;
+    public GameObject PadBackground;
 
-    public void ShowTask()
+    private GameManager gameManager;
+    private UIManager uiManager;
+    private PlayerBehaviour playerBehaviour;
+
+    public void ShowNewTaskGeneralInfo()
     {
-        var taskText = gameData.TaskTexts[TaskNumber - 1];
-        UI.ExtendedTaskTitle.text = taskText.Title;
-        UI.ExtendedTaskDescription.text = taskText.ExtendedDescription;
-        UI.TaskTitle.text = taskText.Title;
-        UI.TaskDescription.text = taskText.Description;
-        padBehaviour.StartCode = taskText.StartCode;
-        UI.CodeField.text = taskText.StartCode;
-        UI.ResultField.text = "";
-        UI.OutputField.text = "";
-        Canvas.GetComponent<ExtendedTaskPanelBehaviour>().OpenTaskExtendedDescription_Special();
-        Canvas.GetComponent<StartButtonBehaviour>().TaskNumber = TaskNumber;
+        var taskText = gameManager.TaskTexts[gameManager.CurrentTaskNumber - 1];
+        TaskTitle.text = taskText.Title;
+        TaskDescription.text = taskText.Description;
     }
 
     public void CloseTask() => StartCoroutine(CloseTask_COR());
 
+    public void HideCloseTaskButton() => CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
+
     public IEnumerator ReturnToScene_COR()
     {
-        gameData.IsTaskStarted = false;
-        gameData.CurrentSceneCamera.GetComponent<PlayableDirector>().playableAsset = Resources.Load<PlayableAsset>("Timelines/Tasks/Level " + gameData.SceneIndex + "/ReturnToScene_Task_" + TaskNumber);
-        gameData.CurrentSceneCamera.GetComponent<PlayableDirector>().Play();
+        gameManager.IsTaskStarted = false;
+        gameManager.CurrentSceneCamera.GetComponent<PlayableDirector>().playableAsset = Resources.Load<PlayableAsset>("Timelines/Tasks/Level " + gameManager.SceneIndex + "/ReturnToScene_Task_" + gameManager.CurrentTaskNumber);
+        gameManager.CurrentSceneCamera.GetComponent<PlayableDirector>().Play();
         yield return new WaitForSeconds(2f);
-        var isTaskCompleted = gameData.HasTasksCompleted[TaskNumber - 1];
+        var isTaskCompleted = gameManager.HasTasksCompleted[gameManager.CurrentTaskNumber - 1];
         if (!isTaskCompleted)
         {
-            var activatedTrigger = Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger.gameObject;
-            gameData.Player.GetComponentInChildren<TriggersBehaviour>().ActivateTrigger_Any(activatedTrigger);
-            StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().ShowActionButton_COR());
+            var activatedTrigger = uiManager.ActionButtonBehaviour.ActivatedTrigger.gameObject;
+            gameManager.Player.GetComponentInChildren<TriggersBehaviour>().ActivateTrigger_Any(activatedTrigger);
+            StartCoroutine(uiManager.ActionButtonBehaviour.ShowActionButton_COR());
         }
-        robotBehaviour.UnfreezePlayer();
-        UI.Minimap.SetActive(true);
-        UI.ShowIDEButton.interactable = false;
-        UI.ChangeCallAvailability(true);
-        Canvas.GetComponent<ActionButtonBehaviour>().IsPressed = false;
-        padBehaviour.Mode = PadBehaviour.PadMode.Normal;
+        playerBehaviour.UnfreezePlayer();
+        uiManager.Minimap.SetActive(true);
+        uiManager.PadMenuBehaviour.ShowIDEButton.interactable = false;
+        uiManager.ChangeCallAvailability(true);
+        uiManager.ActionButtonBehaviour.IsPressed = false;
+        uiManager.PadMode = PadMode.Normal;
+    }
+
+    public IEnumerator ShowTaskPanel_COR()
+    {
+        TaskDescriptionScrollbar.value = 1;
+        yield return StartCoroutine(DrawTaskPanelBackground_COR());
+        TaskPanel.GetComponent<Animator>().Play("MoveRight_TaskPanel");
+        uiManager.PadMenuBehaviour.PlayPadMoveAnimation("ShowPad", "ShowPad_DevMode");
+        yield return new WaitForSeconds(0.7f);
+        CloseTaskButton.transform.localScale = new Vector3(1, 1, 1);
+        yield break;
+    }
+
+    public IEnumerator HideTaskPanel_COR()
+    {
+        CloseTaskButton.transform.localScale = new Vector3(0, 0, 0);
+        TaskPanel.GetComponent<Animator>().Play("MoveLeft_TaskPanel");
+        uiManager.PadMenuBehaviour.PlayPadMoveAnimation("HidePad", "HidePad_DevMode");
+        yield return new WaitForSeconds(0.7f);
+        //HelpPanel.GetComponent<Animator>().Play("ScaleDown_Quick");
+        yield return StartCoroutine(EraseTaskPanelBackground_COR());
+    }
+
+    public IEnumerator DrawTaskPanelBackground_COR()
+    {
+        TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
+        PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
+        yield return new WaitForSeconds(0.15f);
+        TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
+        PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
+        TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("DrawBackground");
+        yield return new WaitForSeconds(0.15f);
+    }
+
+    public IEnumerator EraseTaskPanelBackground_COR()
+    {
+        PadBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
+        TaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
+        TaskPanelBackground.transform.GetChild(2).GetComponent<Animator>().Play("EraseBackground");
+        yield return new WaitForSeconds(0.15f);
+        TaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
+        PadBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
+        yield return new WaitForSeconds(0.15f);
     }
 
     private IEnumerator CloseTask_COR()
     {     
-        yield return StartCoroutine(Canvas.GetComponent<InterfaceAnimations>().HideTaskPanel_COR());
-        if (gameData.SceneIndex != 0)
+        yield return StartCoroutine(HideTaskPanel_COR());
+        if (gameManager.SceneIndex != 0)
             yield return StartCoroutine(ReturnToScene_COR());  
     }
 
     private void Awake()
     {
-        gameData = Canvas.GetComponent<GameData>();
-        UI = Canvas.GetComponent<InterfaceElements>();
-        padBehaviour = Canvas.GetComponent<PadBehaviour>();
-        robotBehaviour = gameData.Player.GetComponent<PlayerBehaviour>();
-        UI.NextLevelButton.gameObject.SetActive(false);
+        gameManager = GameManager.Instance;
+        uiManager = UIManager.Instance;
+        playerBehaviour = gameManager.Player.GetComponent<PlayerBehaviour>();
+        uiManager.ExtendedTaskPanelBehaviour.NextLevelButton.gameObject.SetActive(false);
+        HideCloseTaskButton();
     }
 }

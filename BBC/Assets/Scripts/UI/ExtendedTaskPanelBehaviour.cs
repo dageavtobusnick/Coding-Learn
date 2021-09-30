@@ -5,82 +5,130 @@ using UnityEngine.UI;
 
 public class ExtendedTaskPanelBehaviour : MonoBehaviour
 {
-    [Header ("Интерфейс")]
-    public GameObject Canvas;
-    [HideInInspector]
-    public bool IsTaskMessage;
+    [Header("Панель задания (расширенная)")]
+    [Tooltip("Панель задания (расширенная)")]
+    public GameObject ExtendedTaskPanel;
+    [Tooltip("Название задания (расширенное)")]
+    public Text ExtendedTaskTitle;
+    [Tooltip("Описание задания (расширенное)")]
+    public Text ExtendedTaskDescription;
+    [Tooltip("Скроллбар для прокрутки описания")]
+    public Scrollbar ExtendedTaskDescriptionScrollbar;
+    [Tooltip("Кнопка перехода на следующий уровень")]
+    public Button NextLevelButton;
+    [Tooltip("Кнопка для закрытия расширенного описания задания")]
+    public Button CloseExtendedTaskButton;
+    public GameObject ExtendedTaskPanelBackground;
 
-    private InterfaceElements UI;
-    private InterfaceAnimations UIAnimations;
+    [HideInInspector] public bool IsTaskMessage;
+
+    private UIManager uiManager;
     private GameObject blackScreen;
-    private GameData gameData;
+    private GameManager gameManager;
     private LoadLevel levelLoader;
 
     public void OpenTaskExtendedDescription() => StartCoroutine(OpenTaskExtendedDescription_COR());
 
-    public void OpenTaskExtendedDescription_Special() => StartCoroutine(UIAnimations.ShowExtendedTaskPanel_COR());
+    public void OpenTaskExtendedDescription_Special() => StartCoroutine(ShowExtendedTaskPanel_COR());
 
     public void CloseTaskExtendedDescription() => StartCoroutine(CloseTaskExtendedDescription_COR());
 
     public void GoToNextLevel() => StartCoroutine(GoToNextLevel_COR());   
 
+    public void FinishLevel()
+    {
+        var finishMessage = gameManager.FinishMessages[gameManager.SceneIndex];
+        CloseExtendedTaskButton.gameObject.SetActive(false);
+        NextLevelButton.gameObject.SetActive(true);
+        ExtendedTaskTitle.text = finishMessage.Title;
+        ExtendedTaskDescription.text = finishMessage.Description;
+        OpenTaskExtendedDescription_Special();     
+    }
+
+    public void ShowNewTaskExtendedInfo()
+    {
+        var taskText = gameManager.TaskTexts[gameManager.CurrentTaskNumber - 1];
+        ExtendedTaskTitle.text = taskText.Title;
+        ExtendedTaskDescription.text = taskText.ExtendedDescription;
+        OpenTaskExtendedDescription_Special();
+    }
+
     private IEnumerator OpenTaskExtendedDescription_COR()
     {  
-        yield return StartCoroutine(UIAnimations.HideTaskPanel_COR());
-        StartCoroutine(UIAnimations.ShowExtendedTaskPanel_COR());
+        yield return StartCoroutine(uiManager.TaskPanelBehaviour.HideTaskPanel_COR());
+        StartCoroutine(ShowExtendedTaskPanel_COR());
     }
 
     private IEnumerator CloseTaskExtendedDescription_COR()
     {
-        yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
+        yield return StartCoroutine(HideExtendedTaskPanel_COR());
         if (IsTaskMessage)
-            yield return StartCoroutine(UIAnimations.ShowTaskPanel_COR());
+            yield return StartCoroutine(uiManager.TaskPanelBehaviour.ShowTaskPanel_COR());
         else
         {
-            UI.Minimap.SetActive(true);
-            UI.ChangeCallAvailability(true);
-            gameData.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
+            uiManager.Minimap.SetActive(true);
+            uiManager.ChangeCallAvailability(true);
+            gameManager.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
             IsTaskMessage = true;
-            if (gameData.SceneIndex != 1)
-                Canvas.GetComponent<TargetPanelBehaviour>().ShowTarget();
+            if (gameManager.SceneIndex != 1)
+                uiManager.TargetPanelBehaviour.ShowTarget();
         }
-        Canvas.GetComponent<TrainingScript>().TryShowTraining(TrainingScript.PreviousAction.ExtendedTaskClosing);
+        uiManager.TrainingPanelBehaviour.TryShowTraining(PreviousAction.ExtendedTaskClosing);
     }
 
     private IEnumerator GoToNextLevel_COR()
     {
-        Canvas.GetComponent<SaveLoad>().Save_NextLevel();
-        //gameData.UpdatePlayerData();
-        gameData.IsTimerStopped = true;
-        yield return StartCoroutine(UIAnimations.HideExtendedTaskPanel_COR());
-        UI.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
+        SaveManager.Save_NextLevel();
+        gameManager.IsTimerStopped = true;
+        yield return StartCoroutine(HideExtendedTaskPanel_COR());
+        uiManager.BlackScreen.transform.localScale = new Vector3(1, 1, 1);
         blackScreen.GetComponent<Animator>().Play("AppearBlackScreen");
         yield return new WaitForSeconds(1.4f);
-        if (gameData.SceneIndex == 0)
+        if (gameManager.SceneIndex == 0)
             StartCoroutine(levelLoader.LoadLevelAsync_COR(2));
-        StartCoroutine(levelLoader.LoadLevelAsync_COR(gameData.SceneIndex + 1));
+        StartCoroutine(levelLoader.LoadLevelAsync_COR(gameManager.SceneIndex + 1));
+    }
+
+    public IEnumerator ShowExtendedTaskPanel_COR()
+    {
+        ExtendedTaskDescriptionScrollbar.value = 1;
+        ExtendedTaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("DrawBackground");
+        yield return new WaitForSeconds(0.15f);
+        ExtendedTaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("DrawBackground");
+        yield return new WaitForSeconds(0.15f);
+        ExtendedTaskPanel.GetComponent<Animator>().Play("MoveUp_TaskPanel_Extended");
+        yield return new WaitForSeconds(0.7f);
+    }
+
+    public IEnumerator HideExtendedTaskPanel_COR()
+    {
+        ExtendedTaskPanel.GetComponent<Animator>().Play("MoveDown_TaskPanel_Extended");
+        yield return new WaitForSeconds(0.7f);
+        ExtendedTaskPanelBackground.transform.GetChild(1).GetComponent<Animator>().Play("EraseBackground");
+        yield return new WaitForSeconds(0.15f);
+        ExtendedTaskPanelBackground.transform.GetChild(0).GetComponent<Animator>().Play("EraseBackground");
+        yield return new WaitForSeconds(0.15f);
     }
 
     private void Start()
     {
-        UI = Canvas.GetComponent<InterfaceElements>();
-        UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
-        gameData = Canvas.GetComponent<GameData>();
-        levelLoader = Canvas.GetComponent<LoadLevel>();
-        blackScreen = UI.BlackScreen.transform.GetChild(0).gameObject;
-        IsTaskMessage = gameData.SceneIndex == 0;
+        uiManager = UIManager.Instance;
+        gameManager = GameManager.Instance;
+        levelLoader = uiManager.LoadScreen.GetComponent<LoadLevel>();
+        blackScreen = uiManager.BlackScreen.transform.GetChild(0).gameObject;
+        IsTaskMessage = gameManager.SceneIndex == 0;
         if (IsTaskMessage)
         {
-            gameData.CurrentTaskNumber = 1;
-            StartCoroutine(Canvas.GetComponent<ActionButtonBehaviour>().ActivateTask_COR(false));
+            gameManager.CurrentTaskNumber = 1;
+            StartCoroutine(uiManager.ActionButtonBehaviour.ActivateTask_COR(false));
         }
         else
         {
-            var startMessage = gameData.StartMessages[gameData.SceneIndex - 1];
-            UI.ExtendedTaskTitle.text = startMessage.Title;
-            UI.ExtendedTaskDescription.text = startMessage.Description;
-            UI.Minimap.SetActive(false);
-            gameData.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
+            var startMessage = gameManager.StartMessages[gameManager.SceneIndex - 1];
+            ExtendedTaskTitle.text = startMessage.Title;
+            ExtendedTaskDescription.text = startMessage.Description;
+            uiManager.Minimap.SetActive(false);
+            gameManager.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
             OpenTaskExtendedDescription_Special();
         }      
     }

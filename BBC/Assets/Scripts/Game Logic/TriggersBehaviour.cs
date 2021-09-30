@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class TriggersBehaviour : MonoBehaviour
 {
-    [Header("Интерфейс")]
-    public GameObject Canvas;
     [Header("Триггеры заданий")]
     public GameObject TaskTriggers;
     [Header("Триггеры входа в помещение")]
@@ -20,11 +18,8 @@ public class TriggersBehaviour : MonoBehaviour
     [Header("Диалоговые персонажи с триггерами")]
     public GameObject DialogCharacters;
 
-    private InterfaceElements UI;
-    private InterfaceAnimations UIAnimations;
-    private GameData gameData;
-
-    public void DeleteActionButton() => StartCoroutine(DeleteActionButton_COR());
+    private UIManager uiManager;
+    private GameManager gameManager;
 
     public void ActivateTrigger_Any(GameObject trigger) => ActivateTrigger(trigger);
 
@@ -54,15 +49,12 @@ public class TriggersBehaviour : MonoBehaviour
             switch (triggerData.TriggerPurpose)
             {
                 case TriggerData.Purpose.Task:
-                    if(!gameData.HasTasksCompleted[triggerData.Task_TaskNumber - 1])
-                        gameData.CurrentTaskNumber = triggerData.Task_TaskNumber;
-                    break;
-                case TriggerData.Purpose.Dialog:
-                    
+                    if(!gameManager.HasTasksCompleted[triggerData.Task_TaskNumber - 1])
+                        gameManager.CurrentTaskNumber = triggerData.Task_TaskNumber;
                     break;
             }
-            Canvas.GetComponent<ActionButtonBehaviour>().ActivatedTrigger = triggerData;
-            ActivateButton(triggerData.ActionButtonText);
+            uiManager.ActionButtonBehaviour.ActivatedTrigger = triggerData;
+            uiManager.ActionButtonBehaviour.ActivateButton(triggerData.ActionButtonText);
         }
         else if (other.name.StartsWith("Coin"))
             StartCoroutine(PickCoinUp_COR(other));
@@ -70,40 +62,23 @@ public class TriggersBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (UI.ActionButton.IsActive() && other.GetComponent<TriggerData>() != null)
-            StartCoroutine(DeleteActionButton_COR());
+        if (uiManager.ActionButton.IsActive() && other.GetComponent<TriggerData>() != null)
+            StartCoroutine(uiManager.ActionButtonBehaviour.DeleteActionButton_COR());
     }
-
-    private void ActivateButton(string buttonText)
-    {
-        if (!UI.ActionButton.IsActive())
-        {
-            UI.ActionButton.gameObject.SetActive(true);     
-            StartCoroutine(UIAnimations.ShowActionButton_COR());
-        }
-        UI.ActionButton.GetComponentInChildren<Text>().text = buttonText;
-    }
-
-    private IEnumerator DeleteActionButton_COR()
-    {
-        yield return StartCoroutine(UIAnimations.HideActionButton_COR());
-        UI.ActionButton.gameObject.SetActive(false);
-    }
-
+ 
     private IEnumerator PickCoinUp_COR(Collider coin)
     {
         coin.GetComponentInChildren<Animator>().Play("PickCoinUp");
         yield return new WaitForSeconds(1f);
         coin.gameObject.SetActive(false);
-        gameData.CoinsCount++;
-        Canvas.GetComponent<PadBehaviour>().UpdatePadData();
+        gameManager.CoinsCount++;
+        uiManager.PadMenuBehaviour.UpdatePadData();
     }
     
     void Start()
     {
-        UI = Canvas.GetComponent<InterfaceElements>();
-        UIAnimations = Canvas.GetComponent<InterfaceAnimations>();
-        gameData = Canvas.GetComponent<GameData>();
-        UI.ActionButton.gameObject.SetActive(false);
+        uiManager = UIManager.Instance;
+        gameManager = GameManager.Instance;
+        uiManager.ActionButton.gameObject.SetActive(false);
     } 
 }

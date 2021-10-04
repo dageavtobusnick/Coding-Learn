@@ -150,6 +150,7 @@ namespace EmeraldAI.Utility
         Vector3 m_PreviousPosition;
         Vector3 m_CurrentVelocity = new Vector3(4,4,4);
         bool ProjectileDirectionReceived = false;
+        private Vector3 lastPosition;
 
         //Setup our AI's projectile once on Awake
         void Awake()
@@ -170,6 +171,7 @@ namespace EmeraldAI.Utility
             DamageOverTimeComponent = Resources.Load<GameObject>("Damage Over Time Component");
             ProjectileCollider.radius = ColliderRadius;
             InitailizeAudioSource();
+            lastPosition=transform.position;
         }
 
         void InitailizeAudioSource()
@@ -229,6 +231,12 @@ namespace EmeraldAI.Utility
 
         void Update()
         {
+            RaycastHit raycastHit;
+            Debug.DrawLine(lastPosition,transform.position);
+            if (Physics.Linecast(lastPosition, transform.position, out raycastHit))
+            {
+                RigisterHit(raycastHit);
+            }
             //If the target exceeds the AI's firing angle, fire the projectile towards the last detected destination.
             if (AngleTooBig && !Collided)
             {               
@@ -344,6 +352,8 @@ namespace EmeraldAI.Utility
                     EmeraldAIObjectPool.Despawn(gameObject);
                 }
             }
+            if((lastPosition-transform.position).magnitude>70)
+                lastPosition=transform.position;
         }
 
         void DeadTargetDetection()
@@ -391,8 +401,9 @@ namespace EmeraldAI.Utility
         }
 
         //Handle all of our collision related calculations here. When this happens, effects and sound can be played before the object is despawned.
-        void OnTriggerEnter(Collider C)
+        void RigisterHit(RaycastHit hit)
         {
+            Collider C = hit.collider;
             if (EmeraldSystem.EnableDebugging == EmeraldAISystem.YesOrNo.Yes && EmeraldSystem.DebugLogProjectileCollisionsEnabled == EmeraldAISystem.YesOrNo.Yes && C.gameObject != EmeraldSystem.gameObject)
             {
                 Debug.Log("<b>" + "<color=green>" + EmeraldSystem.name + "'s Projectile Hit: " + "</color>" + "<color=red>" + C.gameObject.name + "</color>" + "</b>");
@@ -404,7 +415,7 @@ namespace EmeraldAI.Utility
                 {
                     if (CollisionEffect != null)
                     {
-                        SpawnedEffect = EmeraldAIObjectPool.SpawnEffect(CollisionEffect, transform.position, Quaternion.identity, CollisionTimeout);
+                        SpawnedEffect = EmeraldAIObjectPool.SpawnEffect(CollisionEffect, hit.point, Quaternion.identity, CollisionTimeout);
                         SpawnedEffect.transform.SetParent(EmeraldAISystem.ObjectPool.transform);
                     }
                 }

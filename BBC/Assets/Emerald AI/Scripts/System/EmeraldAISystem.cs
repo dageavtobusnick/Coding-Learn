@@ -1028,7 +1028,8 @@ namespace EmeraldAI
 
                 AIAgentActive = m_NavMeshAgent.enabled;
                 AggroDelay += Time.deltaTime;
-
+                
+                
                 CurrentAnimationClip = AIAnimator.GetCurrentAnimatorClipInfo(0)[0].clip;
                 EmeraldBehaviorsComponent.CheckAnimationStates();
 

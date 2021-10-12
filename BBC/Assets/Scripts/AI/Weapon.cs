@@ -55,7 +55,7 @@ public class Weapon : MonoBehaviour
         if (_isShooting)
         {
             _shootPoint.LookAt(TargetPoint);
-            var bullet=Instantiate(_bullet.AbilityEffect,_shootPoint.position,Quaternion.identity);
+            var bullet=Instantiate(_bullet.AbilityEffect,_shootPoint.position,_shootPoint.rotation);
             bullet.GetComponent<Bullet>().StartMovement(TargetPoint,_shootPoint);
             if (AISystem)
             {

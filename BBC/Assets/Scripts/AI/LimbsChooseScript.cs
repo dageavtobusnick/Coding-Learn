@@ -36,12 +36,12 @@ public class LimbsChooseScript : MonoBehaviour
 {
     [SerializeField] private List<Limb> Limbs;
 
-    public Transform GetTargetLimb(List<Tuple<LimbType, float>> hitProbabilities)
+    public Transform GetTargetLimb(List<LimbsChooseProbability.LimbsChooseProb> hitProbabilities)
     {
-        if (Limbs != null && Limbs.Count != 0)
+        if (Limbs != null && Limbs.Count != 0&&hitProbabilities!=null&&hitProbabilities.Count!=0)
         {
-            var choose = Choser.Choose(hitProbabilities.Select(x => x.Item2).ToArray());
-            var selectedType = hitProbabilities[choose].Item1;
+            var choose = Choser.Choose(hitProbabilities.Select(x => x.Probability).ToArray());
+            var selectedType = hitProbabilities[choose].Type;
             var selectedTypeArray = Limbs.Where(x => x.Type==selectedType).ToArray();
             return selectedTypeArray[Random.Range(0,selectedTypeArray.Length)].transform;
         }

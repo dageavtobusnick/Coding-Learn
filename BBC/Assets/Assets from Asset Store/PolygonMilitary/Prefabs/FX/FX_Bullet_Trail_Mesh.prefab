@@ -204,8 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29db6d9445c60d44abed540e34630796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 20
-  DamageReduction: 1
+  _ability: {fileID: 11400000, guid: dc999d88722ae3f4c8dd19155c547fa7, type: 2}
   maxRandLimit: 5
   minRandLimit: -5
   PenetrationReductionGraph:
@@ -215,6 +214,5 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   RandomDamage: 1
-  StartSpeed: 20
   TimeToDestruct: 10
   AiSystem: {fileID: 0}

@@ -1846,7 +1846,13 @@ namespace EmeraldAI
                         if (RangedWeaponObject&&RangedWeaponObject.GetComponent<Weapon>())
                         {
                             var weapon = RangedWeaponObject.GetComponent<Weapon>();
-                            weapon.TargetPoint = CurrentTarget;
+                            var limbsChooseScript = CurrentTarget.gameObject.GetComponent<LimbsChooseScript>();
+                            var limbsChooseProbability = gameObject.GetComponent<LimbsChooseProbability>();
+                            if (limbsChooseScript&&limbsChooseProbability)
+                            {
+                                weapon.TargetPoint = limbsChooseScript.GetTargetLimb(limbsChooseProbability.Properties);
+                            }else weapon.TargetPoint = CurrentTarget;
+                            weapon.AISystem=this;
                             weapon.StartShooting();
                             
                         }

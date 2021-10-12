@@ -6,7 +6,7 @@ using UnityEngine;
 public class LimbsChooseProbability : MonoBehaviour
 {
     [SerializeField] private List<LimbsChooseProb> _probabilities;
-    public List<LimbsChooseProb> Properties { get; }
+    public List<LimbsChooseProb> Properties { get=>_probabilities; }
     private void Start()
     {
         var sum = _probabilities.Sum(x => x.Probability);

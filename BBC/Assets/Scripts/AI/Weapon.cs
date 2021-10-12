@@ -30,7 +30,7 @@ public class Weapon : MonoBehaviour
     private float _reloadTimer;
     private float _kdTimer;
 
-    [HideInInspector] public EmeraldAISystem AISystem;
+    public EmeraldAISystem AISystem;
     // Start is called before the first frame update
     void Start()
     {
@@ -56,7 +56,7 @@ public class Weapon : MonoBehaviour
         {
             _shootPoint.LookAt(TargetPoint);
             var bullet=Instantiate(_bullet.AbilityEffect,_shootPoint.position,Quaternion.identity);
-            bullet.GetComponent<Rigidbody>().velocity=(TargetPoint.position-_shootPoint.position).normalized*bullet.GetComponent<Bullet>().StartSpeed;
+            bullet.GetComponent<Bullet>().StartMovement(TargetPoint,_shootPoint);
             if (AISystem)
             {
                 bullet.GetComponent<Bullet>().AiSystem=AISystem;

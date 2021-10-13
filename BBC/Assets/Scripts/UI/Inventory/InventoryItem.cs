@@ -7,16 +7,19 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 {
     public string Name;
     public string Description;
+    public int Count;
     public Sprite Icon;
     public ItemType Type;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GetComponentInParent<InventoryBehaviour>().ItemDescription.text = Name + "\n" + Description;
+        GetComponentInParent<InventoryBehaviour>().ItemName.text = Name;
+        GetComponentInParent<InventoryBehaviour>().ItemDescription.text = Description;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        GetComponentInParent<InventoryBehaviour>().ItemName.text = "";
         GetComponentInParent<InventoryBehaviour>().ItemDescription.text = "";
     }
 }

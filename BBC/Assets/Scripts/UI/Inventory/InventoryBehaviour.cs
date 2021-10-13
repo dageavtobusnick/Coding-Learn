@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class InventoryBehaviour : MonoBehaviour
 {
     public GameObject Inventory;
+    public Text ItemName;
     public Text ItemDescription;
 
     [SerializeField] private GameObject scriptInventoryItems;
@@ -15,33 +16,64 @@ public class InventoryBehaviour : MonoBehaviour
     private GameManager gameManager;
     private bool isOpen;
 
+    public void ShowScriptingItems()
+    {
+        scriptInventoryItems.SetActive(true);
+        otherInventoryItems.SetActive(false);
+    }
+
+    public void ShowOtherItems()
+    {
+        scriptInventoryItems.SetActive(false);
+        otherInventoryItems.SetActive(true);
+    }
+
     private void ShowInventory()
     {
-
-        for (var i = 0; i < gameManager.ScriptItems.Count; i++)
-        {
-            var newItem = Instantiate(inventoryItemPrefab, scriptInventoryItems.transform.GetChild(0).GetChild(0));
-            newItem.transform.GetChild(0).GetComponent<Image>().sprite = gameManager.ScriptItems[i].Icon;
-            newItem.GetComponent<InventoryItem>().Name = gameManager.ScriptItems[i].Name;
-            newItem.GetComponent<InventoryItem>().Description = gameManager.ScriptItems[i].Description;
-            newItem.GetComponent<InventoryItem>().Icon = gameManager.ScriptItems[i].Icon;
-            newItem.GetComponent<InventoryItem>().Type = gameManager.ScriptItems[i].Type;
-        }
-        /*for (var i = 0; i < gameManager.OtherItems.Count; i++)
-        {
-            var newItem = Instantiate(inventoryItemPrefab, otherInventoryItems.transform.GetChild(0).GetChild(0));
-            newItem.GetComponentInChildren<Text>().text = gameManager.OtherItems[i].Name;
-            newItem.transform.GetChild(1).GetComponent<Image>().sprite = gameManager.OtherItems[i].Icon;
-        }*/
+        gameManager.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
+        UpdateInventory();
+        otherInventoryItems.SetActive(false);
         Inventory.GetComponent<Animator>().Play("ShowInventory");
     }
 
     private void HideInventory()
     {
+        ClearInventory();
+        Inventory.GetComponent<Animator>().Play("HideInventory");
+        gameManager.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
+    }
+
+    private void UpdateInventory()
+    {
+        ClearInventory();
+        FillInventory(gameManager.ScriptItems, scriptInventoryItems);
+        FillInventory(gameManager.OtherItems, otherInventoryItems);
+    }
+
+    private void FillInventory(List<InteractiveItem> items, GameObject itemsContainer)
+    {
+        for (var i = 0; i < items.Count; i++)
+        {
+            var newItem = Instantiate(inventoryItemPrefab, itemsContainer.transform.GetChild(0).GetChild(0));
+            var newItemComponent = newItem.GetComponent<InventoryItem>();
+            newItemComponent.Name = items[i].Name;
+            newItemComponent.Description = items[i].Description;
+            newItemComponent.Count = items[i].Count;
+            newItemComponent.Icon = items[i].Icon;
+            newItemComponent.Type = items[i].Type;
+            newItem.transform.GetChild(0).GetComponent<Image>().sprite = newItemComponent.Icon;
+            newItem.transform.GetChild(1).GetComponent<Text>().text = newItemComponent.Count > 1 ? newItemComponent.Count.ToString() : "";
+        }
+    }
+
+    private void ClearInventory()
+    {
         var scriptItemsContainer = scriptInventoryItems.transform.GetChild(0).GetChild(0);
         for (var i = scriptItemsContainer.childCount - 1; i >= 0; i--)
             Destroy(scriptItemsContainer.GetChild(i).gameObject);
-        Inventory.GetComponent<Animator>().Play("HideInventory");
+        var otherItemsContainer = otherInventoryItems.transform.GetChild(0).GetChild(0);
+        for (var i = otherItemsContainer.childCount - 1; i >= 0; i--)
+            Destroy(otherItemsContainer.GetChild(i).gameObject);
     }
 
     private void Update()

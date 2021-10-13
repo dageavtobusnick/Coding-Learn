@@ -93,7 +93,7 @@ public class ActionButtonBehaviour : MonoBehaviour
             yield return new WaitForSeconds(0.667f);
         }
         uiManager.ChangeCallAvailability(false);
-        ActivatedTrigger.GetComponent<TargetWaypointBehaviour>().Waypoint.gameObject.SetActive(false);
+        ActivatedTrigger.GetComponent<TargetWaypoint>().Waypoint.gameObject.SetActive(false);
         switch (ActivatedTrigger.TriggerPurpose)
         {
             case TriggerData.Purpose.Task:

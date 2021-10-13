@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TargetWaypointBehaviour : MonoBehaviour
+public class TargetWaypoint : MonoBehaviour
 {
     public Image Waypoint;
     public Transform Target;
-    public Transform Player;
+
+    private Transform player;
 
     private void Update()
     {
@@ -23,6 +24,12 @@ public class TargetWaypointBehaviour : MonoBehaviour
         position.y = Mathf.Clamp(position.y, minY, maxY);
 
         Waypoint.transform.position = position;
-        Waypoint.GetComponentInChildren<Text>().text = ((int)Vector3.Distance(Target.position, Player.position)).ToString() + "m";
+        Waypoint.GetComponentInChildren<Text>().text = ((int)Vector3.Distance(Target.position, player.position)).ToString() + "m";
+    }
+
+    private void OnEnable()
+    {
+        if (player == null)
+            player = GameManager.Instance.Player.transform;
     }
 }

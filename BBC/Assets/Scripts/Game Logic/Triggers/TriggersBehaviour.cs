@@ -38,7 +38,7 @@ public class TriggersBehaviour : MonoBehaviour
     private void ActivateTrigger(GameObject trigger)
     {
         trigger.SetActive(true);
-        trigger.GetComponent<TargetWaypointBehaviour>().Waypoint.gameObject.SetActive(true);
+        trigger.GetComponent<TargetWaypoint>().Waypoint.gameObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,7 +49,7 @@ public class TriggersBehaviour : MonoBehaviour
             switch (triggerData.TriggerPurpose)
             {
                 case TriggerData.Purpose.Task:
-                    if(!gameManager.HasTasksCompleted[triggerData.Task_TaskNumber - 1])
+                    if (!gameManager.HasTasksCompleted[triggerData.Task_TaskNumber - 1])
                         gameManager.CurrentTaskNumber = triggerData.Task_TaskNumber;
                     break;
             }

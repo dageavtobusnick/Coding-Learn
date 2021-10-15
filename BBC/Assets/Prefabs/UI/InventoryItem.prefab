@@ -278,7 +278,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7853937585999547585}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: -8359927784186273921}
+        m_TargetAssemblyTypeName: InventoryItem, Assembly-CSharp
+        m_MethodName: ChooseAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3250439916532433342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,8 +338,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49edee8196a3c4048b0ab7f07805143c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Description: 
-  Count: 0
-  Icon: {fileID: 0}
-  Type: 0
+  ItemReference: {fileID: 0}

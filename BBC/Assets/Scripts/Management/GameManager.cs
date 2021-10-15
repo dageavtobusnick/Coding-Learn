@@ -112,8 +112,8 @@ public class GameManager : MonoBehaviour
     [Header("Предметы в инвентаре")]
     public List<InteractiveItem> ScriptItems = new List<InteractiveItem>();
     public List<InteractiveItem> OtherItems = new List<InteractiveItem>();
-    public GameObject CurrentInteractiveEnvironment;
-
+    
+    [HideInInspector] public GameObject CurrentInteractiveObject;
     [HideInInspector] public int SceneIndex;    
     [Tooltip("Кол-во предметов, необходимых для прохождения задания")]
     [HideInInspector] public int TaskItemsCount;

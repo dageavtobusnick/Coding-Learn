@@ -6,7 +6,9 @@ using UnityEngine.Events;
 public class InteractiveEnvironment : MonoBehaviour
 {
     public string RequiredItemName;
-    public UnityEvent OnPuzzleCalled;
+    public bool HasCodingPuzzle;
+    [Space]
+    public UnityEvent<GameObject> OnPuzzleSolved;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,11 +20,12 @@ public class InteractiveEnvironment : MonoBehaviour
         GetComponent<InteractiveItemMarker>().enabled = false;
     }
 
-    private void Update()
+    private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && GetComponent<InteractiveItemMarker>().enabled)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            GameManager.Instance.CurrentInteractiveEnvironment = gameObject;
+            GameManager.Instance.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
+            GameManager.Instance.CurrentInteractiveObject = gameObject;
             UIManager.Instance.Canvas.GetComponentInChildren<InventoryBehaviour>().ShowInventory_SolvePuzzle();
         }
     }

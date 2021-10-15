@@ -67,9 +67,9 @@ public class InteractiveItem : MonoBehaviour
         GetComponent<InteractiveItemMarker>().enabled = false;
     }
 
-    private void Update()
+    private void OnTriggerStay(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && GetComponent<InteractiveItemMarker>().enabled)
+        if (Input.GetKeyDown(KeyCode.E))
             CheckItemType();
     }
 

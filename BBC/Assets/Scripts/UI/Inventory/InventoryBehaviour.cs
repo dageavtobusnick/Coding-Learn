@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum InventoryStatement
+{
+    Normal,
+    PuzzleSolving
+}
+
 public class InventoryBehaviour : MonoBehaviour
 {
     public GameObject Inventory;
     public Text ItemName;
     public Text ItemDescription;
+
+    [HideInInspector] public InventoryStatement InventoryStatement = InventoryStatement.Normal;
 
     [SerializeField] private GameObject scriptInventoryItems;
     [SerializeField] private GameObject otherInventoryItems;
@@ -15,6 +23,18 @@ public class InventoryBehaviour : MonoBehaviour
 
     private GameManager gameManager;
     private bool isOpen;
+
+    public void ShowInventory_SolvePuzzle()
+    {
+        ShowInventory();
+        InventoryStatement = InventoryStatement.PuzzleSolving;
+    }
+
+    public void HideInventory_SolvePuzzle()
+    {
+        HideInventory();
+        InventoryStatement = InventoryStatement.Normal;
+    }
 
     public void ShowScriptingItems()
     {
@@ -54,15 +74,16 @@ public class InventoryBehaviour : MonoBehaviour
     {
         for (var i = 0; i < items.Count; i++)
         {
+            if (items[i].Count <= 0)
+            {
+                items.RemoveAt(i);
+                continue;
+            }
             var newItem = Instantiate(inventoryItemPrefab, itemsContainer.transform.GetChild(0).GetChild(0));
-            var newItemComponent = newItem.GetComponent<InventoryItem>();
-            newItemComponent.Name = items[i].Name;
-            newItemComponent.Description = items[i].Description;
-            newItemComponent.Count = items[i].Count;
-            newItemComponent.Icon = items[i].Icon;
-            newItemComponent.Type = items[i].Type;
-            newItem.transform.GetChild(0).GetComponent<Image>().sprite = newItemComponent.Icon;
-            newItem.transform.GetChild(1).GetComponent<Text>().text = newItemComponent.Count > 1 ? newItemComponent.Count.ToString() : "";
+            var itemComponent = newItem.GetComponent<InventoryItem>();
+            itemComponent.ItemReference = items[i];
+            newItem.transform.GetChild(0).GetComponent<Image>().sprite = itemComponent.ItemReference.Icon;
+            newItem.transform.GetChild(1).GetComponent<Text>().text = itemComponent.ItemReference.Count > 1 ? itemComponent.ItemReference.Count.ToString() : "";
         }
     }
 
@@ -78,7 +99,7 @@ public class InventoryBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && InventoryStatement == InventoryStatement.Normal)
         {
             if (!isOpen)
                 ShowInventory();

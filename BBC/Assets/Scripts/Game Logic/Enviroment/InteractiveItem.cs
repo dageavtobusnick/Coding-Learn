@@ -22,6 +22,7 @@ public class InteractiveItem : MonoBehaviour
     public ItemType Type;
 
     private GameManager gameManager;
+    private bool isPlayerClose = false;
 
     private void CheckItemType()
     {
@@ -45,31 +46,35 @@ public class InteractiveItem : MonoBehaviour
             sameItem.First().Count += Count;
         else
         {
-            items.Add(new InteractiveItem()
-            {
-                Name = Name,
-                Description = Description,
-                Count = Count,
-                Icon = Icon,
-                Type = Type
-            });
+            var itemCopy = new InteractiveItem();
+            foreach (var field in typeof(InteractiveItem).GetFields())
+                field.SetValue(itemCopy, field.GetValue(this));
+            items.Add(itemCopy);
         }    
         Destroy(gameObject.transform.parent.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        GetComponent<InteractiveItemMarker>().enabled = true;
+        if (other.gameObject == gameManager.Player)
+        {
+            GetComponent<InteractiveItemMarker>().enabled = true;
+            isPlayerClose = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GetComponent<InteractiveItemMarker>().enabled = false;
+        if (other.gameObject == gameManager.Player)
+        {
+            GetComponent<InteractiveItemMarker>().enabled = false;
+            isPlayerClose = false;
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && GetComponent<InteractiveItemMarker>().enabled)
+        if (Input.GetKeyDown(KeyCode.E) && isPlayerClose)
             CheckItemType();
     }
 

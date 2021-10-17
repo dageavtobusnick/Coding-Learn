@@ -38,7 +38,7 @@ public class ExitToMenuPanelBehaviour : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Escape) && !isPressed)
+        if (Input.GetKey(KeyCode.Escape) && !isPressed && UIManager.Instance.isExitToMenuAvailable)
         {
             ExitToMenuPanel.GetComponent<Animator>().Play("ScaleExitToMenuPanelUp");
             isPressed = true;

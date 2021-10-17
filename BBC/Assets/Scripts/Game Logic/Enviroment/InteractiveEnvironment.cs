@@ -1,32 +1,58 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class InteractiveEnvironment : MonoBehaviour
 {
-    public string RequiredItemName;
-    public bool HasCodingPuzzle;
-    [Space]
-    public UnityEvent<GameObject> OnPuzzleSolved;
+    public string openAnimationName;
+    public float openAnimationTime;
+    public string closeAnimationName;
+    public float closeAnimationTime;
+
+    private GameManager gameManager;
+    private bool isPlayerClose;
+    private bool isAnimationStarted = false;
+    private bool isOpenAnimation = true;
+
+    private IEnumerator PlayAnimation_COR(string animationName, float latency)
+    {
+        isAnimationStarted = true;
+        GetComponent<Animator>().Play(animationName);
+        yield return new WaitForSeconds(latency);
+        isAnimationStarted = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        GetComponent<InteractiveItemMarker>().enabled = true;
+        if (other.gameObject == gameManager.Player)
+        {
+            GetComponent<InteractiveItemMarker>().enabled = true;
+            isPlayerClose = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        GetComponent<InteractiveItemMarker>().enabled = false;
+        if (other.gameObject == gameManager.Player)
+        {
+            GetComponent<InteractiveItemMarker>().enabled = false;
+            isPlayerClose = false;
+        }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && isPlayerClose && !isAnimationStarted)
         {
-            GameManager.Instance.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
-            GameManager.Instance.CurrentInteractiveObject = gameObject;
-            UIManager.Instance.Canvas.GetComponentInChildren<InventoryBehaviour>().ShowInventory_SolvePuzzle();
+            if (isOpenAnimation)
+                StartCoroutine(PlayAnimation_COR(openAnimationName, openAnimationTime));
+            else StartCoroutine(PlayAnimation_COR(closeAnimationName, closeAnimationTime));
         }
+
+    }
+
+    private void Start()
+    {
+        gameManager = GameManager.Instance;
     }
 }

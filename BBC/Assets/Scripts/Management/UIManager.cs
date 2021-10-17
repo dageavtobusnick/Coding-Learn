@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
 
     [HideInInspector] public ActionButtonBehaviour ActionButtonBehaviour;
     [HideInInspector] public PadMode PadMode;
+    [HideInInspector] public bool isExitToMenuAvailable = true;
 
     public void ChangeCallAvailability(bool isCallAvailable)
     {

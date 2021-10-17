@@ -24,21 +24,13 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     private IEnumerator TrySolvePuzzle()
     {
-        var currentInteractiveObject = gameManager.CurrentInteractiveObject.GetComponent<InteractiveEnvironment>();
+        var currentInteractiveObject = gameManager.CurrentInteractiveObject.GetComponent<InteractivePuzzle>();
         if (ItemReference.Name == currentInteractiveObject.RequiredItemName)
         {
             inventoryBehaviour.GetComponent<Animator>().Play("HideInventory");
             yield return new WaitForSeconds(0.75f);
-            if (!currentInteractiveObject.HasCodingPuzzle)
-            {
-                var usageAnimation = currentInteractiveObject.GetComponent<PlayableDirector>();
-                usageAnimation.Play();
-                yield return new WaitForSeconds((float)usageAnimation.playableAsset.duration);
-            }
-            /*else
-            {
-
-            }*/
+            ItemReference.Count--;
+            currentInteractiveObject.GoToNextPuzzleStep();
         }
     }
 

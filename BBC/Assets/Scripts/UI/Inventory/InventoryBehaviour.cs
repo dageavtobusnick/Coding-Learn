@@ -30,6 +30,12 @@ public class InventoryBehaviour : MonoBehaviour
         InventoryStatement = InventoryStatement.PuzzleSolving;
     }
 
+    public void HideInventory_SolvePuzzle()
+    {
+        HideInventory();
+        InventoryStatement = InventoryStatement.Normal;
+    }
+
     public void ShowScriptingItems()
     {
         scriptInventoryItems.SetActive(true);
@@ -68,11 +74,16 @@ public class InventoryBehaviour : MonoBehaviour
     {
         for (var i = 0; i < items.Count; i++)
         {
+            if (items[i].Count <= 0)
+            {
+                items.RemoveAt(i);
+                continue;
+            }
             var newItem = Instantiate(inventoryItemPrefab, itemsContainer.transform.GetChild(0).GetChild(0));
-            var itemReference = newItem.GetComponent<InventoryItem>().ItemReference;
-            itemReference = items[i];
-            newItem.transform.GetChild(0).GetComponent<Image>().sprite = itemReference.Icon;
-            newItem.transform.GetChild(1).GetComponent<Text>().text = itemReference.Count > 1 ? itemReference.Count.ToString() : "";
+            var itemComponent = newItem.GetComponent<InventoryItem>();
+            itemComponent.ItemReference = items[i];
+            newItem.transform.GetChild(0).GetComponent<Image>().sprite = itemComponent.ItemReference.Icon;
+            newItem.transform.GetChild(1).GetComponent<Text>().text = itemComponent.ItemReference.Count > 1 ? itemComponent.ItemReference.Count.ToString() : "";
         }
     }
 

@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
     [Header("Предметы в инвентаре")]
     public List<InteractiveItem> ScriptItems = new List<InteractiveItem>();
     public List<InteractiveItem> OtherItems = new List<InteractiveItem>();
+    public List<InteractiveItem> Notes = new List<InteractiveItem>();
     
     [HideInInspector] public GameObject CurrentInteractiveObject;
     [HideInInspector] public int SceneIndex;    

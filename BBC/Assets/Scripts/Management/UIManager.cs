@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum PreviousAction
-{
-    TargetCall,
-    PadCall,
-    ExtendedTaskClosing,
-    DevModeSwitching
-}
-
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance = null;
@@ -36,6 +28,7 @@ public class UIManager : MonoBehaviour
     public TargetPanelBehaviour TargetPanelBehaviour;
     public TaskPanelBehaviour TaskPanelBehaviour;
     public TrainingPanelBehaviour TrainingPanelBehaviour;
+    public NoteReadingPanelBehaviour noteReadingPanelBehaviour;
 
     [HideInInspector] public ActionButtonBehaviour ActionButtonBehaviour;
     [HideInInspector] public PadMode PadMode;
@@ -59,6 +52,12 @@ public class UIManager : MonoBehaviour
     {
         TargetPanelBehaviour.IsCallAvailable = true;
         Minimap.SetActive(true);
+    }
+
+    public IEnumerator MakeExitToMenuAvailable_COR()
+    {
+        yield return new WaitForSeconds(1.5f);
+        isExitToMenuAvailable = true;
     }
 
     private void InitializeUiManager()

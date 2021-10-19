@@ -19,10 +19,12 @@ public class InventoryBehaviour : MonoBehaviour
 
     [SerializeField] private GameObject scriptInventoryItems;
     [SerializeField] private GameObject otherInventoryItems;
+    [SerializeField] private GameObject notes;
     [SerializeField] private GameObject inventoryItemPrefab;
 
     private GameManager gameManager;
     private bool isOpen;
+    private GameObject lastOpenedCategory;
 
     public void ShowInventory_SolvePuzzle()
     {
@@ -36,16 +38,14 @@ public class InventoryBehaviour : MonoBehaviour
         InventoryStatement = InventoryStatement.Normal;
     }
 
-    public void ShowScriptingItems()
+    public void ShowInventoryCategory(GameObject category)
     {
-        scriptInventoryItems.SetActive(true);
-        otherInventoryItems.SetActive(false);
-    }
-
-    public void ShowOtherItems()
-    {
-        scriptInventoryItems.SetActive(false);
-        otherInventoryItems.SetActive(true);
+        if (category != lastOpenedCategory)
+        {
+            category.SetActive(true);
+            lastOpenedCategory.SetActive(false);
+            lastOpenedCategory = category;
+        }
     }
 
     private void ShowInventory()
@@ -53,6 +53,8 @@ public class InventoryBehaviour : MonoBehaviour
         gameManager.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
         UpdateInventory();
         otherInventoryItems.SetActive(false);
+        notes.SetActive(false);
+        lastOpenedCategory = scriptInventoryItems;
         Inventory.GetComponent<Animator>().Play("ShowInventory");
     }
 
@@ -68,11 +70,19 @@ public class InventoryBehaviour : MonoBehaviour
         ClearInventory();
         FillInventory(gameManager.ScriptItems, scriptInventoryItems);
         FillInventory(gameManager.OtherItems, otherInventoryItems);
+        FillInventory(gameManager.Notes, notes);
+    }
+
+    private void ClearInventory()
+    {
+        ClearCategory(scriptInventoryItems);
+        ClearCategory(otherInventoryItems);
+        ClearCategory(notes);
     }
 
     private void FillInventory(List<InteractiveItem> items, GameObject itemsContainer)
     {
-        for (var i = 0; i < items.Count; i++)
+        for (var i = items.Count - 1; i >= 0; i--)
         {
             if (items[i].Count <= 0)
             {
@@ -87,14 +97,11 @@ public class InventoryBehaviour : MonoBehaviour
         }
     }
 
-    private void ClearInventory()
+    private void ClearCategory(GameObject items)
     {
-        var scriptItemsContainer = scriptInventoryItems.transform.GetChild(0).GetChild(0);
+        var scriptItemsContainer = items.transform.GetChild(0).GetChild(0);
         for (var i = scriptItemsContainer.childCount - 1; i >= 0; i--)
             Destroy(scriptItemsContainer.GetChild(i).gameObject);
-        var otherItemsContainer = otherInventoryItems.transform.GetChild(0).GetChild(0);
-        for (var i = otherItemsContainer.childCount - 1; i >= 0; i--)
-            Destroy(otherItemsContainer.GetChild(i).gameObject);
     }
 
     private void Update()

@@ -17,9 +17,7 @@ public class TaskCompletingActions : MonoBehaviour
         var taskNumber = gameManager.CurrentTaskNumber;
         if (!gameManager.HasTasksCompleted[taskNumber - 1])
         {
-            if (sceneIndex == 0)
-                StartCoroutine(MakeActions_Level_Training());
-            else StartCoroutine("MakeActions_Level_" + sceneIndex + "_Task_" + taskNumber);
+            StartCoroutine("MakeActions_Level_" + sceneIndex + "_Task_" + taskNumber);
             gameManager.HasTasksCompleted[taskNumber - 1] = true;
         }
     }
@@ -58,16 +56,27 @@ public class TaskCompletingActions : MonoBehaviour
     }
 
     #region Действия для обучающего уровня
-    private IEnumerator MakeActions_Level_Training()
+    private IEnumerator MakeActions_Level_0_Task_1()
     {
         yield return StartCoroutine(WaitAndHideTaskPanel_COR());
-        if (gameManager.CurrentTaskNumber == gameManager.TaskTexts.Length)
-            UIManager.Instance.ActionButtonBehaviour.FinishLevel();
-        else
-        {
-            gameManager.CurrentTaskNumber++;
-            StartCoroutine(UIManager.Instance.ActionButtonBehaviour.ActivateTask_COR());
-        }   
+        StartCoroutine(gameManager.CurrentInteractiveObject.GetComponent<InteractivePuzzle>().FinishPuzzleByAnimation_COR());
+    }
+
+    private IEnumerator MakeActions_Level_0_Task_2()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        StartCoroutine(gameManager.CurrentInteractiveObject.GetComponent<InteractivePuzzle>().FinishPuzzleByAnimation_COR());
+    }
+
+    private IEnumerator MakeActions_Level_0_Task_3()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        StartCoroutine(gameManager.CurrentInteractiveObject.GetComponent<InteractivePuzzle>().FinishPuzzleByAnimation_COR());
+    }
+    private IEnumerator MakeActions_Level_0_Task_4()
+    {
+        yield return StartCoroutine(WaitAndHideTaskPanel_COR());
+        StartCoroutine(gameManager.CurrentInteractiveObject.GetComponent<InteractivePuzzle>().FinishPuzzleByAnimation_COR());
     }
     #endregion
 

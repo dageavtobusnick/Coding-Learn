@@ -2,8 +2,8 @@
   "Items": [
     {
       "TaskNumber": 1,
-      "ExtraCode": "",
-      "TestCode": "var result = Execute(); var totalResult = result == 4;"
+      "ExtraCode": "public int rotationCount = 0; public void RotateKey() => rotationCount++;",
+      "TestCode": "Execute(); var totalResult = rotationCount == 1;"
     },
     {
       "TaskNumber": 2,

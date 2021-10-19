@@ -73,7 +73,6 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
             if (gameManager.SceneIndex != 1)
                 uiManager.TargetPanelBehaviour.ShowTarget();
         }
-        uiManager.TrainingPanelBehaviour.TryShowTraining(PreviousAction.ExtendedTaskClosing);
     }
 
     private IEnumerator GoToNextLevel_COR()
@@ -116,13 +115,7 @@ public class ExtendedTaskPanelBehaviour : MonoBehaviour
         gameManager = GameManager.Instance;
         levelLoader = uiManager.LoadScreen.GetComponent<LoadLevel>();
         blackScreen = uiManager.BlackScreen.transform.GetChild(0).gameObject;
-        IsTaskMessage = gameManager.SceneIndex == 0;
-        if (IsTaskMessage)
-        {
-            gameManager.CurrentTaskNumber = 1;
-            StartCoroutine(uiManager.ActionButtonBehaviour.ActivateTask_COR(false));
-        }
-        else
+        if (!IsTaskMessage && gameManager.SceneIndex != 0)
         {
             var startMessage = gameManager.StartMessages[gameManager.SceneIndex - 1];
             ExtendedTaskTitle.text = startMessage.Title;

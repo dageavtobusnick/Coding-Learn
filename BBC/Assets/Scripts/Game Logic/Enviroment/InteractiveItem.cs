@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Events;
 
 public enum ItemType
 {
     Scripting,
-    Other
+    Other,
+    Note
 }
 
 public class InteractiveItem : MonoBehaviour
@@ -20,6 +21,8 @@ public class InteractiveItem : MonoBehaviour
     public Sprite Icon;
     [Tooltip("Тип предмета: сюжетный или прочее")]
     public ItemType Type;
+    [Space]
+    public UnityEvent OnItemPickedUp;
 
     private GameManager gameManager;
     private bool isPlayerClose = false;
@@ -50,7 +53,8 @@ public class InteractiveItem : MonoBehaviour
             foreach (var field in typeof(InteractiveItem).GetFields())
                 field.SetValue(itemCopy, field.GetValue(this));
             items.Add(itemCopy);
-        }    
+        }
+        OnItemPickedUp.Invoke();
         Destroy(gameObject.transform.parent.gameObject);
     }
 

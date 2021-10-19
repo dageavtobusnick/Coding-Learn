@@ -34,6 +34,8 @@ public class PadMenuBehaviour : MonoBehaviour
     private GameManager gameManager;
     private PlayerBehaviour playerBehaviour;
 
+    public void ChangeAvailability(bool isAvailable) => IsCallAvailable = isAvailable;
+
     public void UpdatePadData()
     {
         CoinsMenuCounter.text = gameManager.CoinsCount.ToString();
@@ -43,7 +45,7 @@ public class PadMenuBehaviour : MonoBehaviour
     public void PlayPadMoveAnimation(string normalAnimation, string devAnimation)
     {
         var padMode = uiManager.PadMode;
-        var padAnimator = Pad.GetComponentInParent<Animator>();
+        var padAnimator = Pad.GetComponent<Animator>();
         if (padMode == PadMode.Normal)
             padAnimator.Play(normalAnimation);
         else if (padMode == PadMode.Development)
@@ -55,7 +57,7 @@ public class PadMenuBehaviour : MonoBehaviour
         if (!IsPadCalled)
         {
             playerBehaviour.FreezePlayer();
-            Pad.GetComponentInParent<Animator>().Play("ShowPad"); 
+            Pad.GetComponent<Animator>().Play("ShowPad"); 
             IsPadCalled = !IsPadCalled;
         }
         else
@@ -63,17 +65,16 @@ public class PadMenuBehaviour : MonoBehaviour
             if (uiManager.PadMode == PadMode.Normal)
             {
                 playerBehaviour.UnfreezePlayer();
-                Pad.GetComponentInParent<Animator>().Play("HidePad");
+                Pad.GetComponent<Animator>().Play("HidePad");
                 IsPadCalled = !IsPadCalled;
             }
         }
         yield return new WaitForSeconds(0.667f);
-        uiManager.TrainingPanelBehaviour.TryShowTraining(PreviousAction.PadCall);
     }   
 
     private void Update()
     {      
-        if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable)
+        if (Input.GetKeyDown(KeyCode.P) && IsCallAvailable && gameManager.SceneIndex != 0)
             StartCoroutine(CallPad());
     }
 

@@ -21,6 +21,8 @@ public class TargetPanelBehaviour : MonoBehaviour
 
     private int timer;
 
+    public void ChangeAvailability(bool isAvailable) => IsCallAvailable = isAvailable;
+
     public void ShowTarget() => StartCoroutine(ShowTarget_COR());
 
     public void ChangeTarget(string newTargetText)
@@ -87,7 +89,6 @@ public class TargetPanelBehaviour : MonoBehaviour
             if (timer == 0)
                 StartCoroutine(ShowTarget_COR());
             else timer = 5;
-            UIManager.Instance.TrainingPanelBehaviour.TryShowTraining(PreviousAction.TargetCall);
         }
     }
 

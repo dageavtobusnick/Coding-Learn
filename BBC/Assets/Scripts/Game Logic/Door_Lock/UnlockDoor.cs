@@ -6,6 +6,7 @@ public class UnlockDoor : MonoBehaviour
 {
     public GameObject CanvasDoorPuzzle;
     public Collider playerCollider;
+    
     private void OnTriggerEnter(Collider collider)
     {
         if (collider == playerCollider)

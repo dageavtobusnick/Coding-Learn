@@ -17,7 +17,7 @@ public class InteractiveEnvironment : MonoBehaviour
     private IEnumerator PlayAnimation_COR(string animationName, float latency)
     {
         isAnimationStarted = true;
-        GetComponent<Animator>().Play(animationName);
+        GetComponentInParent<Animator>().Play(animationName);
         yield return new WaitForSeconds(latency);
         isAnimationStarted = false;
     }
@@ -47,6 +47,7 @@ public class InteractiveEnvironment : MonoBehaviour
             if (isOpenAnimation)
                 StartCoroutine(PlayAnimation_COR(openAnimationName, openAnimationTime));
             else StartCoroutine(PlayAnimation_COR(closeAnimationName, closeAnimationTime));
+            isOpenAnimation = !isOpenAnimation;
         }
 
     }

@@ -8,4 +8,9 @@ public class PuzzleCompletingActions : MonoBehaviour
     {
         door.GetComponent<Rigidbody>().isKinematic = false;
     }
+
+    public void ActivateInteractivePuzzle(InteractivePuzzle puzzle)
+    {
+        puzzle.gameObject.SetActive(true);
+    }
 }

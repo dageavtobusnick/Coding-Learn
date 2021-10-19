@@ -89,7 +89,7 @@ public class ActionButtonBehaviour : MonoBehaviour
         uiManager.HideUI();
         if (uiManager.PadMenuBehaviour.IsPadCalled)
         {
-            uiManager.PadMenuBehaviour.Pad.GetComponentInParent<Animator>().Play("MoveRight_Pad");
+            uiManager.PadMenuBehaviour.Pad.GetComponent<Animator>().Play("MoveRight_Pad");
             yield return new WaitForSeconds(0.667f);
         }
         uiManager.ChangeCallAvailability(false);

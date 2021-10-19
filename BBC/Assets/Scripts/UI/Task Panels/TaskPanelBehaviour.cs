@@ -105,8 +105,9 @@ public class TaskPanelBehaviour : MonoBehaviour
     private IEnumerator CloseTask_COR()
     {     
         yield return StartCoroutine(HideTaskPanel_COR());
-        if (gameManager.SceneIndex != 0)
-            yield return StartCoroutine(ReturnToScene_COR());  
+        if (gameManager.CurrentInteractiveObject == null)
+            yield return StartCoroutine(ReturnToScene_COR());
+        else gameManager.CurrentInteractiveObject.GetComponent<InteractivePuzzle>().FinishPuzzle();
     }
 
     private void Awake()

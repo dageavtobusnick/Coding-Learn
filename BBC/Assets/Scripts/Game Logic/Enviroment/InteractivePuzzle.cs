@@ -72,7 +72,7 @@ public class InteractivePuzzle : MonoBehaviour
         gameManager.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
         gameManager.CurrentInteractiveObject = gameObject;
         GetComponentInChildren<Camera>().enabled = true;
-        if (!isCodingPuzzleStarted)  
+        if (!isCodingPuzzleStarted && RequiredItemName != "")  
             uiManager.Canvas.GetComponentInChildren<InventoryBehaviour>().ShowInventory_SolvePuzzle();
         else StartCodingPuzzle();
     }  

@@ -30,6 +30,8 @@ public class InventoryItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             inventoryBehaviour.GetComponent<Animator>().Play("HideInventory");
             yield return new WaitForSeconds(0.75f);
             ItemReference.Count--;
+            inventoryBehaviour.IsOpen = false;
+            inventoryBehaviour.InventoryStatement = InventoryStatement.Normal;
             currentInteractiveObject.GoToNextPuzzleStep();
         }
     }

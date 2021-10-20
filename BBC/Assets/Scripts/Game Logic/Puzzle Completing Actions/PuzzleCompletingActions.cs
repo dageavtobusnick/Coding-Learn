@@ -13,4 +13,13 @@ public class PuzzleCompletingActions : MonoBehaviour
     {
         puzzle.gameObject.SetActive(true);
     }
+    public void EnableObject(GameObject gameObject)
+    {
+        gameObject.SetActive(true);
+    }
+
+    public void DisableObject(GameObject gameObject)
+    {
+        gameObject.SetActive(false);
+    }
 }

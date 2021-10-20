@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEditor.Events;
 
 public class InteractiveEnvironmentLookAt : MonoBehaviour
 {
@@ -53,7 +53,8 @@ public class InteractiveEnvironmentLookAt : MonoBehaviour
                 StartCoroutine(uiManager.MakeExitToMenuAvailable_COR());
                 GetComponent<InteractiveItemMarker>().enabled = true;
                 onPlayerLookedAt.Invoke();
-                onPlayerLookedAt.RemoveAllListeners();
+                for (var i = 0; i < onPlayerLookedAt.GetPersistentEventCount(); i++)
+                    UnityEventTools.RemovePersistentListener(onPlayerLookedAt, i);
             }
         }
     }

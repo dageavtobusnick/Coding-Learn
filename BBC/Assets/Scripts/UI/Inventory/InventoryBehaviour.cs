@@ -16,14 +16,14 @@ public class InventoryBehaviour : MonoBehaviour
     public Text ItemDescription;
 
     [HideInInspector] public InventoryStatement InventoryStatement = InventoryStatement.Normal;
+    [HideInInspector] public bool IsOpen;
 
     [SerializeField] private GameObject scriptInventoryItems;
     [SerializeField] private GameObject otherInventoryItems;
     [SerializeField] private GameObject notes;
     [SerializeField] private GameObject inventoryItemPrefab;
 
-    private GameManager gameManager;
-    private bool isOpen;
+    private GameManager gameManager;   
     private GameObject lastOpenedCategory;
 
     public void ShowInventory_SolvePuzzle()
@@ -50,6 +50,7 @@ public class InventoryBehaviour : MonoBehaviour
 
     private void ShowInventory()
     {
+        IsOpen = true;
         gameManager.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
         UpdateInventory();
         otherInventoryItems.SetActive(false);
@@ -60,6 +61,7 @@ public class InventoryBehaviour : MonoBehaviour
 
     private void HideInventory()
     {
+        IsOpen = false;
         ClearInventory();
         Inventory.GetComponent<Animator>().Play("HideInventory");
         gameManager.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
@@ -108,10 +110,9 @@ public class InventoryBehaviour : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.I) && InventoryStatement == InventoryStatement.Normal)
         {
-            if (!isOpen)
+            if (!IsOpen)
                 ShowInventory();
             else HideInventory();
-            isOpen = !isOpen;
         }
     }
 

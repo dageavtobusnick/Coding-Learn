@@ -1842,32 +1842,52 @@ namespace EmeraldAI
                     if (m_EmeraldAIAbility.AbilityType == EmeraldAIAbility.AbilityTypeEnum.Damage && OffensiveAbilities.Count > 0) //Offensive
                     {
                         OnAttackEvent.Invoke();
-
-                        CurrentProjectile = EmeraldAIObjectPool.SpawnEffect(m_EmeraldAIAbility.AbilityEffect, RangedAttackTransform.position, 
-                            Quaternion.identity, m_EmeraldAIAbility.AbilityEffectTimeoutSeconds);                 
-
-                        if (m_EmeraldAIAbility.UseCastEffect == EmeraldAIAbility.Yes_No.Yes)
+                        
+                        if (RangedWeaponObject&&RangedWeaponObject.GetComponent<Weapon>())
                         {
-                            GameObject G = EmeraldAIObjectPool.SpawnEffect(m_EmeraldAIAbility.CastEffect, RangedAttackTransform.position, Quaternion.identity, m_EmeraldAIAbility.CastEffectTimeoutSeconds);
-                            G.transform.SetParent(RangedAttackTransform);
-                        }
-
-                        if (CurrentProjectile.GetComponent<EmeraldAIProjectile>() == null)
-                        {
-                            CurrentlyCreatedAbility = CurrentProjectile.AddComponent<EmeraldAIProjectile>();
+                            var weapon = RangedWeaponObject.GetComponent<Weapon>();
+                            var limbsChooseScript = CurrentTarget.gameObject.GetComponent<LimbsChooseScript>();
+                            var limbsChooseProbability = gameObject.GetComponent<LimbsChooseProbability>();
+                            if (limbsChooseScript&&limbsChooseProbability)
+                            {
+                                weapon.TargetPoint = limbsChooseScript.GetTargetLimb(limbsChooseProbability.Properties);
+                            }else weapon.TargetPoint = CurrentTarget;
+                            weapon.AISystem=this;
+                            weapon.StartShooting();
+                            
                         }
                         else
                         {
-                            CurrentlyCreatedAbility = CurrentProjectile.GetComponent<EmeraldAIProjectile>();
-                        }
+                            CurrentProjectile = EmeraldAIObjectPool.SpawnEffect(m_EmeraldAIAbility.AbilityEffect,
+                                RangedAttackTransform.position,
+                                Quaternion.identity, m_EmeraldAIAbility.AbilityEffectTimeoutSeconds);
 
-                        if (m_EmeraldAIAbility.UseCastSound == EmeraldAIAbility.Yes_No.Yes)
-                        {
-                            EmeraldEventsManagerComponent.PlaySoundClip(m_EmeraldAIAbility.CastSound);
+                            if (m_EmeraldAIAbility.UseCastEffect == EmeraldAIAbility.Yes_No.Yes)
+                            {
+                                GameObject G = EmeraldAIObjectPool.SpawnEffect(m_EmeraldAIAbility.CastEffect,
+                                    RangedAttackTransform.position, Quaternion.identity,
+                                    m_EmeraldAIAbility.CastEffectTimeoutSeconds);
+                                G.transform.SetParent(RangedAttackTransform);
+                            }
+
+                            if (CurrentProjectile.GetComponent<EmeraldAIProjectile>() == null)
+                            {
+                                CurrentlyCreatedAbility = CurrentProjectile.AddComponent<EmeraldAIProjectile>();
+                            }
+                            else
+                            {
+                                CurrentlyCreatedAbility = CurrentProjectile.GetComponent<EmeraldAIProjectile>();
+                            }
+
+                            if (m_EmeraldAIAbility.UseCastSound == EmeraldAIAbility.Yes_No.Yes)
+                            {
+                                EmeraldEventsManagerComponent.PlaySoundClip(m_EmeraldAIAbility.CastSound);
+                            }
+
+                            InitializeAbility(CurrentlyCreatedAbility, m_EmeraldAIAbility);
+                            CurrentProjectile.transform.SetParent(ObjectPool.transform);
+                            CalculateRangedProjectile(CurrentProjectile);
                         }
-                        InitializeAbility(CurrentlyCreatedAbility, m_EmeraldAIAbility);
-                        CurrentProjectile.transform.SetParent(ObjectPool.transform);
-                        CalculateRangedProjectile(CurrentProjectile);
                     }
                     else if (m_EmeraldAIAbility.AbilityType == EmeraldAIAbility.AbilityTypeEnum.Support && SupportAbilities.Count > 0 && !HealingCooldownActive) //Support
                     {

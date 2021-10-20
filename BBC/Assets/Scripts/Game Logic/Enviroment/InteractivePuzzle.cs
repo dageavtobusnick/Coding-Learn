@@ -34,15 +34,17 @@ public class InteractivePuzzle : MonoBehaviour
         if (!isPadActive)
             uiManager.Canvas.GetComponentInChildren<InventoryBehaviour>().HideInventory_SolvePuzzle();
         else isPadActive = false;
-        StartCoroutine(ReturnToDefaultSceneState_COR());
+        ReturnToDefaultSceneState();
         GetComponent<SphereCollider>().enabled = true;
         GetComponent<InteractiveItemMarker>().enabled = true;
+        uiManager.Canvas.GetComponentInChildren<InventoryBehaviour>().InventoryStatement = InventoryStatement.Normal;
     }
 
     private void StartCodingPuzzle()
     {
         isCodingPuzzleStarted = true;
         isPadActive = true;
+        uiManager.Canvas.GetComponentInChildren<InventoryBehaviour>().InventoryStatement = InventoryStatement.PuzzleSolving;
         gameManager.CurrentTaskNumber = CodingPuzzleNumber;
         uiManager.TaskPanelBehaviour.ShowNewTaskGeneralInfo();
         uiManager.ExtendedTaskPanelBehaviour.IsTaskMessage = true;
@@ -56,11 +58,12 @@ public class InteractivePuzzle : MonoBehaviour
         if (usageAnimation.playableAsset != null)
         {
             usageAnimation.Play();
-            yield return new WaitForSeconds((float)usageAnimation.playableAsset.duration + 2);
+            yield return new WaitForSeconds((float)usageAnimation.playableAsset.duration + 1);
         }
-        yield return StartCoroutine(ReturnToDefaultSceneState_COR());
+        ReturnToDefaultSceneState();
+        uiManager.Canvas.GetComponentInChildren<InventoryBehaviour>().InventoryStatement = InventoryStatement.Normal;
         OnPuzzleSolved.Invoke();
-        enabled = false;
+        gameObject.SetActive(false);
     }
 
     private void StartPuzzle()
@@ -77,13 +80,12 @@ public class InteractivePuzzle : MonoBehaviour
         else StartCodingPuzzle();
     }  
 
-    private IEnumerator ReturnToDefaultSceneState_COR()
+    private void ReturnToDefaultSceneState()
     {
         isPuzzleStarted = false;
         gameManager.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
         GetComponentInChildren<Camera>().enabled = false;
-        yield return new WaitForSeconds(1.5f);
-        uiManager.isExitToMenuAvailable = true;
+        StartCoroutine(uiManager.MakeExitToMenuAvailable_COR());
     }
 
     private void OnTriggerEnter(Collider other)

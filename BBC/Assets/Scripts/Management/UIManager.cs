@@ -20,6 +20,8 @@ public class UIManager : MonoBehaviour
     public GameObject BlackScreen;
     [Header("Загрузочный экран")]
     public GameObject LoadScreen;
+    [Header("Описание осматриваемых объектов")]
+    public Text LookAtDescription;
 
     [Header("Скрипты UI-элементов")]
     [Tooltip("Скрипты UI-элементов для взаимодействия между собой")]

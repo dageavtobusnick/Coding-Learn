@@ -43,12 +43,14 @@ public class InteractiveEnvironmentLookAt : MonoBehaviour
                 gameManager.Player.GetComponent<PlayerBehaviour>().FreezePlayer();
                 uiManager.isExitToMenuAvailable = false;
                 GetComponent<InteractiveItemMarker>().enabled = false;
-                GetComponentInChildren<Text>().text = description;
+                uiManager.LookAtDescription.text = description;
+                uiManager.LookAtDescription.gameObject.SetActive(true);
 
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GetComponentInChildren<Camera>().enabled = false;
+                uiManager.LookAtDescription.gameObject.SetActive(false);
                 gameManager.Player.GetComponent<PlayerBehaviour>().UnfreezePlayer();
                 StartCoroutine(uiManager.MakeExitToMenuAvailable_COR());
                 GetComponent<InteractiveItemMarker>().enabled = true;

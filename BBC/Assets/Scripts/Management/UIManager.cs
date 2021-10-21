@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum PreviousAction
-{
-    TargetCall,
-    PadCall,
-    ExtendedTaskClosing,
-    DevModeSwitching
-}
-
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance = null;
@@ -28,6 +20,8 @@ public class UIManager : MonoBehaviour
     public GameObject BlackScreen;
     [Header("Загрузочный экран")]
     public GameObject LoadScreen;
+    [Header("Описание осматриваемых объектов")]
+    public Text LookAtDescription;
 
     [Header("Скрипты UI-элементов")]
     [Tooltip("Скрипты UI-элементов для взаимодействия между собой")]
@@ -36,9 +30,11 @@ public class UIManager : MonoBehaviour
     public TargetPanelBehaviour TargetPanelBehaviour;
     public TaskPanelBehaviour TaskPanelBehaviour;
     public TrainingPanelBehaviour TrainingPanelBehaviour;
+    public NoteReadingPanelBehaviour noteReadingPanelBehaviour;
 
     [HideInInspector] public ActionButtonBehaviour ActionButtonBehaviour;
     [HideInInspector] public PadMode PadMode;
+    [HideInInspector] public bool isExitToMenuAvailable = true;
 
     public void ChangeCallAvailability(bool isCallAvailable)
     {
@@ -58,6 +54,12 @@ public class UIManager : MonoBehaviour
     {
         TargetPanelBehaviour.IsCallAvailable = true;
         Minimap.SetActive(true);
+    }
+
+    public IEnumerator MakeExitToMenuAvailable_COR()
+    {
+        yield return new WaitForSeconds(1.5f);
+        isExitToMenuAvailable = true;
     }
 
     private void InitializeUiManager()

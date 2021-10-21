@@ -77,22 +77,14 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Данные из JSON-файлов
-    [HideInInspector]
-    public TaskText[] TaskTexts;
-    [HideInInspector]
-    public Test[] Tests;
-    [HideInInspector]
-    public ScenarioMessage[] ScenarioMessages;
-    [HideInInspector]
-    public LevelMessage[] StartMessages;
-    [HideInInspector]
-    public LevelMessage[] FinishMessages;
-    [HideInInspector]
-    public List<HandbookLetter[]> HandbookLetters;
-    [HideInInspector]
-    public List<TipMessage[]> Tips;
-    [HideInInspector]
-    public ThemeTitle[] ThemeTitles;
+    [HideInInspector] public TaskText[] TaskTexts;
+    [HideInInspector] public Test[] Tests;
+    [HideInInspector] public ScenarioMessage[] ScenarioMessages;
+    [HideInInspector] public LevelMessage[] StartMessages;
+    [HideInInspector] public LevelMessage[] FinishMessages;
+    [HideInInspector] public List<HandbookLetter[]> HandbookLetters;
+    [HideInInspector] public List<TipMessage[]> Tips;
+    [HideInInspector] public ThemeTitle[] ThemeTitles;
     #endregion
 
     [Tooltip("Ссылка на GameManager для доступа из других скриптов")]
@@ -112,20 +104,24 @@ public class GameManager : MonoBehaviour
     public string Target;
     [Header("Количество доступных тем в справочнике")]
     public int AvailableThemesCount;
-
+    [Header("Параметры панели подсказок")]
+    [Tooltip("Стоимость одной подсказки")]
+    public int TipPrice = 3;
+    [Tooltip("Скидка при покупки нескольких подсказок (0 = 0%, 1 = 100%")]
+    [Range(0, 1)] public float Sale = 0.15f;
+    [Header("Предметы в инвентаре")]
+    public List<InteractiveItem> ScriptItems = new List<InteractiveItem>();
+    public List<InteractiveItem> OtherItems = new List<InteractiveItem>();
+    public List<InteractiveItem> Notes = new List<InteractiveItem>();
+    
+    [HideInInspector] public GameObject CurrentInteractiveObject;
     [HideInInspector] public int SceneIndex;    
     [Tooltip("Кол-во предметов, необходимых для прохождения задания")]
     [HideInInspector] public int TaskItemsCount;
     [HideInInspector] public bool IsTaskStarted;
     [HideInInspector] public bool IsTimerStopped;
     [HideInInspector] public List<bool> HasTasksCompleted;   
-    [HideInInspector] public List<int> AvailableTipsCounts;
-
-    [Header("Параметры панели подсказок")]
-    [Tooltip("Стоимость одной подсказки")]
-    public int TipPrice = 3;
-    [Tooltip("Скидка при покупки нескольких подсказок (0 = 0%, 1 = 100%")]
-    [Range(0, 1)] public float Sale = 0.15f;
+    [HideInInspector] public List<int> AvailableTipsCounts;  
 
     public Test GetTests() => Tests[CurrentTaskNumber - 1];
 

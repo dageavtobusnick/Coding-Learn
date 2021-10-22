@@ -151,7 +151,8 @@ namespace EmeraldAI.Utility
         Vector3 m_CurrentVelocity = new Vector3(4,4,4);
         bool ProjectileDirectionReceived = false;
         private Vector3 lastPosition;
-
+        [HideInInspector]
+        public bool IsBullet = false;
         //Setup our AI's projectile once on Awake
         void Awake()
         {
@@ -159,8 +160,13 @@ namespace EmeraldAI.Utility
             gameObject.AddComponent<SphereCollider>();
             ProjectileCollider = GetComponent<SphereCollider>();
             ProjectileCollider.isTrigger = true;
-            gameObject.AddComponent<Rigidbody>().isKinematic = true;
-            GetComponent<Rigidbody>().useGravity = false;
+            var rb = GetComponent<Rigidbody>();
+            if (!rb)
+            {
+                rb = gameObject.AddComponent<Rigidbody>();
+            }
+            //rb.isKinematic = true;
+            //rb.useGravity = false;
             gameObject.isStatic = false;
             CollisionSoundObject = Resources.Load("Emerald Collision Sound") as GameObject;
         }
@@ -170,7 +176,8 @@ namespace EmeraldAI.Utility
             gameObject.AddComponent<AudioSource>();
             DamageOverTimeComponent = Resources.Load<GameObject>("Damage Over Time Component");
             ProjectileCollider.radius = ColliderRadius;
-            InitailizeAudioSource();
+            if (!IsBullet)
+                InitailizeAudioSource();
             lastPosition=transform.position;
         }
 
@@ -231,131 +238,154 @@ namespace EmeraldAI.Utility
 
         void Update()
         {
+            if (!IsBullet)
+            {
+                //If the target exceeds the AI's firing angle, fire the projectile towards the last detected destination.
+                if (AngleTooBig && !Collided)
+                {
+                    if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null && !ProjectileDirectionReceived)
+                    {
+                        AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position - transform.position;
+                        ProjectileDirectionReceived = true;
+                    }
+                    else if (TargetTypeRef != TargetType.AI && !ProjectileDirectionReceived)
+                    {
+                        AdjustTargetPosition = EmeraldSystem.m_InitialTargetPosition -
+                                               new Vector3(EmeraldSystem.transform.position.x, transform.position.y,
+                                                   EmeraldSystem.transform.position.z);
+                        ProjectileDirectionReceived = true;
+                    }
+
+                    transform.position = transform.position +
+                                         AdjustTargetPosition.normalized * Time.deltaTime * ProjectileSpeed;
+
+                    if (AdjustTargetPosition != Vector3.zero)
+                    {
+                        transform.rotation = Quaternion.LookRotation(AdjustTargetPosition);
+                    }
+                }
+
+                if (!AngleTooBig)
+                {
+                    //Continue to have our AI projectile follow the direction of its target until it collides with something
+                    if (!Collided && HeatSeekingRef == HeatSeeking.No && ProjectileDirection != Vector3.zero ||
+                        !TargetInView && !Collided && ProjectileDirection != Vector3.zero)
+                    {
+                        DeadTargetDetection();
+
+                        if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null &&
+                            !ProjectileDirectionReceived)
+                        {
+                            AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position - transform.position;
+                            ProjectileDirectionReceived = true;
+                        }
+                        else if (TargetTypeRef == TargetType.Player && !ProjectileDirectionReceived)
+                        {
+                            AdjustTargetPosition = new Vector3(ProjectileDirection.x,
+                                ProjectileDirection.y + ProjectileCurrentTarget.localScale.y / 2 +
+                                EmeraldSystem.PlayerYOffset, ProjectileDirection.z);
+                            ProjectileDirectionReceived = true;
+                        }
+                        else if (TargetTypeRef == TargetType.NonAITarget && !ProjectileDirectionReceived)
+                        {
+                            AdjustTargetPosition = new Vector3(ProjectileDirection.x,
+                                ProjectileDirection.y + ProjectileCurrentTarget.localScale.y / 2,
+                                ProjectileDirection.z);
+                            ProjectileDirectionReceived = true;
+                        }
+
+                        transform.position += AdjustTargetPosition.normalized * Time.deltaTime * ProjectileSpeed;
+                        transform.rotation = Quaternion.LookRotation(AdjustTargetPosition);
+                    }
+
+                    if (!Collided && HeatSeekingRef == HeatSeeking.Yes && TargetInView)
+                    {
+                        if (!HeatSeekingFinished)
+                        {
+                            if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null)
+                            {
+                                AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position;
+                            }
+                            else if (TargetTypeRef == TargetType.Player)
+                            {
+                                AdjustTargetPosition = new Vector3(ProjectileCurrentTarget.position.x,
+                                    ProjectileCurrentTarget.position.y + ProjectileCurrentTarget.localScale.y / 2 +
+                                    EmeraldSystem.PlayerYOffset, ProjectileCurrentTarget.position.z);
+                            }
+                            else if (TargetTypeRef == TargetType.NonAITarget)
+                            {
+                                AdjustTargetPosition = new Vector3(ProjectileCurrentTarget.position.x,
+                                    ProjectileCurrentTarget.position.y + ProjectileCurrentTarget.localScale.y / 2,
+                                    ProjectileCurrentTarget.position.z);
+                            }
+
+                            if (ProjectileCurrentTarget != null)
+                            {
+                                DeadTargetDetection();
+
+                                transform.position = Vector3.MoveTowards(transform.position, AdjustTargetPosition,
+                                    Time.deltaTime * ProjectileSpeed);
+                                transform.LookAt(AdjustTargetPosition);
+                                HeatSeekingTimer += Time.deltaTime;
+
+                                if (HeatSeekingTimer >= HeatSeekingSeconds || TargetEmeraldSystem != null &&
+                                    TargetEmeraldSystem.CurrentHealth <= 0)
+                                {
+                                    LastDirection = ProjectileCurrentTarget.position - transform.position;
+                                    HeatSeekingFinished = true;
+                                }
+                            }
+                        }
+                        else if (HeatSeekingFinished && LastDirection != Vector3.zero ||
+                                 TargetEmeraldSystem != null && TargetEmeraldSystem.CurrentHealth <= 0)
+                        {
+                            DeadTargetDetection();
+
+                            if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null &&
+                                !ProjectileDirectionReceived)
+                            {
+                                AdjustTargetPosition =
+                                    TargetEmeraldSystem.HitPointTransform.position - transform.position;
+                                ProjectileDirectionReceived = true;
+                            }
+                            else if (TargetTypeRef != TargetType.AI && !ProjectileDirectionReceived)
+                            {
+                                AdjustTargetPosition = new Vector3(LastDirection.x, LastDirection.y, LastDirection.z);
+                                ProjectileDirectionReceived = true;
+                            }
+
+                            transform.position = transform.position +
+                                                 AdjustTargetPosition.normalized * Time.deltaTime * ProjectileSpeed;
+
+                            if (AdjustTargetPosition != Vector3.zero)
+                            {
+                                transform.rotation = Quaternion.LookRotation(AdjustTargetPosition);
+                            }
+                        }
+                    }
+                }
+
+                if (Collided)
+                {
+                    CollisionTimer += Time.deltaTime;
+                    if (CollisionTimer >= CollisionTime)
+                    {
+                        EmeraldAIObjectPool.Despawn(gameObject);
+                    }
+                }
+            }
+        }
+
+        /*void FixedUpdate()
+        {
             RaycastHit raycastHit;
             Debug.DrawLine(lastPosition,transform.position);
             if (Physics.Linecast(lastPosition, transform.position, out raycastHit))
             {
                 RigisterHit(raycastHit);
             }
-            //If the target exceeds the AI's firing angle, fire the projectile towards the last detected destination.
-            if (AngleTooBig && !Collided)
-            {               
-                if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null && !ProjectileDirectionReceived)
-                {
-                    AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position - transform.position;
-                    ProjectileDirectionReceived = true;
-                }
-                else if (TargetTypeRef != TargetType.AI && !ProjectileDirectionReceived)
-                {
-                    AdjustTargetPosition = EmeraldSystem.m_InitialTargetPosition - new Vector3(EmeraldSystem.transform.position.x, transform.position.y, EmeraldSystem.transform.position.z);
-                    ProjectileDirectionReceived = true;
-                }
-
-                transform.position = transform.position + AdjustTargetPosition.normalized * Time.deltaTime * ProjectileSpeed;
-
-                if (AdjustTargetPosition != Vector3.zero)
-                {
-                    transform.rotation = Quaternion.LookRotation(AdjustTargetPosition);
-                }
-            }
-
-            if (!AngleTooBig)
-            {
-                //Continue to have our AI projectile follow the direction of its target until it collides with something
-                if (!Collided && HeatSeekingRef == HeatSeeking.No && ProjectileDirection != Vector3.zero ||
-                    !TargetInView && !Collided && ProjectileDirection != Vector3.zero)
-                {
-                    DeadTargetDetection();
-
-                    if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null && !ProjectileDirectionReceived)
-                    {
-                        AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position - transform.position;
-                        ProjectileDirectionReceived = true;
-                    }
-                    else if (TargetTypeRef == TargetType.Player && !ProjectileDirectionReceived)
-                    {
-                        AdjustTargetPosition = new Vector3(ProjectileDirection.x, ProjectileDirection.y + ProjectileCurrentTarget.localScale.y / 2 + EmeraldSystem.PlayerYOffset, ProjectileDirection.z);
-                        ProjectileDirectionReceived = true;
-                    }
-                    else if (TargetTypeRef == TargetType.NonAITarget && !ProjectileDirectionReceived)
-                    {
-                        AdjustTargetPosition = new Vector3(ProjectileDirection.x, ProjectileDirection.y + ProjectileCurrentTarget.localScale.y / 2, ProjectileDirection.z);
-                        ProjectileDirectionReceived = true;
-                    }
-
-                    transform.position += AdjustTargetPosition.normalized * Time.deltaTime * ProjectileSpeed;
-                    transform.rotation = Quaternion.LookRotation(AdjustTargetPosition);  
-                }
-
-                if (!Collided && HeatSeekingRef == HeatSeeking.Yes && TargetInView)
-                {
-                    if (!HeatSeekingFinished)
-                    {
-                        if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null)
-                        {
-                            AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position;
-                        }
-                        else if (TargetTypeRef == TargetType.Player)
-                        {
-                            AdjustTargetPosition = new Vector3(ProjectileCurrentTarget.position.x, ProjectileCurrentTarget.position.y + ProjectileCurrentTarget.localScale.y / 2 + EmeraldSystem.PlayerYOffset, ProjectileCurrentTarget.position.z);
-                        }
-                        else if (TargetTypeRef == TargetType.NonAITarget)
-                        {
-                            AdjustTargetPosition = new Vector3(ProjectileCurrentTarget.position.x, ProjectileCurrentTarget.position.y + ProjectileCurrentTarget.localScale.y / 2, ProjectileCurrentTarget.position.z);
-                        }
-
-                        if (ProjectileCurrentTarget != null) 
-                        {
-                            DeadTargetDetection();
-
-                            transform.position = Vector3.MoveTowards(transform.position, AdjustTargetPosition, Time.deltaTime * ProjectileSpeed);
-                            transform.LookAt(AdjustTargetPosition);
-                            HeatSeekingTimer += Time.deltaTime;
-
-                            if (HeatSeekingTimer >= HeatSeekingSeconds || TargetEmeraldSystem != null && TargetEmeraldSystem.CurrentHealth <= 0)
-                            {
-                                LastDirection = ProjectileCurrentTarget.position - transform.position;
-                                HeatSeekingFinished = true;                               
-                            }
-                        }
-                    }
-                    else if (HeatSeekingFinished && LastDirection != Vector3.zero || TargetEmeraldSystem != null && TargetEmeraldSystem.CurrentHealth <= 0)
-                    {
-                        DeadTargetDetection();                       
-
-                        if (TargetTypeRef == TargetType.AI && TargetEmeraldSystem != null && !ProjectileDirectionReceived)
-                        {
-                            AdjustTargetPosition = TargetEmeraldSystem.HitPointTransform.position - transform.position;
-                            ProjectileDirectionReceived = true;
-                        }
-                        else if (TargetTypeRef != TargetType.AI && !ProjectileDirectionReceived)
-                        {
-                            AdjustTargetPosition = new Vector3(LastDirection.x, LastDirection.y, LastDirection.z);
-                            ProjectileDirectionReceived = true;
-                        }
-
-                        transform.position = transform.position + AdjustTargetPosition.normalized * Time.deltaTime * ProjectileSpeed;
-
-                        if (AdjustTargetPosition != Vector3.zero)
-                        {
-                            transform.rotation = Quaternion.LookRotation(AdjustTargetPosition);
-                        }                      
-                    }
-                }
-            }
-
-            if (Collided)
-            {
-                CollisionTimer += Time.deltaTime;
-                if (CollisionTimer >= CollisionTime)
-                {
-                    EmeraldAIObjectPool.Despawn(gameObject);
-                }
-            }
-            if((lastPosition-transform.position).magnitude>70)
-                lastPosition=transform.position;
-        }
-
+            lastPosition=transform.position;
+        }*/
         void DeadTargetDetection()
         {
             if (m_PreviousPosition != Vector3.zero)
@@ -401,7 +431,7 @@ namespace EmeraldAI.Utility
         }
 
         //Handle all of our collision related calculations here. When this happens, effects and sound can be played before the object is despawned.
-        void RigisterHit(RaycastHit hit)
+        public void RigisterHit(RaycastHit hit)
         {
             Collider C = hit.collider;
             if (EmeraldSystem.EnableDebugging == EmeraldAISystem.YesOrNo.Yes && EmeraldSystem.DebugLogProjectileCollisionsEnabled == EmeraldAISystem.YesOrNo.Yes && C.gameObject != EmeraldSystem.gameObject)

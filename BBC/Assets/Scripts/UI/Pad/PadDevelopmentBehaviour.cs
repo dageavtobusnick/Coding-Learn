@@ -89,7 +89,6 @@ public class PadDevelopmentBehaviour : MonoBehaviour
         Pad.GetComponentInParent<Animator>().Play("SwitchToDevMode");
         uiManager.PadMode = PadMode.Development;
         yield return new WaitForSeconds(1.5f);
-        uiManager.TrainingPanelBehaviour.TryShowTraining(PreviousAction.DevModeSwitching);
     }
 
     private IEnumerator ReturnToMenuFromDevMode_COR()

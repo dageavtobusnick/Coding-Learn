@@ -76,7 +76,7 @@ namespace EmeraldAI.CharacterController
                 // Jump
                 if (canJump && Input.GetButton("Jump"))
                 {
-                    rb.velocity = new Vector3(velocity.x, CalculateJumpVerticalwalkSpeed(), velocity.z);
+                    rb.velocity = new Vector3(velocity.x, CalculateJumpVerticalWalkSpeed(), velocity.z);
                 }
             }
 
@@ -94,7 +94,7 @@ namespace EmeraldAI.CharacterController
             }
         }
 
-        float CalculateJumpVerticalwalkSpeed()
+        float CalculateJumpVerticalWalkSpeed()
         {
             // From the jump height and gravity we deduce the upwards walkSpeed 
             // for the character to reach at the apex.
